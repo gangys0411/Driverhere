@@ -1,120 +1,165 @@
 package com.ninefives.driverhere;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.os.StrictMode;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
+
+    EditText edit;
+    TextView text;
+
+    XmlPullParser xpp;
+    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    int cityCode=34010; // 천안 도시 코드
+    String routeNo; // 버스 노선 번호
+
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        StrictMode.enableDefaults();
-
-        TextView status1 = (TextView)findViewById(R.id.result); // 파싱된 결과 확인
-
-        boolean b_item = false;
-        boolean b_endnodenm = false;
-        boolean b_endvehicletime = false;
-        boolean b_routeid = false;
-        boolean b_routeno = false;
-        boolean b_routetp = false;
-        boolean b_startnodenm = false;
-        boolean b_startvehicletime = false;
-
-        String endnodenm = null;
-        String endvehicletime = null;
-        String routeid = null;
-        String routeno = null;
-        String routetp = null;
-        String startnodenm = null;
-        String startvehicletime = null;
-
-        try{
-            URL url = new URL("http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey=hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D&cityCode=34010&routeNo=200");
-
-            XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = parserCreator.newPullParser();
-
-            parser.setInput(url.openStream(), null);
-
-            int parserEvent = parser.getEventType();
-            System.out.println("파싱 시작");
-
-            while(parserEvent != XmlPullParser.END_DOCUMENT){
-              switch (parserEvent){
-                  case XmlPullParser.START_TAG: // 시작 태그를 만나면 실행
-                      if(parser.getName().equals("endnodenm")){ // endnodenm 태그를 만나면 내용 저장
-                          b_endnodenm = true;
-                      }
-                      if(parser.getName().equals("endvehicletime")){ // endvehicletime 태그를 만나면 내용 저장
-                          b_endvehicletime = true;
-                      }
-                      if(parser.getName().equals("routeid")){ // routeid 태그를 만나면 내용 저장
-                          b_routeid = true;
-                      }
-                      if(parser.getName().equals("routeno")){ // routeno 태그를 만나면 내용 저장
-                          b_routeno = true;
-                      }
-                      if(parser.getName().equals("routetp")){ // routetp 태그를 만나면 내용 저장
-                          b_routetp = true;
-                      }
-                      if(parser.getName().equals("startnodenm")){ // startnodenm 태그를 만나면 내용 저장
-                          b_startnodenm = true;
-                      }
-                      if(parser.getName().equals("startvehicletime")){ // startvehicletime 태그를 만나면 내용 저장
-                          b_startvehicletime = true;
-                      }
-                      break;
-                  case XmlPullParser.TEXT: // 내용에 접근했을때
-                      if(b_endnodenm){ // b_endnodenm이 true 일때 내용 저장
-                          endnodenm = parser.getText();
-                          b_endnodenm = false;
-                      }
-                      if(b_endvehicletime){ // b_endvehicletime이 true 일때 내용 저장
-                          endvehicletime = parser.getText();
-                          b_endvehicletime = false;
-                      }
-                      if(b_routeid){ // b_routeid이 true 일때 내용 저장
-                          routeid = parser.getText();
-                          b_routeid = false;
-                      }
-                      if(b_routeno){ // b_routeno이 true 일때 내용 저장
-                          routeno = parser.getText();
-                          b_routeno = false;
-                      }
-                      if(b_routetp){ // b_routetp이 true 일때 내용 저장
-                          routetp = parser.getText();
-                          b_routetp = false;
-                      }
-                      if(b_startnodenm){ // b_startnodenm이 true 일때 내용 저장
-                          startnodenm = parser.getText();
-                          b_startnodenm = false;
-                      }
-                      if(b_startvehicletime){ // b_startvehicletime이 true 일때 내용 저장
-                          startvehicletime = parser.getText();
-                          b_startvehicletime = false;
-                      }
-                      break;
-                  case XmlPullParser.END_TAG:
-                      if(parser.getName().equals("item")){ // 끝 태그가 item이면 저장된 값들을 출력
-                          status1.setText(status1.getText()+"종점 : "+ endnodenm +"\n 막차 시간 : "+ endvehicletime +"\n 노선 ID : "+ routeid +"\n 버스 번호 : "+ routeno +"\n 버스 타입 : "+ routetp +"\n 기점 : "+ startnodenm +"\n 첫차 시간 : "+ startvehicletime +"\n");
-                          b_item = false;
-                      }
-                      break;
-              }
-              parserEvent = parser.next();
-            }
-        } catch(Exception e){
-            status1.setText("에러 발생");
-        }
+        edit= (EditText)findViewById(R.id.edit);
+        text= (TextView)findViewById(R.id.result);
     }
-}
+
+    //Button을 클릭했을 때 자동으로 호출되는 callback method....
+    public void mOnClick(View v){
+        switch( v.getId() ){
+            case R.id.button:
+
+                //Android 4.0 이상 부터는 네트워크를 이용할 때 반드시 Thread 사용해야 함
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        data= getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
+
+                        //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
+                        //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                text.setText(data); //TextView에 문자열  data 출력
+                            }
+                        });
+                    }
+                }).start();
+                break;
+        }
+    }//mOnClick method..
+
+
+    //XmlPullParser를 이용하여 OpenAPI XML 파일 파싱하기(parsing)
+    String getXmlData(){
+
+        StringBuffer buffer=new StringBuffer();
+
+        routeNo= edit.getText().toString();//EditText에 작성된 Text얻어오기
+
+        String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey="//요청 URL
+                + key+
+                "&cityCode="+ cityCode+
+                "&routeNo="+ routeNo;
+
+        try {
+            URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
+            InputStream is= url.openStream(); //url위치로 입력스트림 연결
+
+            XmlPullParserFactory factory= XmlPullParserFactory.newInstance();
+            XmlPullParser xpp= factory.newPullParser();
+            xpp.setInput( new InputStreamReader(is, "UTF-8") ); //inputstream 으로부터 xml 입력받기
+
+            String tag;
+
+            xpp.next();
+            int eventType= xpp.getEventType();
+
+            while( eventType != XmlPullParser.END_DOCUMENT ){
+                switch( eventType ){
+                    case XmlPullParser.START_DOCUMENT:
+                        buffer.append("파싱 시작...\n\n");
+                        break;
+
+                    case XmlPullParser.START_TAG:
+                        tag= xpp.getName();//테그 이름 얻어오기
+
+                        if(tag.equals("item")) ;// 첫번째 검색결과
+                        else if(tag.equals("endnodenm")){
+                            buffer.append("종점 : ");
+                            xpp.next();
+                            buffer.append(xpp.getText());//endnodenm 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("endvehicletime")){
+                            buffer.append("막차 시간 : ");
+                            xpp.next();
+                            buffer.append(xpp.getText());//endvehicletime 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("routeid")){
+                            buffer.append("노선 ID :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//routeid 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("routeno")){
+                            buffer.append("노선 번호 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//routeno 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("routetp")){
+                            buffer.append("노선 타입 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//routetp 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n");//줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("startnodenm")){
+                            buffer.append("기점 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//startnodenm 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+                        else if(tag.equals("startvehicletime")) {
+                            buffer.append("첫차 시간 :");
+                            xpp.next();
+                            buffer.append(xpp.getText());//startvehicletime 요소의 TEXT 읽어와서 문자열버퍼에 추가
+                            buffer.append("\n"); //줄바꿈 문자 추가
+                        }
+                        break;
+
+                    case XmlPullParser.TEXT:
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        tag= xpp.getName(); //테그 이름 얻어오기
+
+                        if(tag.equals("item")) buffer.append("\n");// 첫번째 검색결과종료..줄바꿈
+                        break;
+                }
+
+                eventType= xpp.next();
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch blocke.printStackTrace();
+        }
+
+        return buffer.toString();//StringBuffer 문자열 객체 반환
+
+    }//getXmlData method....
+
+}//MainActivity class..
