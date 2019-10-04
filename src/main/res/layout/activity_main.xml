@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <EditText
-            android:id="@+id/edit"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:hint="enter text to search"/>
 
         <Button
             android:id="@+id/button"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:text="search"
-            android:textSize="12sp"
-            android:onClick="mOnClick"/>
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/result"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:onClick="BusSearchClick"
+            android:text="버스 검색"
+            android:textSize="12sp" />
 
-    </ScrollView>
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:onClick="mOnClick"
+            android:text="정류장 검색"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:onClick="mOnClick"
+            android:text="알림 보내기"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:onClick="mOnClick"
+            android:text="즐겨찾기"
+            android:textSize="12sp" />
+
 </LinearLayout>

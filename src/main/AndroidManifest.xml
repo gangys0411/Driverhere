@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BusRouteSearch">
+        </activity>
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/> // 인터넷 권한 설정
 </manifest>
