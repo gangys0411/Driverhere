@@ -3,16 +3,19 @@ package com.ninefives.driverhere;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class BusRouteSearch extends Activity {
-
+    private ArrayAdapter<String> adapter;
     EditText edit;
     TextView text;
 
@@ -23,6 +26,9 @@ public class BusRouteSearch extends Activity {
 
     String data;
 
+    String busno; // 리스트 뷰 사용을 위한 변수
+    String routeid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +36,19 @@ public class BusRouteSearch extends Activity {
 
         edit= (EditText)findViewById(R.id.edit);
         text= (TextView)findViewById(R.id.result);
+
+        ListView listview;
+        ListViewAdapter adapter;
+
+        adapter = new ListViewAdapter(); // 어뎁터 생성
+
+        listview=(ListView) findViewById(R.id.listview); // 리스트 뷰 참조
+        listview.setAdapter(adapter); // 어뎁터 연결
+
+
+        adapter.addItem("200", "asdf");
+        adapter.addItem("200", "asdf");
+        adapter.addItem("200", "asdf");
     }
 
     //Button을 클릭시
@@ -107,12 +126,14 @@ public class BusRouteSearch extends Activity {
                         else if(tag.equals("routeid")){
                             buffer.append("노선 ID :");
                             xpp.next();
+                            routeid=xpp.getText();
                             buffer.append(xpp.getText());//routeid 요소의 TEXT 읽어와서 문자열버퍼에 추가
                             buffer.append("\n");//줄바꿈 문자 추가
                         }
                         else if(tag.equals("routeno")){
                             buffer.append("노선 번호 :");
                             xpp.next();
+                            busno=xpp.getText();
                             buffer.append(xpp.getText());//routeno 요소의 TEXT 읽어와서 문자열버퍼에 추가
                             buffer.append("\n");//줄바꿈 문자 추가
                         }

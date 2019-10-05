@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
-    public void BusSearchClick(View view){
+    public void BusSearchClick(View view){ // 버스 검색 버튼 클릭 이벤트
         Intent intent = new Intent(this, BusRouteSearch.class);
         startActivity(intent);
         finish();

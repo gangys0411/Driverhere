@@ -17,13 +17,13 @@
             android:id="@+id/edit"
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:hint="enter text to search"/>
+            android:hint="버스 번호 입력"/>
 
         <Button
             android:id="@+id/button"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="search"
+            android:text="검색"
             android:textSize="12sp"
             android:onClick="BusSearch"/>
 
@@ -31,7 +31,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="300dp">
 
         <TextView
             android:id="@+id/result"
@@ -41,4 +41,10 @@
             android:textStyle="bold"/>
 
     </ScrollView>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+    </ListView>>
 </LinearLayout>
