@@ -42,9 +42,10 @@
 
     </ScrollView>
 
-    <ListView
-        android:id="@+id/listview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
-    </ListView>>
+        android:layout_height="300dp"
+        android:scrollbars="vertical">
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
