@@ -14,5 +14,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/routeid"
         android:textSize="20dp">
-    </TextView>>
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/direction"
+        android:textSize="20dp">
+    </TextView>
 </LinearLayout>

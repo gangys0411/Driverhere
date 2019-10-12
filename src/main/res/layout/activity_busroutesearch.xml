@@ -29,22 +29,9 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="300dp">
-
-        <TextView
-            android:id="@+id/result"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-    </ScrollView>
-
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="match_parent">
     </ListView>
 </LinearLayout>

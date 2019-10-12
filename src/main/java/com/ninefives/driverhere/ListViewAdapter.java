@@ -31,15 +31,17 @@ public class ListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
 
-        TextView BusNoTextView = (TextView) convertView.findViewById(R.id.routeno);
-        TextView BusIdTextView = (TextView) convertView.findViewById(R.id.routeid);
+        TextView BusNoTextView = (TextView) convertView.findViewById(R.id.routeno); // 버스 번호 출력 텍스트 뷰
+        TextView BusIdTextView = (TextView) convertView.findViewById(R.id.routeid); // 노선 id 출력 텍스트 뷰
+        TextView DirectionTextView = (TextView) convertView.findViewById(R.id.direction); // 방향 출력 텍스트 뷰
 
         ListViewItem listViewItem = listViewItemList.get(position);
 
-        BusNoTextView.setText(listViewItem.getBusNo());
-        BusIdTextView.setText(listViewItem.getBusId());
+        BusNoTextView.setText(listViewItem.getBusNo()); // 버스 번호 출력
+        BusIdTextView.setText(listViewItem.getBusId()); // 노선 id 출력
+        DirectionTextView.setText(listViewItem.getDirection()); // 방향 출력
 
-        return convertView;
+        return convertView; // 뷰에 적용
     }
 
     @Override
@@ -52,16 +54,18 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(String routeno, String routeid){
-        ListViewItem item=new ListViewItem();
+    public void addItem(String routeno, String routeid, String startnodenm, String endnodenm){ // 리스트 뷰에 아이템 추가
+        ListViewItem item=new ListViewItem(); // 배열 선언
 
-        item.setBusNo(routeno);
-        item.setBusId(routeid);
+        item.setBusNo(routeno); // 버스 번호 추가
+        item.setBusId(routeid); // 노선 id 추가
+        item.setStartNode(startnodenm); // 기점 추가
+        item.setEndNode(endnodenm); // 종점 추가
 
-        listViewItemList.add(item);
+        listViewItemList.add(item); // 리스트 뷰에 추가
     }
 
-    public void clearItems()
+    public void clearItems() // 리스트 뷰 초기화
     {
         listViewItemList.clear();
     }
