@@ -1,8 +1,10 @@
 package com.ninefives.driverhere;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import org.xmlpull.v1.XmlPullParser;
@@ -10,6 +12,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class BusRouteSearch extends Activity {
 
@@ -39,6 +42,16 @@ public class BusRouteSearch extends Activity {
 
         listview=(ListView) findViewById(R.id.listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
+
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
+                Intent intent = new Intent(getApplicationContext(), BusRouteResult.class); // 인탠트 선언
+                intent = adapter.sendIntent(position, intent); // 리스트 뷰 사용을 위한 함수
+
+                startActivity(intent); // 다음 액티비티에 인탠트 전달
+            }
+        });
     }
 
     //Button을 클릭시

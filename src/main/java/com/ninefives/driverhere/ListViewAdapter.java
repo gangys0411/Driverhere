@@ -1,6 +1,7 @@
 package com.ninefives.driverhere;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,5 +69,13 @@ public class ListViewAdapter extends BaseAdapter {
     public void clearItems() // 리스트 뷰 초기화
     {
         listViewItemList.clear();
+    }
+
+    public Intent sendIntent(int position, Intent intent) // 화면 전환을 위한 인탠트 함수
+    {
+        intent.putExtra("BusID", listViewItemList.get(position).getBusId()); // 인탠트에 선택된 위치의 항목 데이터를 전달
+        intent.putExtra("BusNo", listViewItemList.get(position).getBusNo());
+
+        return intent; // 인탠트 반환
     }
 }

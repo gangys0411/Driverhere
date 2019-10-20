@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BusRouteSearch"/>
+        <activity android:name=".BusRouteResult"/>
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/>
 </manifest>
