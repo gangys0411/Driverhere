@@ -86,8 +86,8 @@ public class BusRouteSearch extends Activity {
 
         routeNo= edit.getText().toString();//EditText에 작성된 노선 번호 얻어오기
 
-        String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey="//요청 URL
-                + key+ // 서비스 키 추가
+        String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?" + // 요청 URL
+                "serviceKey="+ key+ // 서비스 키 추가
                 "&cityCode="+ cityCode+ // 도시 코드 추가
                 "&routeNo="+ routeNo; // 노선 번호 추가
 
