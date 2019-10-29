@@ -7,16 +7,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class BusRouteSearch extends Activity {
 
-    ListViewAdapter adapter = new ListViewAdapter(); // 어뎁터 생성
+    SearchListViewAdapter adapter = new SearchListViewAdapter(); // 어뎁터 생성
 
     EditText edit; // 에딧 텍스트 뷰 변수
 
@@ -40,7 +41,7 @@ public class BusRouteSearch extends Activity {
 
         ListView listview; // 리스트 뷰 변수 선언
 
-        listview=(ListView) findViewById(R.id.listview); // 리스트 뷰 연결
+        listview=(ListView) findViewById(R.id.searchlistview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
 

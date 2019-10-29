@@ -1,6 +1,6 @@
 package com.ninefives.driverhere;
 
-public class ListViewItem {
+public class SearchListViewItem {
     private String BusNo; // 버스 번호
     private String BusId; // 노선 id
     private String StartNode; // 기점

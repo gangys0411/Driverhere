@@ -3,7 +3,7 @@ package com.ninefives.driverhere;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -14,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class BusRouteResult extends Activity {
+
+    ResultListViewAdapter adapter = new ResultListViewAdapter(); // 어뎁터 생성
 
     TextView result;
 
@@ -40,11 +42,17 @@ public class BusRouteResult extends Activity {
 
         result=(TextView) findViewById(R.id.result);
 
+        ListView listview; // 리스트 뷰 변수 선언
+
+        listview=(ListView) findViewById(R.id.resultlistview); // 리스트 뷰 연결
+        listview.setAdapter(adapter); // 어뎁터 연결
+
         Intent intent = getIntent();
 
-        routeid = intent.getStringExtra("BusID");
+        routeid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
+        busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
 
-        test = routeid;
+        result.setText(busno); // 버스 번호 출력
 
         drawing();
     }
@@ -61,8 +69,7 @@ public class BusRouteResult extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-                        result.setText(test);
+                        adapter.notifyDataSetChanged(); //리스트 뷰 갱신
                     }
                 });
             }
@@ -70,7 +77,7 @@ public class BusRouteResult extends Activity {
     }
 
     void getXmlData(){
-
+        adapter.clearItems(); // 리스트 뷰 초기화
 
         String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?" + // 요청 URL
                 "serviceKey=" + key+ // 서비스 키 추가
@@ -131,7 +138,7 @@ public class BusRouteResult extends Activity {
                         tag= xpp.getName(); //테그 이름 얻어오기
 
                         if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            test = test +"정류소 이름 : " +nodenm + "\n정류소 ID : "+nodeid+"\n";
+                            adapter.addItem(nodenm, nodeid); // 리스트뷰에 정류소 정보 추가
                         }
                         break;
                 }
