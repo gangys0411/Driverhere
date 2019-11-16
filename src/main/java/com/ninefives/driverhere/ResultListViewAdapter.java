@@ -33,12 +33,10 @@ public class ResultListViewAdapter extends BaseAdapter {
         }
 
         TextView NodeNmTextView = (TextView) convertView.findViewById(R.id.nodenm); // 정류소 이름 출력 텍스트 뷰
-        TextView NodeIdTextView = (TextView) convertView.findViewById(R.id.nodeid); // 정류소 id 출력 텍스트 뷰
 
         ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
         NodeNmTextView.setText(resultListViewItem.getNodeNm()); // 정류소 이름 출력
-        NodeIdTextView.setText(resultListViewItem.getNodeId()); // 정류소 id 출력
 
         return convertView; // 뷰에 적용
     }

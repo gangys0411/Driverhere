@@ -19,6 +19,13 @@ public class MainActivity extends Activity {
         startActivity(intent);
         finish();
     }
+
+    public void AlarmClick(View view){
+        Intent intent = new Intent(this, AlarmSend.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void NextStopSearchClick(View view){
         Intent intent = new Intent(this, NextStopSearch.class);
         startActivity(intent);

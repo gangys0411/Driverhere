@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:onClick="mOnClick"
+            android:onClick="AlarmClick"
             android:text="알림 보내기"
             android:textSize="12sp" />
 

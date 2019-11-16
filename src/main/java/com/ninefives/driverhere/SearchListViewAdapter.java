@@ -33,13 +33,11 @@ public class SearchListViewAdapter extends BaseAdapter {
         }
 
         TextView BusNoTextView = (TextView) convertView.findViewById(R.id.routeno); // 버스 번호 출력 텍스트 뷰
-        TextView BusIdTextView = (TextView) convertView.findViewById(R.id.routeid); // 노선 id 출력 텍스트 뷰
         TextView DirectionTextView = (TextView) convertView.findViewById(R.id.direction); // 방향 출력 텍스트 뷰
 
         SearchListViewItem searchListViewItem = listViewItemSearchList.get(position);
 
         BusNoTextView.setText(searchListViewItem.getBusNo()); // 버스 번호 출력
-        BusIdTextView.setText(searchListViewItem.getBusId()); // 노선 id 출력
         DirectionTextView.setText(searchListViewItem.getDirection()); // 방향 출력
 
         return convertView; // 뷰에 적용
