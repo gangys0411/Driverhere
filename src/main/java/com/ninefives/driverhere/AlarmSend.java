@@ -8,16 +8,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.JarURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class AlarmSend extends AppCompatActivity {
 
@@ -27,6 +34,12 @@ public class AlarmSend extends AppCompatActivity {
     private EditText mEditTextName;
     private EditText mEditTextCountry;
     private TextView mTextViewResult;
+    private TextView mTextViewReceive;
+    private ArrayList<PersonalData> mArrayList;
+    private UsersAdapter mAdapter;
+    private ListView mListView;
+    private EditText mEditTextSearchKeyword;
+    private String mJsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -38,6 +51,16 @@ public class AlarmSend extends AppCompatActivity {
         mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
 
         mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
+
+        mTextViewReceive = (TextView)findViewById(R.id.textView_receive_result);
+        mListView = (ListView)findViewById(R.id.listView_main_list);
+
+        mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new UsersAdapter(this, mArrayList);
+        mListView.setAdapter(mAdapter);
 
         Button buttonInsert = (Button)findViewById(R.id.button_main_insert);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +76,18 @@ public class AlarmSend extends AppCompatActivity {
                 mEditTextName.setText("");
                 mEditTextCountry.setText("");
 
+            }
+        });
+
+        Button button_all = (Button)findViewById(R.id.button_main_all);
+        button_all.setOnClickListener(new View.OnClickListener() { // 버튼 클릭시
+            public void onClick(View v) {
+
+                mArrayList.clear(); // 기존 리스트를 삭제하고
+                mAdapter.notifyDataSetChanged(); // 데이터가 변경되었음을 어뎁터에 알림
+
+                GetData task = new GetData();
+                task.execute("http://" + IP_ADDRESS + "/getjson.php", ""); // 그리고 해당 주소로부터 데이터를 받아옴
             }
         });
     }
@@ -144,6 +179,129 @@ public class AlarmSend extends AppCompatActivity {
 
                 return new String("Error : " + e.getMessage());
             }
+        }
+    }
+
+    private class GetData extends AsyncTask<String, Void, String>{
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(AlarmSend.this, "Please Wait", null, true, true);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            mTextViewReceive.setText(result);
+            Log.d(TAG, "response - " + result);
+
+            if(result == null){
+
+                mTextViewReceive.setText(errorString);
+            }
+            else {
+
+                mJsonString = result;
+                showResult();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String postParameters = params[1];
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) !=null){
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return  sb.toString().trim();
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ",e);
+                errorString = e.toString();
+
+                return null;
+            }
+        }
+    }
+
+
+    private void showResult(){
+
+        String TAG_JSON="데이터출력";
+        String TAG_ID="id";
+        String TAG_NAME="name";
+        String TAG_COUNTRY="country";
+
+        try {
+            JSONObject jsonObject = new JSONObject(mJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 해당 태그를 가지는 대괄호의 객체들을 받아옴
+
+            for(int i=0; i<jsonArray.length(); i++){ // 객체 갯수 만큼 반복하여
+
+                JSONObject item = jsonArray.getJSONObject(i); // 하나씩 저장
+
+                String id = item.getString(TAG_ID); // 해당 태그를 가지는 정보들을 저장
+                String name = item.getString(TAG_NAME);
+                String country = item.getString(TAG_COUNTRY);
+
+                PersonalData personalData = new PersonalData(); // 아이템을 생성하고
+
+                personalData.setMember_id(id); // 각 값을 저장 후
+                personalData.setMember_name(name);
+                personalData.setMember_country(country);
+
+                mArrayList.add(personalData); // 리스트에 추가
+                mAdapter.notifyDataSetChanged(); // 값이 변경되었음을 알림
+            }
+
+        }catch (JSONException e) {
+            Log.d(TAG, "showResult : ", e);
         }
     }
 }
