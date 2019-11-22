@@ -7,77 +7,81 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 
-public class BusStationSearch extends Activity {
+public class StationPassBus extends Activity {
 
-    StationListViewAdapter adapter = new StationListViewAdapter(); // 어뎁터 생성
+    PassListViewAdapter adapter = new PassListViewAdapter(); // 어뎁터 생성
 
-    EditText edit; // 에딧 텍스트 뷰 변수
+    TextView result; // 에딧 텍스트 뷰 변수
 
-    XmlPullParser xpp;
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     int cityCode=34010; // 천안 도시 코드
-    String nodeNm=""; // 입력받는 정류소 이름
+    String nodeNm; // 정류소 이름
+    String nodeId; // 정류소 ID
 
     // 리스트 뷰 사용을 위한 변수
-    String nodenm; // 정류소 이름
-    String nodeid; // 정류소 id
+    String busno; // 버스 번호
+    String routeid; // 노선 id
+    String startnm; // 기점
+    String endnm; // 종점
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_busstationsearch);
+        setContentView(R.layout.activity_stationpassbus);
 
-        edit= (EditText)findViewById(R.id.station_edit); // 에딧 텍스트 뷰 연결
+        result = (TextView)findViewById(R.id.result); // 에딧 텍스트 뷰 연결
 
         ListView listview; // 리스트 뷰 변수 선언
 
-        listview=(ListView) findViewById(R.id.search_listview); // 리스트 뷰 연결
+        listview=(ListView) findViewById(R.id.result_listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
 
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
-                Intent intent = new Intent(getApplicationContext(), StationPassBus.class); // 인탠트 선언
+                Intent intent = new Intent(getApplicationContext(), BusRouteResult.class); // 인탠트 선언
                 intent = adapter.sendIntent(position, intent); // 리스트 뷰 사용을 위한 함수
 
                 startActivity(intent); // 다음 액티비티에 인탠트 전달
             }
         });
+
+        Intent intent = getIntent();
+
+        nodeNm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
+        nodeId = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+
+        result.setText(nodeNm); // 버스 번호 출력
+
+        search();
     }
 
-    //Button을 클릭시
-    public void StationSearch(View v){
-        switch( v.getId() ){
-            case R.id.search_button:
+    public void search(){
+        new Thread(new Runnable() {
 
-                new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
 
+                //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
+                //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
-
-                        //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
-                        //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.notifyDataSetChanged(); //리스트 뷰 갱신
-                            }
-                        });
+                        adapter.notifyDataSetChanged(); //리스트 뷰 갱신
                     }
-                }).start();
-                break;
-        }
+                });
+            }
+        }).start();
     }
 
 
@@ -85,18 +89,10 @@ public class BusStationSearch extends Activity {
     void getXmlData(){
         adapter.clearItems(); // 리스트 뷰 초기화
 
-        try {
-            nodeNm = URLEncoder.encode(edit.getText().toString(), "UTF-8"); // api에 한글을 그냥 입력시 인식하지 못하므로 UTF-8 형식으로 인코딩
-        } catch (UnsupportedEncodingException e) { // 예외 처리
-            e.printStackTrace();
-        }
-
-        String queryUrl= "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getSttnNoList?" + // 요청 URL
-                "serviceKey="+ key + // 서비스 키 추가
-                "&cityCode="+ cityCode + // 도시 코드 추가
-                "&nodeNm="+ nodeNm + // 정류소 이름
-                "&numOfRows="+ "50" + // 한 페이지 결과값 수
-                "&pageNo="+ "1"; // 출력할 페이지 번호
+        String queryUrl="http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList?" + // 요청 URL
+                "serviceKey="+ key+ // 서비스 키 추가
+                "&cityCode="+ cityCode+ // 도시 코드 추가
+                "&nodeId="+ nodeId; // 정류소 ID 추가
 
         try {
             URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
@@ -118,21 +114,30 @@ public class BusStationSearch extends Activity {
                         tag= xpp.getName();//태그 이름 얻어오기
 
                         if(tag.equals("item")) ;// 하나의 검색결과
-                        else if(tag.equals("gpslati")){ // 정류소 위도
+                        else if(tag.equals("arrprevstationcnt")){ // 도착까지 남은 정류소 수
                             xpp.next();
                         }
-                        else if(tag.equals("gpslong")){ // 정류소 경도
+                        else if(tag.equals("arrtime")){ // 도착까지 남은 시간
                             xpp.next();
                         }
-                        else if(tag.equals("nodeid")){ // 정류소 id
+                        else if(tag.equals("nodeid")){ // 정류소 ID
                             xpp.next();
-                            nodeid=xpp.getText();
                         }
                         else if(tag.equals("nodenm")){ // 정류소 이름
                             xpp.next();
-                            nodenm=xpp.getText();
                         }
-                        else if(tag.equals("nodeno")){ // 정류소 번호
+                        else if(tag.equals("routeid")){ // 노선 id
+                            xpp.next();
+                            routeid=xpp.getText();
+                        }
+                        else if(tag.equals("routeno")){ // 노선 번호
+                            xpp.next();
+                            busno=xpp.getText();
+                        }
+                        else if(tag.equals("routetp")){ // 노선 타입
+                            xpp.next();
+                        }
+                        else if(tag.equals("vehicletp")){ // 차량 타입
                             xpp.next();
                         }
                         break;
@@ -144,7 +149,7 @@ public class BusStationSearch extends Activity {
                         tag= xpp.getName(); //테그 이름 얻어오기
 
                         if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            adapter.addItem(nodenm, nodeid); // 리스트뷰에 버스 정보 추가
+                            adapter.addItem(busno, routeid); // 리스트뷰에 버스 정보 추가
                         }
                         break;
                 }

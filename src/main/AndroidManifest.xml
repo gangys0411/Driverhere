@@ -21,6 +21,7 @@
         <activity android:name=".BusRouteResult"/>
 
         <activity android:name=".BusStationSearch"/>
+        <activity android:name=".StationPassBus"/>
 
         <activity android:name=".AlarmSend"/>
 

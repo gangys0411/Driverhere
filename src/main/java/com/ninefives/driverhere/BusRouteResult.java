@@ -53,9 +53,9 @@ public class BusRouteResult extends Activity {
 
         result.setText(busno); // 버스 번호 출력
 
-        drawing();
+        search();
     }
-    public void drawing() {
+    public void search() {
 
         new Thread(new Runnable() {
 
