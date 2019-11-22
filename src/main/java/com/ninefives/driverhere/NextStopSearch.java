@@ -34,6 +34,11 @@ public class NextStopSearch extends Activity {
     String startnm; // 기점
     String endnm; // 종점
 
+    String Bus_NO; // 조건에 맞는 버스번호
+    String Route_Id; // 조건에 맞는 버스 id
+    String Start_Nm; // 조건에 맞는 기점
+    String End_Nm; // 조건에 맞는 종점
+
     String text="파싱결과 : \n";
 
     @Override
@@ -41,7 +46,12 @@ public class NextStopSearch extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nextstopsearch);
 
-        Intent intent;
+        Intent intent = new Intent(getApplicationContext(),NextStopResult.class);
+        intent.putExtra("routeId", Route_Id);
+        intent.putExtra("busNo", Bus_NO);
+        intent.putExtra("startNm", Start_Nm);
+        intent.putExtra("endNm", End_Nm);
+
 
         edit= (EditText)findViewById(R.id.edit); // 버스번호 텍스트 뷰 연결
 
@@ -50,6 +60,7 @@ public class NextStopSearch extends Activity {
         textview=(TextView) findViewById(R.id.searchtextview);
 
         textview.setText(text);
+
     }
 
     public void BusSearch(View v){
@@ -67,7 +78,7 @@ public class NextStopSearch extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                textview.setText(startStop+text);
+                                textview.setText(startStop + "\n" + text);
                             }
                         });
                     }
@@ -139,14 +150,17 @@ public class NextStopSearch extends Activity {
                     case XmlPullParser.END_TAG: // 종료 태그라면
                         tag= xpp.getName(); //테그 이름 얻어오기
 
-                        if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            text=text+"버스번호: "+busno+"\n"+"기점 :"+startnm+"\n"+"종점 :"+endnm+"\n";
-
-
+                        if(tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
+                            if (startnm.equals(startStop)) {
+                                text = text + "버스번호: " + busno + "\n" + "기점 :" + startnm + "\n" + "종점 :" + endnm + "\n";
+                                Bus_NO = busno;
+                                Start_Nm = startnm;
+                                Route_Id = routeid;
+                                End_Nm = endnm;
+                            }
                         }
                         break;
                 }
-
                 eventType= xpp.next();
             }
 
