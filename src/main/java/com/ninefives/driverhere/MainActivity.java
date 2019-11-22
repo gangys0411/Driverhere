@@ -17,18 +17,20 @@ public class MainActivity extends Activity {
     public void BusSearchClick(View view){
         Intent intent = new Intent(this, BusRouteSearch.class);
         startActivity(intent);
-        finish();
+    }
+
+    public void StationSearchClick(View view){
+        Intent intent = new Intent(this, BusStationSearch.class);
+        startActivity(intent);
     }
 
     public void AlarmClick(View view){
         Intent intent = new Intent(this, AlarmSend.class);
         startActivity(intent);
-        finish();
     }
 
     public void NextStopSearchClick(View view){
         Intent intent = new Intent(this, NextStopSearch.class);
         startActivity(intent);
-        finish();
     }
 }

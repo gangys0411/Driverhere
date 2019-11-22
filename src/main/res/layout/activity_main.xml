@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:onClick="mOnClick"
+            android:onClick="StationSearchClick"
             android:text="정류장 검색"
             android:textSize="12sp" />
 

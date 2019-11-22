@@ -19,7 +19,6 @@ public class BusRouteResult extends Activity {
 
     TextView result;
 
-    XmlPullParser xpp;
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     int cityCode=34010; // 천안 도시 코드
 
@@ -44,7 +43,7 @@ public class BusRouteResult extends Activity {
 
         ListView listview; // 리스트 뷰 변수 선언
 
-        listview=(ListView) findViewById(R.id.resultlistview); // 리스트 뷰 연결
+        listview=(ListView) findViewById(R.id.result_listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
 
         Intent intent = getIntent();

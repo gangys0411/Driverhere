@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_busroutesearch"
+    android:id="@+id/activity_busstationsearch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,10 +14,10 @@
         android:weightSum="10">
 
         <EditText
-            android:id="@+id/busno_edit"
+            android:id="@+id/station_edit"
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:hint="버스 번호 입력"/>
+            android:hint="정류장 이름 또는 번호 입력"/>
 
         <Button
             android:id="@+id/search_button"
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:text="검색"
             android:textSize="12sp"
-            android:onClick="BusSearch"/>
+            android:onClick="StationSearch"/>
 
     </LinearLayout>
 

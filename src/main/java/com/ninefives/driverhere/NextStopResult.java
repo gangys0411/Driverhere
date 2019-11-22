@@ -16,8 +16,7 @@ import java.net.URL;
 public class NextStopResult extends Activity {
 
     TextView result;
-
-    XmlPullParser xpp;
+    
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     int cityCode=34010; // 천안 도시 코드
 

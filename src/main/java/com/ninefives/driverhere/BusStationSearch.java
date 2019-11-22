@@ -7,64 +7,58 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 
-public class NextStopSearch extends Activity {
+public class BusStationSearch extends Activity {
 
-    EditText edit; // 버스번호 텍스트 뷰 변수
-    EditText edit2; // 기점 텍스트 뷰 변수
+    StationListViewAdapter adapter = new StationListViewAdapter(); // 어뎁터 생성
 
-    TextView textview;
+    EditText edit; // 에딧 텍스트 뷰 변수
 
+    XmlPullParser xpp;
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     int cityCode=34010; // 천안 도시 코드
-    String routeNo; // 버스 노선 번호
-    String startStop;
+    String nodeNm=""; // 입력받는 정류소 이름
 
-    String busno; // 버스 번호
-    String routeid; // 노선 id
-    String startnm; // 기점
-    String endnm; // 종점
-
-    String Bus_NO; // 조건에 맞는 버스번호
-    String Route_Id; // 조건에 맞는 버스 id
-    String Start_Nm; // 조건에 맞는 기점
-    String End_Nm; // 조건에 맞는 종점
-
-    String text="파싱결과 : \n";
+    // 리스트 뷰 사용을 위한 변수
+    String nodenm; // 정류소 이름
+    String nodeid; // 정류소 id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nextstopsearch);
+        setContentView(R.layout.activity_busstationsearch);
 
-        Intent intent = new Intent(getApplicationContext(),NextStopResult.class);
-        intent.putExtra("routeId", Route_Id);
-        intent.putExtra("busNo", Bus_NO);
-        intent.putExtra("startNm", Start_Nm);
-        intent.putExtra("endNm", End_Nm);
+        edit= (EditText)findViewById(R.id.station_edit); // 에딧 텍스트 뷰 연결
 
+        ListView listview; // 리스트 뷰 변수 선언
 
-        edit= (EditText)findViewById(R.id.edit); // 버스번호 텍스트 뷰 연결
+        listview=(ListView) findViewById(R.id.search_listview); // 리스트 뷰 연결
+        listview.setAdapter(adapter); // 어뎁터 연결
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
 
-        edit2=(EditText)findViewById(R.id.edit2); // 기점 텍스트 뷰 연결
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
+                Intent intent = new Intent(getApplicationContext(), BusRouteResult.class); // 인탠트 선언
+                intent = adapter.sendIntent(position, intent); // 리스트 뷰 사용을 위한 함수
 
-        textview=(TextView) findViewById(R.id.searchtextview);
-
-        textview.setText(text);
-
+                startActivity(intent); // 다음 액티비티에 인탠트 전달
+            }
+        });
     }
 
-    public void BusSearch(View v){
+    //Button을 클릭시
+    public void StationSearch(View v){
         switch( v.getId() ){
-            case R.id.button:
+            case R.id.search_button:
 
                 new Thread(new Runnable() {
 
@@ -77,7 +71,7 @@ public class NextStopSearch extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                textview.setText(startStop + "\n" + text);
+                                adapter.notifyDataSetChanged(); //리스트 뷰 갱신
                             }
                         });
                     }
@@ -86,15 +80,23 @@ public class NextStopSearch extends Activity {
         }
     }
 
+
+    //XmlPullParser를 이용하여 OpenAPI XML 파일 파싱하기(parsing)
     void getXmlData(){
+        adapter.clearItems(); // 리스트 뷰 초기화
 
-        routeNo= edit.getText().toString();//EditText에 작성된 노선 번호 얻어오기
-        startStop= edit2.getText().toString(); //edit2에 작성된 기점 얻어오기
+        try {
+            nodeNm = URLEncoder.encode(edit.getText().toString(), "UTF-8"); // api에 한글을 그냥 입력시 인식하지 못하므로 UTF-8 형식으로 인코딩
+        } catch (UnsupportedEncodingException e) { // 예외 처리
+            e.printStackTrace();
+        }
 
-        String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?" + // 요청 URL
-                "serviceKey="+ key+ // 서비스 키 추가
-                "&cityCode="+ cityCode+ // 도시 코드 추가
-                "&routeNo="+ routeNo; // 노선 번호 추가
+        String queryUrl= "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getSttnNoList?" + // 요청 URL
+                "serviceKey="+ key + // 서비스 키 추가
+                "&cityCode="+ cityCode + // 도시 코드 추가
+                "&nodeNm="+ nodeNm + // 정류소 이름
+                "&numOfRows="+ "50" + // 한 페이지 결과값 수
+                "&pageNo="+ "1"; // 출력할 페이지 번호
 
         try {
             URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
@@ -116,29 +118,21 @@ public class NextStopSearch extends Activity {
                         tag= xpp.getName();//태그 이름 얻어오기
 
                         if(tag.equals("item")) ;// 하나의 검색결과
-                        else if(tag.equals("endnodenm")){ // 종점
-                            xpp.next();
-                            endnm = xpp.getText();
-                        }
-                        else if(tag.equals("endvehicletime")){ // 막차 시간
+                        else if(tag.equals("gpslati")){ // 정류소 위도
                             xpp.next();
                         }
-                        else if(tag.equals("routeid")){ // 노선 id
-                            xpp.next();
-                            routeid=xpp.getText();
-                        }
-                        else if(tag.equals("routeno")){ // 노선 번호
-                            xpp.next();
-                            busno=xpp.getText();
-                        }
-                        else if(tag.equals("routetp")){ // 노선 타입
+                        else if(tag.equals("gpslong")){ // 정류소 경도
                             xpp.next();
                         }
-                        else if(tag.equals("startnodenm")){ // 기점
+                        else if(tag.equals("nodeid")){ // 정류소 id
                             xpp.next();
-                            startnm = xpp.getText();
+                            nodeid=xpp.getText();
                         }
-                        else if(tag.equals("startvehicletime")) { // 첫차 시간
+                        else if(tag.equals("nodenm")){ // 정류소 이름
+                            xpp.next();
+                            nodenm=xpp.getText();
+                        }
+                        else if(tag.equals("nodeno")){ // 정류소 번호
                             xpp.next();
                         }
                         break;
@@ -149,17 +143,12 @@ public class NextStopSearch extends Activity {
                     case XmlPullParser.END_TAG: // 종료 태그라면
                         tag= xpp.getName(); //테그 이름 얻어오기
 
-                        if(tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
-                            if (startnm.equals(startStop)) {
-                                text = text + "버스번호: " + busno + "\n" + "기점 :" + startnm + "\n" + "종점 :" + endnm + "\n";
-                                Bus_NO = busno;
-                                Start_Nm = startnm;
-                                Route_Id = routeid;
-                                End_Nm = endnm;
-                            }
+                        if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
+                            adapter.addItem(nodenm, nodeid); // 리스트뷰에 버스 정보 추가
                         }
                         break;
                 }
+
                 eventType= xpp.next();
             }
 

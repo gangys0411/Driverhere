@@ -21,7 +21,6 @@ public class BusRouteSearch extends Activity {
 
     EditText edit; // 에딧 텍스트 뷰 변수
 
-    XmlPullParser xpp;
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     int cityCode=34010; // 천안 도시 코드
     String routeNo; // 버스 노선 번호
@@ -37,11 +36,11 @@ public class BusRouteSearch extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busroutesearch);
 
-        edit= (EditText)findViewById(R.id.edit); // 에딧 텍스트 뷰 연결
+        edit= (EditText)findViewById(R.id.busno_edit); // 에딧 텍스트 뷰 연결
 
         ListView listview; // 리스트 뷰 변수 선언
 
-        listview=(ListView) findViewById(R.id.searchlistview); // 리스트 뷰 연결
+        listview=(ListView) findViewById(R.id.search_listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
 
@@ -58,7 +57,7 @@ public class BusRouteSearch extends Activity {
     //Button을 클릭시
     public void BusSearch(View v){
         switch( v.getId() ){
-            case R.id.button:
+            case R.id.search_button:
 
                 new Thread(new Runnable() {
 
