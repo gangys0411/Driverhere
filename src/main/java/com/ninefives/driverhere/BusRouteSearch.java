@@ -22,7 +22,7 @@ public class BusRouteSearch extends Activity {
     EditText edit; // 에딧 텍스트 뷰 변수
 
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    int cityCode=34010; // 천안 도시 코드
+    String cityCode="34010"; // 천안 도시 코드
     String routeNo; // 버스 노선 번호
 
     // 리스트 뷰 사용을 위한 변수

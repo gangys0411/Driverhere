@@ -20,7 +20,7 @@ public class BusRouteResult extends Activity {
     TextView result;
 
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    int cityCode=34010; // 천안 도시 코드
+    String cityCode="34010"; // 천안 도시 코드
 
     // 리스트 뷰 사용을 위한 변수
 

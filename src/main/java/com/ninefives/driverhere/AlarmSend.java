@@ -31,8 +31,7 @@ public class AlarmSend extends AppCompatActivity {
     private static String IP_ADDRESS = "35.185.229.27";
     private static String TAG = "phptest";
 
-    private EditText mEditTextName;
-    private EditText mEditTextCountry;
+    private EditText mEditTextStationID;
     private TextView mTextViewResult;
     private TextView mTextViewReceive;
     private ArrayList<PersonalData> mArrayList;
@@ -46,8 +45,7 @@ public class AlarmSend extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmsend);
 
-        mEditTextName = (EditText)findViewById(R.id.editText_main_name);
-        mEditTextCountry = (EditText)findViewById(R.id.editText_main_country);
+        mEditTextStationID = (EditText)findViewById(R.id.editText_main_name);
         mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
 
         mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
@@ -67,14 +65,12 @@ public class AlarmSend extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String name = mEditTextName.getText().toString();
-                String country = mEditTextCountry.getText().toString();
+                String stationID = mEditTextStationID.getText().toString();
 
                 InsertData task = new InsertData();
-                task.execute("http://" + IP_ADDRESS + "/insert.php", name, country);
+                task.execute("http://" + IP_ADDRESS + "/station_pass.php", stationID);
 
-                mEditTextName.setText("");
-                mEditTextCountry.setText("");
+                mEditTextStationID.setText("");
 
             }
         });
@@ -114,14 +110,13 @@ public class AlarmSend extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            String name = (String)params[1];
-            String country = (String)params[2];
+            String stationID = (String)params[1];
             String serverURL = (String)params[0];
 
             // PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터 준비
             // POST 방식으로 데이터 전달시 데이터가 주소에 직접 입력되지 않음
 
-            String postParameters = "name=" + name + "&country=" + country;
+            String postParameters = "stationid=" + stationID;
 
             // HTTP 메세지 본문에 포함되어 전송되므로 따로 데이터를 준비
             // 전송할 데이터는 "이름=값" 형식이며 항목 사이에 &를 추가

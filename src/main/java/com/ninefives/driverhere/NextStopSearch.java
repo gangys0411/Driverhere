@@ -18,6 +18,8 @@ import java.net.URL;
 
 public class NextStopSearch extends Activity {
 
+
+
     EditText edit; // 버스번호 텍스트 뷰 변수
     EditText edit2; // 기점 텍스트 뷰 변수
 
@@ -45,11 +47,6 @@ public class NextStopSearch extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nextstopsearch);
 
-        Intent intent = new Intent(getApplicationContext(),NextStopResult.class);
-        intent.putExtra("routeId", Route_Id);
-        intent.putExtra("busNo", Bus_NO);
-        intent.putExtra("startNm", Start_Nm);
-        intent.putExtra("endNm", End_Nm);
 
 
         edit= (EditText)findViewById(R.id.edit); // 버스번호 텍스트 뷰 연결
@@ -62,14 +59,20 @@ public class NextStopSearch extends Activity {
 
     }
 
+
+
+
+
     public void BusSearch(View v){
         switch( v.getId() ){
             case R.id.button:
+
 
                 new Thread(new Runnable() {
 
                     @Override
                     public void run() {
+
                         getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
 
                         //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
@@ -78,6 +81,14 @@ public class NextStopSearch extends Activity {
                             @Override
                             public void run() {
                                 textview.setText(startStop + "\n" + text);
+
+
+                                Intent intent = new Intent(getApplicationContext(), NextStopResult.class);
+                                intent.putExtra("routeId", Route_Id);
+                                intent.putExtra("busNo", Bus_NO);
+                                intent.putExtra("startNm", Start_Nm);
+                                intent.putExtra("endNm", End_Nm);
+                                startActivity(intent);
                             }
                         });
                     }
