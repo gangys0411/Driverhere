@@ -1,164 +1,221 @@
 package com.ninefives.driverhere;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class StationPassBus extends Activity {
 
-    PassListViewAdapter adapter = new PassListViewAdapter(); // 어뎁터 생성
+public class StationPassBus extends AppCompatActivity {
 
-    TextView result; // 에딧 텍스트 뷰 변수
+    private static String TAG = "phpquerytest";
 
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    int cityCode=34010; // 천안 도시 코드
-    String nodeNm; // 정류소 이름
-    String nodeId; // 정류소 ID
+    private static final String TAG_JSON="webnautes";
+    private static final String TAG_ID = "id";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_ADDRESS ="country";
 
-    // 리스트 뷰 사용을 위한 변수
-    String busno; // 버스 번호
-    String routeid; // 노선 id
-    String startnm; // 기점
-    String endnm; // 종점
+    private TextView mTextViewResult;
+    ArrayList<HashMap<String, String>> mArrayList;
+    ListView mListViewList;
+    EditText mEditTextSearchKeyword1, mEditTextSearchKeyword2;
+    String mJsonString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stationpassbus);
+        setContentView(R.layout.activity_alarmsend);
 
-        result = (TextView)findViewById(R.id.result); // 에딧 텍스트 뷰 연결
+        mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
 
-        ListView listview; // 리스트 뷰 변수 선언
+        mEditTextSearchKeyword1 = (EditText) findViewById(R.id.editText_main_searchKeyword1);
+        mEditTextSearchKeyword2 = (EditText) findViewById(R.id.editText_main_searchKeyword2);
 
-        listview=(ListView) findViewById(R.id.result_listview); // 리스트 뷰 연결
-        listview.setAdapter(adapter); // 어뎁터 연결
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
 
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
-                Intent intent = new Intent(getApplicationContext(), BusRouteResult.class); // 인탠트 선언
-                intent = adapter.sendIntent(position, intent); // 리스트 뷰 사용을 위한 함수
+        Button button_search = (Button) findViewById(R.id.button_main_search);
+        button_search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
-                startActivity(intent); // 다음 액티비티에 인탠트 전달
+                mArrayList.clear();
+
+
+                GetData task = new GetData();
+                task.execute( mEditTextSearchKeyword1.getText().toString(), mEditTextSearchKeyword2.getText().toString());
             }
         });
 
-        Intent intent = getIntent();
 
-        nodeNm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
-        nodeId = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+        mArrayList = new ArrayList<>();
 
-        result.setText(nodeNm); // 버스 번호 출력
 
-        search();
     }
 
-    public void search(){
-        new Thread(new Runnable() {
 
-            @Override
-            public void run() {
-                getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
+    private class GetData extends AsyncTask<String, Void, String>{
 
-                //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
-                //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyDataSetChanged(); //리스트 뷰 갱신
-                    }
-                });
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(StationPassBus.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            mTextViewResult.setText(result);
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+
+                mTextViewResult.setText(errorString);
             }
-        }).start();
-    }
+            else {
+
+                mJsonString = result;
+                showResult();
+            }
+        }
 
 
-    //XmlPullParser를 이용하여 OpenAPI XML 파일 파싱하기(parsing)
-    void getXmlData(){
-        adapter.clearItems(); // 리스트 뷰 초기화
+        @Override
+        protected String doInBackground(String... params) {
 
-        String queryUrl="http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList?" + // 요청 URL
-                "serviceKey="+ key+ // 서비스 키 추가
-                "&cityCode="+ cityCode+ // 도시 코드 추가
-                "&nodeId="+ nodeId; // 정류소 ID 추가
+            String searchKeyword1 = params[0];
+            String searchKeyword2 = params[1];
 
-        try {
-            URL url= new URL(queryUrl);//문자열로 된 요청 url을 URL 객체로 생성.
-            InputStream is= url.openStream(); //url위치로 입력스트림 연결
+            String serverURL = "http://35.185.229.27/station_pass.php";
+            String postParameters = "stationID=" + searchKeyword1 + "&name=" + searchKeyword2;
 
-            XmlPullParserFactory factory= XmlPullParserFactory.newInstance(); // 파서 선언
-            XmlPullParser xpp= factory.newPullParser();
-            xpp.setInput( new InputStreamReader(is, "UTF-8") ); //inputstream 으로부터 xml 입력받기
 
-            String tag; // 태그 변수 선언
+            try {
 
-            xpp.next();
-            int eventType= xpp.getEventType();
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
-            while( eventType != XmlPullParser.END_DOCUMENT ){ // 문서의 끝을 만날때 까지 반복
-                switch( eventType ){
 
-                    case XmlPullParser.START_TAG: // 시작 태그 별로 행동
-                        tag= xpp.getName();//태그 이름 얻어오기
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
 
-                        if(tag.equals("item")) ;// 하나의 검색결과
-                        else if(tag.equals("arrprevstationcnt")){ // 도착까지 남은 정류소 수
-                            xpp.next();
-                        }
-                        else if(tag.equals("arrtime")){ // 도착까지 남은 시간
-                            xpp.next();
-                        }
-                        else if(tag.equals("nodeid")){ // 정류소 ID
-                            xpp.next();
-                        }
-                        else if(tag.equals("nodenm")){ // 정류소 이름
-                            xpp.next();
-                        }
-                        else if(tag.equals("routeid")){ // 노선 id
-                            xpp.next();
-                            routeid=xpp.getText();
-                        }
-                        else if(tag.equals("routeno")){ // 노선 번호
-                            xpp.next();
-                            busno=xpp.getText();
-                        }
-                        else if(tag.equals("routetp")){ // 노선 타입
-                            xpp.next();
-                        }
-                        else if(tag.equals("vehicletp")){ // 차량 타입
-                            xpp.next();
-                        }
-                        break;
 
-                    case XmlPullParser.TEXT: // 텍스트라면 스킵
-                        break;
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
 
-                    case XmlPullParser.END_TAG: // 종료 태그라면
-                        tag= xpp.getName(); //테그 이름 얻어오기
 
-                        if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            adapter.addItem(busno, routeid); // 리스트뷰에 버스 정보 추가
-                        }
-                        break;
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
                 }
 
-                eventType= xpp.next();
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null;
             }
 
-        } catch (Exception e) { // 예외 처리
-            e.printStackTrace();
         }
     }
+
+
+    private void showResult(){
+        try {
+            JSONObject jsonObject = new JSONObject(mJsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+
+            for(int i=0;i<jsonArray.length();i++){
+
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                String id = item.getString(TAG_ID);
+                String name = item.getString(TAG_NAME);
+                String address = item.getString(TAG_ADDRESS);
+
+                HashMap<String,String> hashMap = new HashMap<>();
+
+                hashMap.put(TAG_ID, id);
+                hashMap.put(TAG_NAME, name);
+                hashMap.put(TAG_ADDRESS, address);
+
+                mArrayList.add(hashMap);
+            }
+
+            ListAdapter adapter = new SimpleAdapter(
+                    StationPassBus.this, mArrayList, R.layout.database_item,
+                    new String[]{TAG_ID,TAG_NAME, TAG_ADDRESS},
+                    new int[]{R.id.textView_list_id, R.id.textView_list_name, R.id.textView_list_country}
+            );
+
+            mListViewList.setAdapter(adapter);
+
+        } catch (JSONException e) {
+
+            Log.d(TAG, "showResult : ", e);
+        }
+
+    }
+
 }

@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:id="@+id/textView_main_name"/>
-
-    <EditText
+        android:id="@+id/textView_main_label"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_main_name"/>
+        android:layout_height="40dp"
+        android:text="검색할 나라와 이름을 입력해주세요 . " />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Insert"
-        android:id="@+id/button_main_insert"/>
+        android:layout_height="50dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_main_result"/>
+        <EditText
+            android:id="@+id/editText_main_searchKeyword1"
+            android:layout_width="0dp"
+            android:layout_weight="0.35"
+            android:hint="나라"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/editText_main_searchKeyword2"
+            android:layout_width="0dp"
+            android:layout_weight="0.35"
+            android:hint="이름"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/button_main_search"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="match_parent"
+            android:text="Search" />
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:layout_margin="5dp"
-        android:padding="5dp"
+        android:layout_weight="0.4"
         android:id="@+id/listView_main_list"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="2dp"
-        android:layout_weight="2"
-        android:text="전체보기"
-        android:id="@+id/button_main_all"/>
-
     <TextView
+        android:id="@+id/textView_main_result"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:id="@+id/textView_receive_result"/>
+        android:layout_weight="0.4" />
 </LinearLayout>
