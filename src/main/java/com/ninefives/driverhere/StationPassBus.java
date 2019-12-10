@@ -1,16 +1,12 @@
 package com.ninefives.driverhere;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
@@ -27,53 +23,53 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 
 public class StationPassBus extends AppCompatActivity {
 
     private static String TAG = "phpquerytest";
 
-    private static final String TAG_JSON="webnautes";
-    private static final String TAG_ID = "id";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_ADDRESS ="country";
-
-    private TextView mTextViewResult;
-    ArrayList<HashMap<String, String>> mArrayList;
-    ListView mListViewList;
-    EditText mEditTextSearchKeyword1, mEditTextSearchKeyword2;
-    String mJsonString;
+    TextView mTextView;
+    private ArrayList<PersonalData> mArrayList;
+    private UsersAdapter mAdapter;
+    private ListView mListViewList;
+    private String mJsonString;
+    String stationid;
+    String stationnm;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarmsend);
+        setContentView(R.layout.activity_stationpassbus);
 
-        mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
-
-        mEditTextSearchKeyword1 = (EditText) findViewById(R.id.editText_main_searchKeyword1);
-        mEditTextSearchKeyword2 = (EditText) findViewById(R.id.editText_main_searchKeyword2);
-
-
-        Button button_search = (Button) findViewById(R.id.button_main_search);
-        button_search.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                mArrayList.clear();
-
-
-                GetData task = new GetData();
-                task.execute( mEditTextSearchKeyword1.getText().toString(), mEditTextSearchKeyword2.getText().toString());
-            }
-        });
-
+        mTextView = (TextView)findViewById(R.id.stationnm);
+        mListViewList = (ListView) findViewById(R.id.pass_listview);
 
         mArrayList = new ArrayList<>();
 
+        mAdapter = new UsersAdapter(this, mArrayList);
+        mListViewList.setAdapter(mAdapter);
 
+        Intent intent = getIntent();
+
+        stationid = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+        stationnm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
+
+        mTextView.setText(stationnm);
+
+        search();
+    }
+
+    public void search() { // 데이터베이스 검색
+
+        mArrayList.clear();
+        mAdapter.notifyDataSetChanged(); // 리스트 뷰를 초기화 하고 적용
+
+        GetData task = new GetData(); // 데이터를 가져옴
+        task.execute(stationid);
     }
 
 
@@ -87,7 +83,7 @@ public class StationPassBus extends AppCompatActivity {
             super.onPreExecute();
 
             progressDialog = ProgressDialog.show(StationPassBus.this,
-                    "Please Wait", null, true, true);
+                    "Please Wait", null, true, true); // 불러오는 동안 나올 팝업
         }
 
 
@@ -96,17 +92,12 @@ public class StationPassBus extends AppCompatActivity {
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-            mTextViewResult.setText(result);
+
             Log.d(TAG, "response - " + result);
 
-            if (result == null){
-
-                mTextViewResult.setText(errorString);
-            }
-            else {
-
+            if (result != null){ // 결과가 있다면
                 mJsonString = result;
-                showResult();
+                showResult(); // 결과를 출력
             }
         }
 
@@ -114,11 +105,8 @@ public class StationPassBus extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            String searchKeyword1 = params[0];
-            String searchKeyword2 = params[1];
-
-            String serverURL = "http://35.185.229.27/station_pass.php";
-            String postParameters = "stationID=" + searchKeyword1 + "&name=" + searchKeyword2;
+            String serverURL = "http://35.185.229.27/station_pass.php"; // 접속할 웹서버 주소
+            String postParameters = "stationID=" + stationid; // 검색할 내용
 
 
             try {
@@ -182,35 +170,33 @@ public class StationPassBus extends AppCompatActivity {
 
 
     private void showResult(){
+
+        String TAG_JSON="route_info";
+        String TAG_ID = "busid";
+        String TAG_NAME = "stationid";
+        String TAG_ADDRESS ="order";
+
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
-            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 태그에 해당하는 전체 요소 가져오기
 
-            for(int i=0;i<jsonArray.length();i++){
+            for(int i=0;i<jsonArray.length();i++){ // 가져온 세부요소 만큼 반복
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String id = item.getString(TAG_ID);
+                String id = item.getString(TAG_ID); // 각각의 정보를 저장
                 String name = item.getString(TAG_NAME);
                 String address = item.getString(TAG_ADDRESS);
 
-                HashMap<String,String> hashMap = new HashMap<>();
+                PersonalData personalData = new PersonalData(); // item을 만들어
 
-                hashMap.put(TAG_ID, id);
-                hashMap.put(TAG_NAME, name);
-                hashMap.put(TAG_ADDRESS, address);
+                personalData.setBusid(id); // 각각의 정보 저장
+                personalData.setStationid(name);
+                personalData.setOrder(address);
 
-                mArrayList.add(hashMap);
+                mArrayList.add(personalData); // 리스트 뷰에 item 추가
+                mAdapter.notifyDataSetChanged(); // 변경사항 적용
             }
-
-            ListAdapter adapter = new SimpleAdapter(
-                    StationPassBus.this, mArrayList, R.layout.database_item,
-                    new String[]{TAG_ID,TAG_NAME, TAG_ADDRESS},
-                    new int[]{R.id.textView_list_id, R.id.textView_list_name, R.id.textView_list_country}
-            );
-
-            mListViewList.setAdapter(adapter);
-
         } catch (JSONException e) {
 
             Log.d(TAG, "showResult : ", e);

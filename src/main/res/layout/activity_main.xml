@@ -43,4 +43,13 @@
             android:onClick="mOnClick"
             android:text="즐겨찾기"
             android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:onClick="GpsClick"
+            android:text="현재 위치 찾기"
+            android:textSize="12sp" />
 </LinearLayout>

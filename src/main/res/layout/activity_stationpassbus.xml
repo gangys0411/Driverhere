@@ -6,12 +6,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/result"
+        android:id="@+id/stationnm"
         android:textSize="20dp">
     </TextView>
 
     <ListView
-        android:id="@+id/result_listview"
+        android:id="@+id/pass_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
