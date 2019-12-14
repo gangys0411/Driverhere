@@ -40,15 +40,15 @@ public class UsersAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.database_item, parent, false);
         }
 
-        TextView busid = (TextView) convertView.findViewById(R.id.textView_list_id); // ID 출력 텍스트 뷰
-        TextView stationid = (TextView) convertView.findViewById(R.id.textView_list_name); // 이름 출력 텍스트 뷰
-        TextView order = (TextView) convertView.findViewById(R.id.textView_list_country); // 지역 출력 텍스트 뷰
+        TextView id = (TextView) convertView.findViewById(R.id.textView_list_id); // ID 출력 텍스트 뷰
+        TextView name = (TextView) convertView.findViewById(R.id.textView_list_name); // 이름 출력 텍스트 뷰
+        TextView country = (TextView) convertView.findViewById(R.id.textView_list_country); // 지역 출력 텍스트 뷰
 
         PersonalData personalData = mList.get(position);
 
-        busid.setText(personalData.getBusid()); // ID 출력
-        stationid.setText(personalData.getStationid()); // 이름 출력
-        order.setText(personalData.getOrder()); // 지역 출력
+        id.setText(personalData.getMember_id()); // ID 출력
+        name.setText(personalData.getMember_name()); // 이름 출력
+        country.setText(personalData.getMember_country()); // 지역 출력
 
         return convertView; // 뷰에 적용
     }

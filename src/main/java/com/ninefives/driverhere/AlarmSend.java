@@ -1,7 +1,6 @@
 package com.ninefives.driverhere;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,9 +40,6 @@ public class AlarmSend extends AppCompatActivity {
     private ListView mListViewList;
     private EditText mEditTextSearchKeyword1, mEditTextSearchKeyword2;
     private String mJsonString;
-
-    String stationid;
-    String stationnm;
 
 
     @Override
@@ -195,15 +191,15 @@ public class AlarmSend extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String busid = item.getString(TAG_ID);
-                String stationid = item.getString(TAG_NAME);
-                String order = item.getString(TAG_ADDRESS);
+                String id = item.getString(TAG_ID);
+                String name = item.getString(TAG_NAME);
+                String address = item.getString(TAG_ADDRESS);
 
                 PersonalData personalData = new PersonalData();
 
-                personalData.setBusid(busid);
-                personalData.setStationid(stationid);
-                personalData.setOrder(order);
+                personalData.setBusid(id);
+                personalData.setStationid(name);
+                personalData.setOrder(address);
 
                 mArrayList.add(personalData);
                 mAdapter.notifyDataSetChanged();

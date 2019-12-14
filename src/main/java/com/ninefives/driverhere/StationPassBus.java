@@ -171,7 +171,7 @@ public class StationPassBus extends AppCompatActivity {
 
     private void showResult(){
 
-        String TAG_JSON="bus_info";
+        String TAG_JSON="route_info";
         String TAG_BUSID = "busid";
         String TAG_BUSNO = "busno";
         String TAG_START_STATION = "start_station";
