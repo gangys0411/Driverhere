@@ -171,10 +171,11 @@ public class StationPassBus extends AppCompatActivity {
 
     private void showResult(){
 
-        String TAG_JSON="route_info";
-        String TAG_ID = "busid";
-        String TAG_NAME = "stationid";
-        String TAG_ADDRESS ="order";
+        String TAG_JSON="bus_info";
+        String TAG_BUSID = "busid";
+        String TAG_BUSNO = "busno";
+        String TAG_START_STATION = "start_station";
+        String TAG_END_STATION = "end_station";
 
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
@@ -184,15 +185,16 @@ public class StationPassBus extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
-                String id = item.getString(TAG_ID); // 각각의 정보를 저장
-                String name = item.getString(TAG_NAME);
-                String address = item.getString(TAG_ADDRESS);
+                String busid = item.getString(TAG_BUSID); // 각각의 정보를 저장
+                String busno = item.getString(TAG_BUSNO);
+                String start_station  = item.getString(TAG_START_STATION);
+                String end_station  = item.getString(TAG_END_STATION);
 
                 PersonalData personalData = new PersonalData(); // item을 만들어
 
-                personalData.setBusid(id); // 각각의 정보 저장
-                personalData.setStationid(name);
-                personalData.setOrder(address);
+                personalData.setBusid(busid); // 각각의 정보 저장
+                personalData.setStationid(busno);
+                personalData.setOrder(start_station);
 
                 mArrayList.add(personalData); // 리스트 뷰에 item 추가
                 mAdapter.notifyDataSetChanged(); // 변경사항 적용
