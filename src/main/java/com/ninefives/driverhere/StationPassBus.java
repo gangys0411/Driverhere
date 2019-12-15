@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,11 +32,10 @@ public class StationPassBus extends AppCompatActivity {
 
     private static String TAG = "phpquerytest";
 
+    PassListViewAdapter adapter = new PassListViewAdapter(); // 어뎁터 생성
+
     TextView mTextView;
-    private ArrayList<PersonalData> mArrayList;
-    private UsersAdapter mAdapter;
-    private ListView mListViewList;
-    private String mJsonString;
+    String mJsonString;
     String stationid;
     String stationnm;
 
@@ -46,17 +47,26 @@ public class StationPassBus extends AppCompatActivity {
         setContentView(R.layout.activity_stationpassbus);
 
         mTextView = (TextView)findViewById(R.id.stationnm);
-        mListViewList = (ListView) findViewById(R.id.pass_listview);
 
-        mArrayList = new ArrayList<>();
+        ListView listview; // 리스트 뷰 변수 선언
 
-        mAdapter = new UsersAdapter(this, mArrayList);
-        mListViewList.setAdapter(mAdapter);
+        listview=(ListView) findViewById(R.id.pass_listview); // 리스트 뷰 연결
+        listview.setAdapter(adapter); // 어뎁터 연결
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
 
-        Intent intent = getIntent();
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
+                Intent send_intent = new Intent(getApplicationContext(), BusRouteResult.class); // 인탠트 선언
+                send_intent = adapter.sendIntent(position, send_intent); // 리스트 뷰 사용을 위한 함수
 
-        stationid = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
-        stationnm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
+                startActivity(send_intent); // 다음 액티비티에 인탠트 전달
+            }
+        });
+
+        Intent get_intent = getIntent();
+
+        stationid = get_intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+        stationnm = get_intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
 
         mTextView.setText(stationnm);
 
@@ -65,8 +75,8 @@ public class StationPassBus extends AppCompatActivity {
 
     public void search() { // 데이터베이스 검색
 
-        mArrayList.clear();
-        mAdapter.notifyDataSetChanged(); // 리스트 뷰를 초기화 하고 적용
+        adapter.clearItems();
+        adapter.notifyDataSetChanged(); // 리스트 뷰를 초기화 하고 적용
 
         GetData task = new GetData(); // 데이터를 가져옴
         task.execute(stationid);
@@ -190,15 +200,10 @@ public class StationPassBus extends AppCompatActivity {
                 String start_station  = item.getString(TAG_START_STATION);
                 String end_station  = item.getString(TAG_END_STATION);
 
-                PersonalData personalData = new PersonalData(); // item을 만들어
-
-                personalData.setBusid(busid); // 각각의 정보 저장
-                personalData.setStationid(busno);
-                personalData.setOrder(start_station);
-
-                mArrayList.add(personalData); // 리스트 뷰에 item 추가
-                mAdapter.notifyDataSetChanged(); // 변경사항 적용
+                adapter.addItem(busno, busid, start_station, end_station);
             }
+
+            adapter.notifyDataSetChanged(); //리스트 뷰 갱신
         } catch (JSONException e) {
 
             Log.d(TAG, "showResult : ", e);

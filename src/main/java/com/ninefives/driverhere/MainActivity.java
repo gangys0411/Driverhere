@@ -28,9 +28,4 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, AlarmSend.class);
         startActivity(intent);
     }
-
-    public void GpsClick(View view){
-        Intent intent = new Intent(this, GpsEx.class);
-        startActivity(intent);
-    }
 }

@@ -32,11 +32,13 @@ public class PassListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.passlistview_item, parent, false);
         }
 
-        TextView BusNoTextView = (TextView) convertView.findViewById(R.id.routeno); // 버스 번호 출력 텍스트 뷰
+        TextView BusNoTextView = (TextView) convertView.findViewById(R.id.pass_busno); // 버스 번호 출력 텍스트 뷰
+        TextView DirectionTextView = (TextView) convertView.findViewById(R.id.pass_direction); // 방향 출력 텍스트 뷰
 
-        PassListViewItem passListViewItem = listViewItemPassList.get(position);
+        PassListViewItem listViewItemPassItem = listViewItemPassList.get(position);
 
-        BusNoTextView.setText(passListViewItem.getBusNo()); // 버스 번호 출력
+        BusNoTextView.setText(listViewItemPassItem.getBusNo()); // 버스 번호 출력
+        DirectionTextView.setText(listViewItemPassItem.getDirection()); // 방향 출력
 
         return convertView; // 뷰에 적용
     }
@@ -51,11 +53,13 @@ public class PassListViewAdapter extends BaseAdapter {
         return listViewItemPassList.get(position);
     }
 
-    public void addItem(String routeno, String routeid){ // 리스트 뷰에 아이템 추가
+    public void addItem(String busno, String busid, String start_station, String end_station){ // 리스트 뷰에 아이템 추가
         PassListViewItem item=new PassListViewItem(); // 배열 선언
 
-        item.setBusNo(routeno); // 버스 번호 추가
-        item.setBusId(routeid); // 노선 id 추가
+        item.setBusNo(busno); // 버스 번호 추가
+        item.setBusId(busid); // 버스 id 추가
+        item.setStart_Station(start_station); // 기점 추가
+        item.setEnd_Station(end_station); // 종점 추가
 
         listViewItemPassList.add(item); // 리스트 뷰에 추가
     }
