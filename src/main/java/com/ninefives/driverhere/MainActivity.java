@@ -23,9 +23,4 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, BusStationSearch.class);
         startActivity(intent);
     }
-
-    public void AlarmClick(View view){
-        Intent intent = new Intent(this, AlarmSend.class);
-        startActivity(intent);
-    }
 }
