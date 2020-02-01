@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.station_search.station_pass_bus;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
+import com.ninefives.driverhere.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +27,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-
 
 
 public class StationPassBus extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.station_search.station_pass_bus;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.ninefives.driverhere.R;
 
 import java.util.ArrayList;
 

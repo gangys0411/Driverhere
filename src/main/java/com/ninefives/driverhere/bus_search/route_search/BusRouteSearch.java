@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.bus_search.route_search;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
+import com.ninefives.driverhere.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;

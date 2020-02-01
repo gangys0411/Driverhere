@@ -22,11 +22,11 @@
         </activity>
 
 
-        <activity android:name=".BusRouteSearch"/>
-        <activity android:name=".BusRouteResult"/>
+        <activity android:name=".bus_search.route_search.BusRouteSearch"/>
+        <activity android:name=".bus_search.search_result.BusRouteResult"/>
 
-        <activity android:name=".BusStationSearch"/>
-        <activity android:name=".StationPassBus"/>
+        <activity android:name=".station_search.station_search.BusStationSearch"/>
+        <activity android:name=".station_search.station_pass_bus.StationPassBus"/>
 
         <activity android:name=".AlarmSend"/>
 

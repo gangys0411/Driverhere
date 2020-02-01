@@ -1,6 +1,6 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.bus_search.search_result;
 
-public class StationListViewItem {
+public class ResultListViewItem {
     private String NodeNm; // 정류소 이름
     private String NodeId; // 정류소 id
 

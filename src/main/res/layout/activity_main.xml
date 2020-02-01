@@ -14,7 +14,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:onClick="BusSearchClick"
-            android:text="버스 검색"
+            android:text="버스 노선 찾기"
             android:textSize="12sp" />
 
         <Button
@@ -23,7 +23,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:onClick="StationSearchClick"
-            android:text="정류장 검색"
+            android:text="정류장 찾기"
             android:textSize="12sp" />
 
         <Button
@@ -31,8 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:onClick="AlarmClick"
-            android:text="알림 보내기"
+            android:onClick="AroundStationSearchClick"
+            android:text="주변 정류장 찾기"
             android:textSize="12sp" />
 
         <Button

@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.bus_search.route_search;
 
 public class SearchListViewItem {
     private String BusNo; // 버스 번호

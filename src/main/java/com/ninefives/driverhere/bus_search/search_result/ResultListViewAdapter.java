@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.bus_search.search_result;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,19 +8,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.R;
+
 import java.util.ArrayList;
 
-public class StationListViewAdapter extends BaseAdapter {
+public class ResultListViewAdapter extends BaseAdapter {
+    private ArrayList<ResultListViewItem> listViewItemResultList = new ArrayList<ResultListViewItem>(); // 추가된 데이터 저장을 위한 배열
 
-    private ArrayList<StationListViewItem> listViewItemStationList = new ArrayList<StationListViewItem>(); // 추가된 데이터 저장을 위한 배열
-
-    public StationListViewAdapter(){ // 생성자
+    public ResultListViewAdapter(){ // 생성자
 
     }
 
     @Override
     public int getCount(){ // 사용되는 데이터의 개수 반환
-        return listViewItemStationList.size();
+        return listViewItemResultList.size();
     }
 
     @Override
@@ -30,14 +31,14 @@ public class StationListViewAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.stationlistview_item, parent, false);
+            convertView = inflater.inflate(R.layout.resultlistview_item, parent, false);
         }
 
         TextView NodeNmTextView = (TextView) convertView.findViewById(R.id.nodenm); // 정류소 이름 출력 텍스트 뷰
 
-        StationListViewItem stationListViewItem = listViewItemStationList.get(position);
+        ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
-        NodeNmTextView.setText(stationListViewItem.getNodeNm()); // 정루소 이름 출력
+        NodeNmTextView.setText(resultListViewItem.getNodeNm()); // 정류소 이름 출력
 
         return convertView; // 뷰에 적용
     }
@@ -49,27 +50,27 @@ public class StationListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position){
-        return listViewItemStationList.get(position);
+        return listViewItemResultList.get(position);
     }
 
     public void addItem(String nodenm, String nodeid){ // 리스트 뷰에 아이템 추가
-        StationListViewItem item=new StationListViewItem(); // 배열 선언
+        ResultListViewItem item=new ResultListViewItem(); // 배열 선언
 
-        item.setNodeNm(nodenm); // 버스 번호 추가
-        item.setNodeId(nodeid); // 노선 id 추가
+        item.setNodeNm(nodenm); // 정류소 이름 추가
+        item.setNodeId(nodeid); // 정류소 id 추가
 
-        listViewItemStationList.add(item); // 리스트 뷰에 추가
+        listViewItemResultList.add(item); // 리스트 뷰에 추가
     }
 
     public void clearItems() // 리스트 뷰 초기화
     {
-        listViewItemStationList.clear();
+        listViewItemResultList.clear();
     }
 
     public Intent sendIntent(int position, Intent intent) // 화면 전환을 위한 인탠트 함수
     {
-        intent.putExtra("NodeNm", listViewItemStationList.get(position).getNodeNm()); // 인탠트에 선택된 위치의 항목 데이터를 전달
-        intent.putExtra("NodeID", listViewItemStationList.get(position).getNodeId());
+        intent.putExtra("NodeID", listViewItemResultList.get(position).getNodeId()); // 인탠트에 선택된 위치의 항목 데이터를 전달
+        intent.putExtra("NodeNm", listViewItemResultList.get(position).getNodeNm());
 
         return intent; // 인탠트 반환
     }

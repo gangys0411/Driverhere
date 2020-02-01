@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.station_search.station_pass_bus;
 
 public class PassListViewItem {
     private String BusNo; // 버스 번호
