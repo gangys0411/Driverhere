@@ -28,7 +28,12 @@ public class MainActivity extends Activity {
     }
 
     public void AroundStationSearchClick(View view){
-        Intent intent = new Intent(this, AroundBusStationSearch.class);
+        Intent intent = new Intent(this, AlarmSend.class);
         startActivity(intent);
     }
+
+    /*public void AroundStationSearchClick(View view){
+        Intent intent = new Intent(this, AroundBusStationSearch.class);
+        startActivity(intent);
+    }*/
 }

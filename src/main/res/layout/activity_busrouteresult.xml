@@ -13,6 +13,16 @@
     <ListView
         android:id="@+id/result_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
     </ListView>
+
+    <Button
+        android:id="@+id/route_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="알림 보내기"
+        android:onClick="RouteAlarm">
+    </Button>
+
 </LinearLayout>

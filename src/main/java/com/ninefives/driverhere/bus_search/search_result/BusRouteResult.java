@@ -3,9 +3,11 @@ package com.ninefives.driverhere.bus_search.search_result;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.AlarmSend;
 import com.ninefives.driverhere.R;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -150,5 +152,14 @@ public class BusRouteResult extends Activity {
         } catch (Exception e) { // 예외 처리
             e.printStackTrace();
         }
+    }
+
+    public void RouteAlarm(View v) {
+        Intent intent = new Intent(this, AlarmSend.class);
+
+        intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
+        intent.putExtra("BusNo", busno);
+
+        startActivity(intent);
     }
 }
