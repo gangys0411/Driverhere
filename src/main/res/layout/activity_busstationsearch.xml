@@ -17,7 +17,8 @@
             android:id="@+id/station_edit"
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:hint="정류장 이름 또는 번호 입력"/>
+            android:hint="정류장 이름 또는 번호 입력"
+            android:inputType="text"/>
 
         <Button
             android:id="@+id/search_button"

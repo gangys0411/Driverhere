@@ -3,10 +3,13 @@ package com.ninefives.driverhere.bus_search.route_search;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.R;
@@ -40,6 +43,34 @@ public class BusRouteSearch extends Activity {
         setContentView(R.layout.activity_busroutesearch);
 
         edit= (EditText)findViewById(R.id.busno_edit); // 에딧 텍스트 뷰 연결
+
+        edit.setImeOptions(EditorInfo.IME_ACTION_SEARCH); // 키보드의 엔터 버튼을 검색 버튼으로 변경
+        edit.setOnEditorActionListener(new TextView.OnEditorActionListener() // 엔터 버튼의 이벤트 리스너 작성
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH) // 검색 버튼이 눌렸다면 이벤트 발생
+                {
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            getXmlData(); // XML data를 파싱해서 String 객체로 얻어오기
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.notifyDataSetChanged(); // 리스트 뷰 갱신
+                                }
+                            });
+                        }
+                    }).start();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         ListView listview; // 리스트 뷰 변수 선언
 
