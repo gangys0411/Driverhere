@@ -30,6 +30,8 @@
 
         <activity android:name=".AlarmSend"/>
 
+        <activity android:name=".BusLocate"/>
+
         <activity android:name=".GpsEx"/>
 
     </application>

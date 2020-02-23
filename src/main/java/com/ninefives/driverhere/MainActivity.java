@@ -36,4 +36,9 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, AroundBusStationSearch.class);
         startActivity(intent);
     }*/
+
+    public void mOnClick(View view){
+        Intent intent = new Intent(this, BusLocate.class);
+        startActivity(intent);
+    }
 }
