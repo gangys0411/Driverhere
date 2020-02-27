@@ -6,6 +6,7 @@
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,7 +33,7 @@
 
         <activity android:name=".BusLocate"/>
 
-        <activity android:name=".GpsEx"/>
+        <activity android:name=".List"/>
 
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/>

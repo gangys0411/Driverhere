@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.ninefives.driverhere.bus_search.search_result.ResultListViewItem;
-
 import java.util.ArrayList;
 
 public class LocateListViewAdapter extends BaseAdapter {

@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import static java.lang.Boolean.TRUE;
+
 public class BusRouteResult extends Activity {
 
     ResultListViewAdapter adapter = new ResultListViewAdapter(); // 어뎁터 생성
@@ -50,6 +52,8 @@ public class BusRouteResult extends Activity {
         listview=(ListView) findViewById(R.id.result_listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
 
+        listview.getFirstVisiblePosition();
+
         Intent intent = getIntent();
 
         routeid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
@@ -59,6 +63,11 @@ public class BusRouteResult extends Activity {
 
         search();
     }
+
+    public void change() {
+
+    }
+
     public void search() {
 
         new Thread(new Runnable() {

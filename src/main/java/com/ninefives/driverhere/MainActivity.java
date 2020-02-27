@@ -35,10 +35,15 @@ public class MainActivity extends Activity {
     /*public void AroundStationSearchClick(View view){
         Intent intent = new Intent(this, AroundBusStationSearch.class);
         startActivity(intent);
-    }*/
+    }*/ // 알람용
 
     public void mOnClick(View view){
-        Intent intent = new Intent(this, BusLocate.class);
+        Intent intent = new Intent(this, List.class);
         startActivity(intent);
     }
+
+    /*public void mOnClick(View view){
+        Intent intent = new Intent(this, BusLocate.class);
+        startActivity(intent);
+    }*/ // 버스 위치
 }
