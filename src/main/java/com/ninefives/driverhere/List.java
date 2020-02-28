@@ -77,5 +77,7 @@ public class List extends Activity {
         } catch (Exception e) { // 예외 처리
             e.printStackTrace();
         }
+
+        adapter.listadd();
     }
 }
