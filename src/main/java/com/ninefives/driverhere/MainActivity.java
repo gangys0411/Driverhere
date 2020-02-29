@@ -37,13 +37,13 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }*/ // 알람용
 
-    public void mOnClick(View view){
+    /*public void mOnClick(View view){
         Intent intent = new Intent(this, List.class);
         startActivity(intent);
-    }
+    }*/
 
-    /*public void mOnClick(View view){
+    public void mOnClick(View view){
         Intent intent = new Intent(this, BusLocate.class);
         startActivity(intent);
-    }*/ // 버스 위치
+    } // 버스 위치
 }

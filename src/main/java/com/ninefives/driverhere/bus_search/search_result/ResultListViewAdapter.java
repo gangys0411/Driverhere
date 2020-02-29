@@ -3,18 +3,47 @@ package com.ninefives.driverhere.bus_search.search_result;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.BusLocate;
 import com.ninefives.driverhere.R;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ResultListViewAdapter extends BaseAdapter {
+    int number=0;
+
+    final Handler handler = new Handler() // 메인 스레드가 아닌 곳에서 UI 변경이 일어나면 오류가 발생하므로
+    {                                       // 핸들러를 사용해서 호출
+        public void handleMessage(Message msg)
+        {
+            notifyDataSetChanged(); // 데이터 변경을 적용
+        }
+    };
+
     private ArrayList<ResultListViewItem> listViewItemResultList = new ArrayList<ResultListViewItem>(); // 추가된 데이터 저장을 위한 배열
+
+    ArrayList<Integer> buslocatelist = new ArrayList<Integer>();
+
+    TimerTask refresh = new TimerTask() {
+        @Override
+        public void run() {
+            BusLocate buslocate = new BusLocate();
+
+            buslocatelist = buslocate.getXmlData();
+
+            Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
+            handler.sendMessage(msg);
+        }
+    };
 
     public ResultListViewAdapter(){ // 생성자
 
@@ -39,12 +68,17 @@ public class ResultListViewAdapter extends BaseAdapter {
 
         ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
-        NodeNmTextView.setText(resultListViewItem.getNodeNm()); // 정류소 이름 출력
-
-        if(pos==0)
-        {
-            NodeNmTextView.setBackgroundColor(Color.YELLOW);
+        for(int i=0; i<buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
+            if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) {
+                NodeNmTextView.setBackgroundColor(Color.YELLOW);
+            }
+            else
+            {
+                NodeNmTextView.setBackgroundColor(Color.WHITE);
+            }
         }
+
+        NodeNmTextView.setText(resultListViewItem.getNodeNm()); // 정류소 이름 출력
 
         return convertView; // 뷰에 적용
     }
@@ -59,11 +93,12 @@ public class ResultListViewAdapter extends BaseAdapter {
         return listViewItemResultList.get(position);
     }
 
-    public void addItem(String nodenm, String nodeid){ // 리스트 뷰에 아이템 추가
+    public void addItem(String nodenm, String nodeid, int nodeord){ // 리스트 뷰에 아이템 추가
         ResultListViewItem item=new ResultListViewItem(); // 배열 선언
 
         item.setNodeNm(nodenm); // 정류소 이름 추가
         item.setNodeId(nodeid); // 정류소 id 추가
+        item.setNodeOrd(nodeord); // 정류소 순서 추가
 
         listViewItemResultList.add(item); // 리스트 뷰에 추가
     }
@@ -79,5 +114,10 @@ public class ResultListViewAdapter extends BaseAdapter {
         intent.putExtra("NodeNm", listViewItemResultList.get(position).getNodeNm());
 
         return intent; // 인탠트 반환
+    }
+
+    public void busLocate(String routeid){
+        Timer timer = new Timer();
+        timer.schedule(refresh, 0, 10000);
     }
 }
