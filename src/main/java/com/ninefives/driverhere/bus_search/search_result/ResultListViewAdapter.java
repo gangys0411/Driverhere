@@ -19,7 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ResultListViewAdapter extends BaseAdapter {
-    int number=0;
+    String RouteId;
 
     final Handler handler = new Handler() // 메인 스레드가 아닌 곳에서 UI 변경이 일어나면 오류가 발생하므로
     {                                       // 핸들러를 사용해서 호출
@@ -38,7 +38,7 @@ public class ResultListViewAdapter extends BaseAdapter {
         public void run() {
             BusLocate buslocate = new BusLocate();
 
-            buslocatelist = buslocate.getXmlData();
+            buslocatelist = buslocate.getXmlData(RouteId);
 
             Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
             handler.sendMessage(msg);
@@ -117,6 +117,8 @@ public class ResultListViewAdapter extends BaseAdapter {
     }
 
     public void busLocate(String routeid){
+        RouteId = routeid;
+
         Timer timer = new Timer();
         timer.schedule(refresh, 0, 10000);
     }

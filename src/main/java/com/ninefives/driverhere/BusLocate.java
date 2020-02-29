@@ -22,12 +22,11 @@ public class BusLocate{
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     String cityCode="34010"; // 천안 도시 코드
 
-    String busno; // 버스 번호
-    String routeid; // 노선 ID
     String nodeid; // 정류소 ID
     String nodenm; // 정류소 이름
+    String nodeord; // 정류소 순서
 
-    public ArrayList<Integer> getXmlData() {
+    public ArrayList<Integer> getXmlData(String routeid) {
         String queryUrl = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?" + // 요청 URL
                 "serviceKey=" + key + // 서비스 키 추가
                 "&cityCode=" + cityCode + // 도시 코드 추가
@@ -65,6 +64,7 @@ public class BusLocate{
                             nodenm = xpp.getText();
                         } else if (tag.equals("nodeord")) { // 정류소 순서
                             xpp.next();
+                            nodeord = xpp.getText();
                         } else if (tag.equals("routenm")) { // 노선 번호
                             xpp.next();
                         } else if (tag.equals("routetp")) { // 노선 타입
@@ -81,7 +81,7 @@ public class BusLocate{
                         tag = xpp.getName(); //테그 이름 얻어오기
 
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
-
+                            buslocate.add(Integer.parseInt(nodeord));
                         }
                         break;
                 }
