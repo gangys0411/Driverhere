@@ -27,23 +27,18 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void AroundStationSearchClick(View view){
-        Intent intent = new Intent(this, AlarmSend.class);
-        startActivity(intent);
-    }
-
     /*public void AroundStationSearchClick(View view){
-        Intent intent = new Intent(this, AroundBusStationSearch.class);
-        startActivity(intent);
-    }*/ // 알람용
-
-    /*public void mOnClick(View view){
-        Intent intent = new Intent(this, List.class);
+        Intent intent = new Intent(this, AlarmSend.class);
         startActivity(intent);
     }*/
 
-    public void mOnClick(View view){
+    public void AroundStationSearchClick(View view){
+        Intent intent = new Intent(this, AroundBusStationSearch.class);
+        startActivity(intent);
+    }
+
+    /*public void mOnClick(View view){
         Intent intent = new Intent(this, BusLocate.class);
         startActivity(intent);
-    } // 버스 위치
+    } */// 버스 위치
 }
