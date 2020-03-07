@@ -64,7 +64,7 @@ public class AroundBusStationSearch extends AppCompatActivity
                 double longitude = gpsTracker.getLongitude();
 
                 String address = getCurrentAddress(latitude, longitude);
-                textview_address.setText(address);
+                textview_address.setText("현재 위치 : "+address);
 
                 Toast.makeText(AroundBusStationSearch.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
             }
@@ -108,13 +108,13 @@ public class AroundBusStationSearch extends AppCompatActivity
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
                         || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
 
-                    Toast.makeText(AroundBusStationSearch.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AroundBusStationSearch.this, "위치 접근 권한이 거부되었습니다.\n앱을 다시 실행하여 위치 접근 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
                     finish();
 
 
                 }else {
 
-                    Toast.makeText(AroundBusStationSearch.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AroundBusStationSearch.this, "위치 접근 권한이 거부되었습니다.\n설정(앱 정보)에서 위치 접근 권한을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -149,7 +149,7 @@ public class AroundBusStationSearch extends AppCompatActivity
             if (ActivityCompat.shouldShowRequestPermissionRationale(AroundBusStationSearch.this, REQUIRED_PERMISSIONS[0])) {
 
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(AroundBusStationSearch.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(AroundBusStationSearch.this, "해당 기능을 사용하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(AroundBusStationSearch.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
@@ -209,8 +209,7 @@ public class AroundBusStationSearch extends AppCompatActivity
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AroundBusStationSearch.this);
         builder.setTitle("위치 서비스 비활성화");
-        builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
-                + "위치 설정을 수정하실래요?");
+        builder.setMessage("해당 기능을 사용하기 위해서는 위치 서비스가 필요합니다.");
         builder.setCancelable(true);
         builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
             @Override
