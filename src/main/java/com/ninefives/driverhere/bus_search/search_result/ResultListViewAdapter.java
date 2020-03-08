@@ -68,14 +68,18 @@ public class ResultListViewAdapter extends BaseAdapter {
 
         ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
-        for(int i=0; i<buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
-            if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) {
-                NodeNmTextView.setBackgroundColor(Color.YELLOW);
+        if(buslocatelist.size()>0) {
+            for (int i = 0; i < buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
+                if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) {
+                    NodeNmTextView.setBackgroundColor(Color.YELLOW);
+                } else {
+                    NodeNmTextView.setBackgroundColor(Color.WHITE);
+                }
             }
-            else
-            {
-                NodeNmTextView.setBackgroundColor(Color.WHITE);
-            }
+        }
+        else
+        {
+            NodeNmTextView.setBackgroundColor(Color.WHITE);
         }
 
         NodeNmTextView.setText(resultListViewItem.getNodeNm()); // 정류소 이름 출력
