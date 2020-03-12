@@ -109,7 +109,7 @@ public class AroundBusStationResult extends Activity {
                         tag= xpp.getName();//태그 이름 얻어오기
 
                         if(tag.equals("item")) ;// 하나의 검색결과
-                        else if(tag.equals("citycod")){ // 도시코드
+                        else if(tag.equals("citycode")){ // 도시코드
                             xpp.next();
                         }
                         else if(tag.equals("gpslati")){ // 위도

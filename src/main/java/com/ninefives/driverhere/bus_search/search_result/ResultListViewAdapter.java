@@ -72,6 +72,7 @@ public class ResultListViewAdapter extends BaseAdapter {
             for (int i = 0; i < buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
                 if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) {
                     NodeNmTextView.setBackgroundColor(Color.YELLOW);
+                    break;
                 } else {
                     NodeNmTextView.setBackgroundColor(Color.WHITE);
                 }
