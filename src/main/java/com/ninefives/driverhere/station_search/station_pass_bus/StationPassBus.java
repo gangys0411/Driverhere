@@ -72,6 +72,8 @@ public class StationPassBus extends AppCompatActivity {
         mTextView.setText(stationnm);
 
         search();
+
+        adapter.busArrive();
     }
 
     public void search() { // 데이터베이스 검색

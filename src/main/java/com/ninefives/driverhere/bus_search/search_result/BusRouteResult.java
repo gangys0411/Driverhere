@@ -67,10 +67,6 @@ public class BusRouteResult extends Activity {
         adapter.busLocate(routeid);
     }
 
-    public void change() {
-
-    }
-
     public void search() {
 
         new Thread(new Runnable() {

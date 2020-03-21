@@ -2,18 +2,45 @@ package com.ninefives.driverhere.station_search.station_pass_bus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.BusArrive;
+import com.ninefives.driverhere.BusLocate;
 import com.ninefives.driverhere.R;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PassListViewAdapter extends BaseAdapter {
+    BusArrive busArrive = new BusArrive();
+    final static StationPassBus stationPassBus = new StationPassBus();
+
+    final Handler handler = new Handler() // 메인 스레드가 아닌 곳에서 UI 변경이 일어나면 오류가 발생하므로
+    {                                       // 핸들러를 사용해서 호출
+        public void handleMessage(Message msg)
+        {
+            notifyDataSetChanged(); // 데이터 변경을 적용
+        }
+    };
+
     private ArrayList<PassListViewItem> listViewItemPassList = new ArrayList<PassListViewItem>(); // 추가된 데이터 저장을 위한 배열
+
+    ArrayList<String> busarrive = new ArrayList<String>();
+
+    TimerTask refresh = new TimerTask() {
+        @Override
+        public void run() {
+            Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
+            handler.sendMessage(msg);
+        }
+    };
 
     public PassListViewAdapter(){ // 생성자
 
@@ -29,6 +56,8 @@ public class PassListViewAdapter extends BaseAdapter {
         final int pos = position;
         final Context context = parent.getContext();
 
+
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.passlistview_item, parent, false);
@@ -36,11 +65,18 @@ public class PassListViewAdapter extends BaseAdapter {
 
         TextView BusNoTextView = (TextView) convertView.findViewById(R.id.pass_busno); // 버스 번호 출력 텍스트 뷰
         TextView DirectionTextView = (TextView) convertView.findViewById(R.id.pass_direction); // 방향 출력 텍스트 뷰
+        TextView LocateTextView = (TextView) convertView.findViewById(R.id.crr_locate); // 버스 번호 출력 텍스트 뷰
+        TextView RemainTimeTextView = (TextView) convertView.findViewById(R.id.remain_time); // 방향 출력 텍스트 뷰
 
         PassListViewItem listViewItemPassItem = listViewItemPassList.get(position);
 
         BusNoTextView.setText(listViewItemPassItem.getBusNo()); // 버스 번호 출력
         DirectionTextView.setText(listViewItemPassItem.getDirection()); // 방향 출력
+
+        busarrive = busArrive.getXmlData(stationPassBus.stationid,listViewItemPassItem.getBusId()); // 버스 도착 정보 불러오기
+
+        LocateTextView.setText(busarrive.get(0)); // 도착까지 남은 정류장 수 출력
+        RemainTimeTextView.setText(busarrive.get(1)); // 도착까지 남은 시간 출력
 
         return convertView; // 뷰에 적용
     }
@@ -77,5 +113,10 @@ public class PassListViewAdapter extends BaseAdapter {
         intent.putExtra("BusNo", listViewItemPassList.get(position).getBusNo());
 
         return intent; // 인탠트 반환
+    }
+
+    public void busArrive(){
+        Timer timer = new Timer();
+        timer.schedule(refresh, 0, 10000);
     }
 }

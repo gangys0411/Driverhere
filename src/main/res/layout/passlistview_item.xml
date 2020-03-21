@@ -14,4 +14,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/pass_direction"
         android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/crr_locate"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/remain_time"
+        android:textSize="20dp"/>
 </LinearLayout>
