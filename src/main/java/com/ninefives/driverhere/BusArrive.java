@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class BusArrive {
-    ArrayList<String> busarrive = new ArrayList<String>();
+    BusArriveItem busarrive = new BusArriveItem();
 
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     String cityCode="34010"; // 천안 도시 코드
@@ -23,8 +23,8 @@ public class BusArrive {
     String final_arrivestation; // 도착까지 남은 정류장 수
     String final_arrivetime; // 도착까지 남은 시간
 
-    public ArrayList<String> getXmlData(String nodeid, String routeid) {
-        String queryUrl = "https://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?" + // 요청 URL
+    public BusArriveItem getXmlData(String nodeid, String routeid) {
+        String queryUrl = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?" + // 요청 URL
                 "serviceKey=" + key + // 서비스 키 추가
                 "&cityCode=" + cityCode + // 도시 코드 추가
                 "&nodeId=" + nodeid + // 정류소 ID 추가
@@ -80,7 +80,12 @@ public class BusArrive {
                         tag = xpp.getName(); //테그 이름 얻어오기
 
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
-                            if(Integer.parseInt(arrivetime)<Integer.parseInt(final_arrivetime)) {
+                            if(final_arrivetime==null)
+                            {
+                                final_arrivetime = arrivetime;
+                                final_arrivestation = arrivestation;
+                            }
+                            else if(Integer.parseInt(arrivetime)<Integer.parseInt(final_arrivetime)) {
                                 final_arrivetime = arrivetime;
                                 final_arrivestation = arrivestation;
                             }
@@ -95,8 +100,8 @@ public class BusArrive {
             e.printStackTrace();
         }
 
-        busarrive.add(final_arrivestation);
-        busarrive.add(final_arrivetime);
+        busarrive.setRemainStation(final_arrivestation);
+        busarrive.setArriveTime(final_arrivetime);
 
         return busarrive;
     }

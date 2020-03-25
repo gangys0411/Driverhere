@@ -73,7 +73,7 @@ public class StationPassBus extends AppCompatActivity {
 
         search();
 
-        adapter.busArrive();
+        adapter.busArrive(stationid);
     }
 
     public void search() { // 데이터베이스 검색
