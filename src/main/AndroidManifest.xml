@@ -30,12 +30,14 @@
         <activity android:name=".station_search.station_pass_bus.StationPassBus"/>
 
         <activity android:name=".AlarmSend"/>
+        <activity android:name=".AlarmResult"/>
 
         <activity android:name=".BusLocate"/>
         <activity android:name=".BusArrive"/>
 
         <activity android:name=".AroundBusStationSearch"/>
 
+        <activity android:name=".DEV_AlarmSend"/>
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

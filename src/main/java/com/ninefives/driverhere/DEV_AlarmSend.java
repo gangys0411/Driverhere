@@ -1,14 +1,15 @@
-package com.ninefives.driverhere.bus_search.search_result;
+package com.ninefives.driverhere;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ninefives.driverhere.AlarmSend;
-import com.ninefives.driverhere.R;
+import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
+import com.ninefives.driverhere.bus_search.search_result.ResultListViewAdapter;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -17,9 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import static java.lang.Boolean.TRUE;
-
-public class BusRouteResult extends Activity {
+public class DEV_AlarmSend extends Activity {
 
     ResultListViewAdapter adapter = new ResultListViewAdapter(); // 어뎁터 생성
 
@@ -52,6 +51,18 @@ public class BusRouteResult extends Activity {
 
         listview=(ListView) findViewById(R.id.result_listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
+
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
+                Intent intent = new Intent(getApplicationContext(), AlarmResult.class); // 인탠트 선언
+                intent = adapter.sendIntent(position, intent); // 리스트 뷰 사용을 위한 함수
+                intent.putExtra("BusID", routeid);
+                intent.putExtra("BusNo", busno);
+
+                startActivity(intent); // 다음 액티비티에 인탠트 전달
+            }
+        });
 
         Intent intent = getIntent();
 
@@ -61,8 +72,6 @@ public class BusRouteResult extends Activity {
         result.setText(busno); // 버스 번호 출력
 
         search();
-
-        adapter.busLocate(routeid); // 버스 도착 정보 갱신
     }
 
     public void search() {
@@ -159,14 +168,5 @@ public class BusRouteResult extends Activity {
         } catch (Exception e) { // 예외 처리
             e.printStackTrace();
         }
-    }
-
-    public void RouteAlarm(View v) { // 알림 보내기 버튼을 누르면
-        Intent intent = new Intent(this, AlarmSend.class);
-
-        intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
-        intent.putExtra("BusNo", busno);
-
-        startActivity(intent);
     }
 }
