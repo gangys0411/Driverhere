@@ -98,12 +98,13 @@ public class ResultListViewAdapter extends BaseAdapter {
         return listViewItemResultList.get(position);
     }
 
-    public void addItem(String nodenm, String nodeid, int nodeord){ // 리스트 뷰에 아이템 추가
+    public void addItem(String nodenm, String nodeid, int nodeord, String nodeno){ // 리스트 뷰에 아이템 추가
         ResultListViewItem item=new ResultListViewItem(); // 배열 선언
 
         item.setNodeNm(nodenm); // 정류소 이름 추가
         item.setNodeId(nodeid); // 정류소 id 추가
         item.setNodeOrd(nodeord); // 정류소 순서 추가
+        item.setNodeNo(nodeno); // 정류소 번호 추가
 
         listViewItemResultList.add(item); // 리스트 뷰에 추가
     }
@@ -117,6 +118,7 @@ public class ResultListViewAdapter extends BaseAdapter {
     {
         intent.putExtra("NodeID", listViewItemResultList.get(position).getNodeId()); // 인탠트에 선택된 위치의 항목 데이터를 전달
         intent.putExtra("NodeNm", listViewItemResultList.get(position).getNodeNm());
+        intent.putExtra("NodeNo", listViewItemResultList.get(position).getNodeNo());
 
         return intent; // 인탠트 반환
     }

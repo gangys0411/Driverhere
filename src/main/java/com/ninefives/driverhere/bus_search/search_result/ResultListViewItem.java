@@ -4,6 +4,7 @@ public class ResultListViewItem {
     private String NodeNm; // 정류소 이름
     private String NodeId; // 정류소 id
     private int NodeOrd; // 정류소 순서
+    private String NodeNo; // 정류소 번호
 
     public void setNodeNm(String nodenm) { // 버스 번호 설정
         NodeNm=nodenm;
@@ -14,6 +15,9 @@ public class ResultListViewItem {
     public void setNodeOrd(int nodeord){ // 정류소 순서 설정
         NodeOrd=nodeord;
     }
+    public void setNodeNo(String nodeno){ // 정류소 번호 설정
+        NodeNo=nodeno;
+    }
 
     public String getNodeNm(){ // 버스 번호 반환
         return this.NodeNm;
@@ -23,5 +27,8 @@ public class ResultListViewItem {
     }
     public int getNodeOrd(){ // 정류소 순서 반환
         return this.NodeOrd;
+    }
+    public String getNodeNo(){ // 정류소 번호 반환
+        return this.NodeNo;
     }
 }

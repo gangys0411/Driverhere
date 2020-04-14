@@ -1,12 +1,5 @@
 package com.ninefives.driverhere;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -52,9 +45,9 @@ public class BusLocate{
                         tag = xpp.getName();//태그 이름 얻어오기
 
                         if (tag.equals("item")) ;// 하나의 검색결과
-                        else if (tag.equals("gpslati")) { // 정류소 위도
+                        else if (tag.equals("gpslati")) { // 차량 위도
                             xpp.next();
-                        } else if (tag.equals("gpslong")) { // 정류소 경도
+                        } else if (tag.equals("gpslong")) { // 차량 경도
                             xpp.next();
                         } else if (tag.equals("nodeid")) { // 정류소 ID
                             xpp.next();

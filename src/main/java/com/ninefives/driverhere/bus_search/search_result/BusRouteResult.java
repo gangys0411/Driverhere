@@ -35,6 +35,7 @@ public class BusRouteResult extends Activity {
     String nodeid; // 정류소 ID
     String nodenm; // 정류소 이름
     int nodeord; // 정류소 순서 번호
+    String nodeno; // 정류소 번호
 
     String test;
 
@@ -131,6 +132,7 @@ public class BusRouteResult extends Activity {
                         }
                         else if(tag.equals("nodeno")){ // 정류소 번호
                             xpp.next();
+                            nodeno=xpp.getText();
                         }
                         else if(tag.equals("nodeord")){ // 정류소 순서
                             xpp.next();
@@ -148,7 +150,7 @@ public class BusRouteResult extends Activity {
                         tag= xpp.getName(); //테그 이름 얻어오기
 
                         if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            adapter.addItem(nodenm, nodeid, nodeord); // 리스트뷰에 정류소 정보 추가
+                            adapter.addItem(nodenm, nodeid, nodeord, nodeno); // 리스트뷰에 정류소 정보 추가
                         }
                         break;
                 }
