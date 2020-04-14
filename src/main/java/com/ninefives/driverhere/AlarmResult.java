@@ -47,7 +47,7 @@ public class AlarmResult extends Activity {
 
         select_bus = (TextView) findViewById(R.id.select_bus_num);
         select_station = (TextView) findViewById(R.id.select_station_nm);
-        con_stop = (TextView) findViewById(R.id.con_stop);
+
 
         Intent intent = getIntent();
 
@@ -61,12 +61,15 @@ public class AlarmResult extends Activity {
         select_bus.setText(busno);
         select_station.setText(stationnm);
 
-        search();
+        //search();
     }
 
     public void DEV_alarmcontrol(View view){
         Intent intent = new Intent(getApplicationContext(), DEV_AlarmControl.class); // 인탠트 선언
+
         intent.putExtra("routeID",routeid);
+
+        startActivity(intent);
     }
 
     public void search() { // 데이터베이스 검색

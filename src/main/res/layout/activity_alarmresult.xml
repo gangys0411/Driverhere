@@ -30,11 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="DEV_alarmcontrol"
+        android:clickable="true"
         android:text="알림 보내기에 성공했습니다."/>
-
-    <TextView
-        android:id="@+id/con_stop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
 </LinearLayout>
