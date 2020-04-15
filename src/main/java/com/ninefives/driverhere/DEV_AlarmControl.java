@@ -52,36 +52,18 @@ public class DEV_AlarmControl extends Activity {
 
     }
 
-    public void alarmprint(View view)
-    {
-        print();
-    }
-
-    public void print() { // 데이터베이스 검색
-        GetData task = new GetData(); // 데이터를 가져옴
+    public void alarm_print(View view) { // 대기 승객 수 받아오기
+        AlarmReceive task = new AlarmReceive(); // 데이터를 가져옴
         task.execute(routeid);
     }
 
+    private class AlarmReceive extends AsyncTask<String, Void, String> {
 
-    private class GetData extends AsyncTask<String, Void, String> {
-
-        ProgressDialog progressDialog;
         String errorString = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressDialog = ProgressDialog.show(DEV_AlarmControl.this,
-                    "Please Wait", null, true, true); // 불러오는 동안 나올 팝업
-        }
-
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
-            progressDialog.dismiss();
 
             Log.d(TAG, "response - " + result);
 
@@ -158,7 +140,6 @@ public class DEV_AlarmControl extends Activity {
         }
     }
 
-
     private void showResult(){
 
         String TAG_JSON="route_info";
@@ -184,5 +165,181 @@ public class DEV_AlarmControl extends Activity {
             Log.d(TAG, "showResult : ", e);
         }
 
+    }
+
+    public void alarm_increase(View view) { // 대기 승객 수 증가시키기
+        AlarmIncrease task = new AlarmIncrease();
+        task.execute(routeid);
+    }
+
+    private class AlarmIncrease extends AsyncTask<String, Void, String> {
+
+        String errorString = null;
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.d(TAG, "response - " + result);
+
+            if (result != null){ // 결과가 있다면
+                mJsonString = result;
+                showResult(); // 결과를 출력
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = "http://35.185.229.27/stop_increase.php"; // 접속할 웹서버 주소
+            String postParameters = "routeID=" + routeid; // 검색할 내용
+
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+    }
+
+    public void alarm_reset(View view) { // 대기 승객 수 증가시키기
+        AlarmReset task = new AlarmReset();
+        task.execute(routeid);
+    }
+
+    private class AlarmReset extends AsyncTask<String, Void, String> {
+
+        String errorString = null;
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.d(TAG, "response - " + result);
+
+            if (result != null){ // 결과가 있다면
+                mJsonString = result;
+                showResult(); // 결과를 출력
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = "http://35.185.229.27/stop_reset.php"; // 접속할 웹서버 주소
+            String postParameters = "routeID=" + routeid; // 검색할 내용
+
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
     }
 }

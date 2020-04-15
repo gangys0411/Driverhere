@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:onClick="alarmprint"
+            android:onClick="alarm_print"
             android:text="출력"
             android:textSize="12sp" />
 
@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:onClick="alarm_increase"
             android:text="증가"
             android:textSize="12sp" />
 
@@ -42,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:onClick="alarm_reset"
             android:text="초기화"
             android:textSize="12sp" />
     </LinearLayout>

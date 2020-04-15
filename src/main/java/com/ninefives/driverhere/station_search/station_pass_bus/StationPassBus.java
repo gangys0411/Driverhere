@@ -88,23 +88,12 @@ public class StationPassBus extends AppCompatActivity {
 
     private class GetData extends AsyncTask<String, Void, String>{
 
-        ProgressDialog progressDialog;
         String errorString = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressDialog = ProgressDialog.show(StationPassBus.this,
-                    "Please Wait", null, true, true); // 불러오는 동안 나올 팝업
-        }
 
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
-            progressDialog.dismiss();
 
             Log.d(TAG, "response - " + result);
 
