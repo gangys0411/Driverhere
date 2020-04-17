@@ -255,7 +255,7 @@ public class DEV_AlarmControl extends Activity {
         }
     }
 
-    public void alarm_reset(View view) { // 대기 승객 수 증가시키기
+    public void alarm_reset(View view) { // 대기 승객 수 초기화
         AlarmReset task = new AlarmReset();
         task.execute(routeid);
     }
