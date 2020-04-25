@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.DEV;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.ninefives.driverhere.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

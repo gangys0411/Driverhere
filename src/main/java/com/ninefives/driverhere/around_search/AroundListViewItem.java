@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.around_search;
 
 public class AroundListViewItem {
     private String NodeNm; // 정류소 이름

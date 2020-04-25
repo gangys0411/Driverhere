@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.ninefives.driverhere.around_search.AroundBusStationSearch;
 import com.ninefives.driverhere.bus_search.route_search.BusRouteSearch;
 import com.ninefives.driverhere.station_search.station_search.BusStationSearch;
 
@@ -39,13 +40,14 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    /*public void AroundStationSearchClick(View view){
-        Intent intent = new Intent(this, AlarmSend.class);
-        startActivity(intent);
-    }*/
 
     public void AroundStationSearchClick(View view){
         Intent intent = new Intent(this, AroundBusStationSearch.class);
+        startActivity(intent);
+    }
+
+    public void AlarmReserve(View view) {
+        Intent intent = new Intent(this, AlarmReserve.class);
         startActivity(intent);
     }
 

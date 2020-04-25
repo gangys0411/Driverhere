@@ -35,10 +35,12 @@
         <activity android:name=".BusLocate"/>
         <activity android:name=".BusArrive"/>
 
-        <activity android:name=".AroundBusStationSearch"/>
+        <activity android:name=".around_search.AroundBusStationSearch"/>
 
-        <activity android:name=".DEV_AlarmSend"/>
-        <activity android:name=".DEV_AlarmControl"/>
+        <activity android:name=".AlarmReserve"/>
+
+        <activity android:name=".DEV.DEV_AlarmSend"/>
+        <activity android:name=".DEV.DEV_AlarmControl"/>
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

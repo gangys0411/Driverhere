@@ -43,6 +43,9 @@ public class PassListViewAdapter extends BaseAdapter {
 
                 busarrive.add(busArrive.getXmlData(StationID, listViewItemPassList.get(i).getBusId())); // 버스 도착 정보 불러오기
 
+                listViewItemPassList.get(i).setRemain_Station(busarrive.get(i).getRemainStation());
+                listViewItemPassList.get(i).setArrive_Time(busarrive.get(i).getArriveTime());
+
             }
             Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
             handler.sendMessage(msg);
@@ -79,14 +82,16 @@ public class PassListViewAdapter extends BaseAdapter {
 
         BusNoTextView.setText(listViewItemPassItem.getBusNo()); // 버스 번호 출력
         DirectionTextView.setText(listViewItemPassItem.getDirection()); // 방향 출력
+        LocateTextView.setText(listViewItemPassItem.getRemain_Station()); // 도착까지 남은 정류장 수 출력
+        RemainTimeTextView.setText(listViewItemPassItem.getArrive_Time()); // 도착까지 남은 시간 출력
 
-        if(busarrive.size()>0)
+        /*if(busarrive.size()>0)
         {
             BusArriveItem arriveItem = busarrive.get(position);
 
             LocateTextView.setText(arriveItem.getRemainStation()); // 도착까지 남은 정류장 수 출력
             RemainTimeTextView.setText(arriveItem.getArriveTime()); // 도착까지 남은 시간 출력
-        }
+        }*/
 
         return convertView; // 뷰에 적용
     }

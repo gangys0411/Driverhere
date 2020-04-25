@@ -1,18 +1,14 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.around_search;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.ninefives.driverhere.bus_search.route_search.SearchListViewAdapter;
-import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
+import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 
 import org.xmlpull.v1.XmlPullParser;

@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.around_search;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 
 import org.xmlpull.v1.XmlPullParser;
