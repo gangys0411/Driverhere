@@ -34,4 +34,9 @@
         android:text="예약하기"
         android:onClick="reserve_time"/>
 
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/time_result"/>
+
 </LinearLayout>
