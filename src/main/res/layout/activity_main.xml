@@ -5,51 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/busbg">
 
 
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:onClick="BusSearchClick"
             android:text="버스 노선 찾기"
-            android:textSize="12sp" />
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/button" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:onClick="StationSearchClick"
             android:text="정류장 찾기"
-            android:textSize="12sp" />
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/button" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:onClick="AroundStationSearchClick"
             android:text="주변 정류장 찾기"
-            android:textSize="12sp" />
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/button" />
 
         <Button
             android:id="@+id/button4"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:onClick="AlarmReserve"
             android:text="알림 예약"
-            android:textSize="12sp" />
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/button" />
 
         <Button
             android:id="@+id/button5"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:onClick="mOnClick"
             android:text="즐겨찾기"
-            android:textSize="12sp" />
+            android:layout_margin="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/button" />
 </LinearLayout>

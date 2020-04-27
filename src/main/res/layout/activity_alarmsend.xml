@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBeige">
 
     <TextView
         android:id="@+id/bus_num_text"
@@ -26,6 +27,9 @@
         android:id="@+id/alarm_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알림 보내기"/>
+        android:text="알림 보내기"
+        android:layout_margin="35dp"
+        android:textSize="25sp"
+        android:background="@drawable/button2"/>
 
 </LinearLayout>
