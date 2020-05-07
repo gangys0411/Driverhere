@@ -21,6 +21,9 @@ import java.util.TimerTask;
 public class ResultListViewAdapter extends BaseAdapter {
     String RouteId;
 
+    int select_position;
+    int select_count=0;
+
     final Handler handler = new Handler() // 메인 스레드가 아닌 곳에서 UI 변경이 일어나면 오류가 발생하므로
     {                                       // 핸들러를 사용해서 호출
         public void handleMessage(Message msg)
@@ -83,6 +86,12 @@ public class ResultListViewAdapter extends BaseAdapter {
             NodeNmTextView.setBackgroundColor(Color.WHITE);
         }
 
+        if(select_count>0) {
+            if (position == select_position) {
+                NodeNmTextView.setBackgroundColor(Color.BLUE);
+            }
+        }
+
         NodeNmTextView.setText(resultListViewItem.getNodeNm()); // 정류소 이름 출력
 
         return convertView; // 뷰에 적용
@@ -112,6 +121,23 @@ public class ResultListViewAdapter extends BaseAdapter {
     public void clearItems() // 리스트 뷰 초기화
     {
         listViewItemResultList.clear();
+    }
+
+    public String selectnodeid(int position){
+        return listViewItemResultList.get(position).getNodeId();
+    }
+
+    public String selectnodenm(int position){
+        return listViewItemResultList.get(position).getNodeNm();
+    }
+
+    public void change_select(int position){
+        if(select_count==0)
+        {
+            select_count=1;
+        }
+        select_position = position;
+        notifyDataSetChanged();
     }
 
     public Intent sendIntent(int position, Intent intent) // 화면 전환을 위한 인탠트 함수

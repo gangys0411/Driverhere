@@ -31,6 +31,8 @@
         <activity android:name=".station_search.station_search.BusStationSearch"/>
         <activity android:name=".station_search.station_pass_bus.StationPassBus"/>
 
+        <activity android:name=".Aroundcheck"/>
+
         <activity android:name=".AlarmSend"/>
         <activity android:name=".AlarmResult"/>
 

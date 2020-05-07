@@ -1,6 +1,7 @@
-package com.ninefives.driverhere.around_search;
+package com.ninefives.driverhere;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,8 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.ninefives.driverhere.GpsTracker;
-import com.ninefives.driverhere.R;
+import com.ninefives.driverhere.around_search.AroundBusStationSearch;
+import com.ninefives.driverhere.around_search.AroundListViewAdapter;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -35,8 +36,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
-public class AroundBusStationSearch extends AppCompatActivity
-{
+public class Aroundcheck extends AppCompatActivity {
     private GpsTracker gpsTracker;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -50,16 +50,22 @@ public class AroundBusStationSearch extends AppCompatActivity
     String CityCode="34010";
     String citycode;
 
+    String RouteID;
+    String RouteNo;
+    String NodeNm;
+    String NodeID;
+
     // 리스트 뷰 사용을 위한 변수
     String nodeid; // 정류소 ID
     String nodenm; // 정류소 이름
+    String nodeno; // 정류소 번호
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aroundbusstationresult);
+        setContentView(R.layout.activity_aroundcheck);
 
 
         if (!checkLocationServicesStatus()) {
@@ -85,12 +91,19 @@ public class AroundBusStationSearch extends AppCompatActivity
             }
         });
 
+        Intent intent = getIntent();
+
+        RouteID = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
+        RouteNo = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
+        NodeID = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+        NodeNm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
+
         GPSsearch();
     }
 
     public void GPSsearch() {
 
-        gpsTracker = new GpsTracker(AroundBusStationSearch.this);
+        gpsTracker = new GpsTracker(Aroundcheck.this);
 
         double latitude = gpsTracker.getLatitude();
         double longitude = gpsTracker.getLongitude();
@@ -140,13 +153,13 @@ public class AroundBusStationSearch extends AppCompatActivity
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
                         || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
 
-                    Toast.makeText(AroundBusStationSearch.this, "위치 접근 권한이 거부되었습니다.\n앱을 다시 실행하여 위치 접근 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Aroundcheck.this, "위치 접근 권한이 거부되었습니다.\n앱을 다시 실행하여 위치 접근 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
                     finish();
 
 
                 }else {
 
-                    Toast.makeText(AroundBusStationSearch.this, "위치 접근 권한이 거부되었습니다.\n설정(앱 정보)에서 위치 접근 권한을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Aroundcheck.this, "위치 접근 권한이 거부되었습니다.\n설정(앱 정보)에서 위치 접근 권한을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -158,9 +171,9 @@ public class AroundBusStationSearch extends AppCompatActivity
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(AroundBusStationSearch.this,
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(Aroundcheck.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(AroundBusStationSearch.this,
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(Aroundcheck.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
@@ -178,19 +191,19 @@ public class AroundBusStationSearch extends AppCompatActivity
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
 
             // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
-            if (ActivityCompat.shouldShowRequestPermissionRationale(AroundBusStationSearch.this, REQUIRED_PERMISSIONS[0])) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Aroundcheck.this, REQUIRED_PERMISSIONS[0])) {
 
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(AroundBusStationSearch.this, "해당 기능을 사용하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(Aroundcheck.this, "해당 기능을 사용하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(AroundBusStationSearch.this, REQUIRED_PERMISSIONS,
+                ActivityCompat.requestPermissions(Aroundcheck.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
 
 
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(AroundBusStationSearch.this, REQUIRED_PERMISSIONS,
+                ActivityCompat.requestPermissions(Aroundcheck.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
             }
 
@@ -239,7 +252,7 @@ public class AroundBusStationSearch extends AppCompatActivity
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AroundBusStationSearch.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Aroundcheck.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("해당 기능을 사용하기 위해서는 위치 서비스가 필요합니다.");
         builder.setCancelable(true);
@@ -309,7 +322,6 @@ public class AroundBusStationSearch extends AppCompatActivity
         }).start();
     }
 
-
     //XmlPullParser를 이용하여 OpenAPI XML 파일 파싱하기(parsing)
     void getXmlData(String gpsLati, String gpsLong){
         adapter.clearItems(); // 리스트 뷰 초기화
@@ -359,6 +371,7 @@ public class AroundBusStationSearch extends AppCompatActivity
                         }
                         else if(tag.equals("nodeno")){ // 정류소 번호
                             xpp.next();
+                            nodeno=xpp.getText();
 
                         }
                         break;
@@ -372,7 +385,16 @@ public class AroundBusStationSearch extends AppCompatActivity
                         if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
                             if(citycode.equals(CityCode))
                             {
-                                adapter.addItem(nodenm, nodeid); // 리스트뷰에 버스 정보 추가
+                                if(nodeid.equals(NodeID)){
+                                    Intent intent = new Intent(this, AlarmResult.class);
+
+                                    intent.putExtra("BusID", RouteID); // 인탠트에 현재 버스 데이터를 전달
+                                    intent.putExtra("BusNo", RouteNo);
+                                    intent.putExtra("NodeNm", NodeNm);
+                                    intent.putExtra("NodeNo", nodeno);
+
+                                    startActivity(intent);
+                                }
                             }
                         }
                         break;

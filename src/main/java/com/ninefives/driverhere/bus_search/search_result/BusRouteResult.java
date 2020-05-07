@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ninefives.driverhere.AlarmSend;
+import com.ninefives.driverhere.Aroundcheck;
 import com.ninefives.driverhere.R;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -37,6 +39,9 @@ public class BusRouteResult extends Activity {
     int nodeord; // 정류소 순서 번호
     String nodeno; // 정류소 번호
 
+    String select_nodeid; // 선택된 정류소 ID
+    String select_nodenm; // 선택된 정류소 이름
+
     String test;
 
 
@@ -53,6 +58,15 @@ public class BusRouteResult extends Activity {
 
         listview=(ListView) findViewById(R.id.result_listview); // 리스트 뷰 연결
         listview.setAdapter(adapter); // 어뎁터 연결
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){ // 리스트 뷰 클릭 이벤트
+
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
+                adapter.change_select(position);
+                select_nodeid = adapter.selectnodeid(position); // 선택된 위치의 정류소 ID 저장
+                select_nodenm = adapter.selectnodenm(position); //  선택된 위치의 정류소 이름 저장
+            }
+        });
 
         Intent intent = getIntent();
 
@@ -168,6 +182,8 @@ public class BusRouteResult extends Activity {
 
         intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);
+        intent.putExtra("NodeID", select_nodeid);
+        intent.putExtra("NodeNm", select_nodenm);
 
         startActivity(intent);
     }
