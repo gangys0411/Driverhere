@@ -18,7 +18,8 @@
             android:text="버스 노선 찾기"
             android:layout_margin="10dp"
             android:textSize="25sp"
-            android:background="@drawable/button" />
+            android:background="@drawable/button"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/button2"
@@ -29,7 +30,8 @@
             android:text="정류장 찾기"
             android:layout_margin="10dp"
             android:textSize="25sp"
-            android:background="@drawable/button" />
+            android:background="@drawable/button"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/button3"
@@ -40,7 +42,8 @@
             android:text="주변 정류장 찾기"
             android:layout_margin="10dp"
             android:textSize="25sp"
-            android:background="@drawable/button" />
+            android:background="@drawable/button"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/button4"
@@ -51,7 +54,8 @@
             android:text="알림 예약"
             android:layout_margin="10dp"
             android:textSize="25sp"
-            android:background="@drawable/button" />
+            android:background="@drawable/button"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/button5"
@@ -62,5 +66,6 @@
             android:text="즐겨찾기"
             android:layout_margin="10dp"
             android:textSize="25sp"
-            android:background="@drawable/button" />
+            android:background="@drawable/button"
+            android:layout_weight="1"/>
 </LinearLayout>

@@ -59,7 +59,7 @@ public class AroundBusStationSearch extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aroundbusstationresult);
+        setContentView(R.layout.activity_aroundbusstationsearch);
 
 
         if (!checkLocationServicesStatus()) {
@@ -94,11 +94,6 @@ public class AroundBusStationSearch extends AppCompatActivity
 
         double latitude = gpsTracker.getLatitude();
         double longitude = gpsTracker.getLongitude();
-
-        String address = getCurrentAddress(latitude, longitude);
-
-        TextView textview_address = (TextView)findViewById(R.id.textview);
-        textview_address.setText("위도 " + latitude + "\n경도 " + longitude);
 
         AroundSearch(Double.toString(latitude),Double.toString(longitude));
     }
