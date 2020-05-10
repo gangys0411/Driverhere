@@ -1,6 +1,5 @@
 package com.ninefives.driverhere.station_search.station_pass_bus;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.R;
@@ -27,7 +25,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 
 public class StationPassBus extends AppCompatActivity {
 

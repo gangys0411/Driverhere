@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.ninefives.driverhere.BusArrive;
 import com.ninefives.driverhere.BusArriveItem;
-import com.ninefives.driverhere.BusLocate;
 import com.ninefives.driverhere.R;
 
 import java.util.ArrayList;

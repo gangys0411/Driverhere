@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.ninefives.driverhere.AlarmResult;
 import com.ninefives.driverhere.R;
-import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.bus_search.search_result.ResultListViewAdapter;
 
 import org.xmlpull.v1.XmlPullParser;

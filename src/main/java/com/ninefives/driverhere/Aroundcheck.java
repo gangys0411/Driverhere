@@ -1,7 +1,6 @@
 package com.ninefives.driverhere;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.ninefives.driverhere.around_search.AroundBusStationSearch;
 import com.ninefives.driverhere.around_search.AroundListViewAdapter;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 

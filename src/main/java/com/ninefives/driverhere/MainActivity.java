@@ -16,7 +16,6 @@ import com.ninefives.driverhere.around_search.AroundBusStationSearch;
 import com.ninefives.driverhere.bus_search.route_search.BusRouteSearch;
 import com.ninefives.driverhere.station_search.station_search.BusStationSearch;
 
-
 public class MainActivity extends Activity {
 
     private static final int PERMISSIONS_REQUEST_CODE = 100;
