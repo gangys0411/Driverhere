@@ -77,13 +77,13 @@ public class ResultListViewAdapter extends BaseAdapter {
                     NodeNmTextView.setBackgroundColor(Color.YELLOW);
                     break;
                 } else {
-                    NodeNmTextView.setBackgroundColor(Color.WHITE);
+                    NodeNmTextView.setBackgroundResource(R.color.colorBeige);
                 }
             }
         }
         else
         {
-            NodeNmTextView.setBackgroundColor(Color.WHITE);
+            NodeNmTextView.setBackgroundResource(R.color.colorBeige);
         }
 
         if(select_count>0) {

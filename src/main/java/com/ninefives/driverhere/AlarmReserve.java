@@ -86,10 +86,9 @@ public class AlarmReserve extends Activity {
     }
 
     public void reserve_time(View view){ // 버튼을 클릭하면
-        if(minuteedit.getText().equals("")) {
+        if(minuteedit.getText().toString().getBytes().length <= 0) {
             if(select_time == 0){
-                error.makeText(this.getApplicationContext(),"예약 시간을 설정해 주세요", Toast.LENGTH_SHORT);
-                error.show();
+                error.makeText(this.getApplicationContext(),"예약 시간을 설정해 주세요", Toast.LENGTH_SHORT).show();
             }
             else{
                 timereult.setText(Integer.toString(select_time));
