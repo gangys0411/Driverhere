@@ -123,8 +123,8 @@ public class ResultListViewAdapter extends BaseAdapter {
         listViewItemResultList.clear();
     }
 
-    public String selectnodeid(int position){
-        return listViewItemResultList.get(position).getNodeId();
+    public String selectnodeno(int position){
+        return listViewItemResultList.get(position).getNodeNo();
     }
 
     public String selectnodenm(int position){

@@ -50,10 +50,10 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    /*public void mOnClick(View view){
-        Intent intent = new Intent(this, BusLocate.class);
+    public void MapSearch(View view){
+        Intent intent = new Intent(this, MapSearch.class);
         startActivity(intent);
-    } */// 버스 위치
+    } // 맵 임시
 
 
     /*

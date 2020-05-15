@@ -14,6 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyARBV8dmBy8EVM9b9VVOtUA6HybPkjM-DM" >
+        </meta-data>
+
         <activity android:name=".MainActivity"/>
 
 
@@ -41,7 +47,10 @@
 
         <activity android:name=".around_search.AroundBusStationSearch"/>
 
+        <activity android:name=".AlarmSelect"/>
         <activity android:name=".AlarmReserve"/>
+
+        <activity android:name=".MapSearch"/>
 
         <activity android:name=".DEV.DEV_AlarmSend"/>
         <activity android:name=".DEV.DEV_AlarmControl"/>

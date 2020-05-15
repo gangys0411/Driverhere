@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/locate_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="현재 위치 : "/>
+
+    <TextView
+        android:id="@+id/select_station_nm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/bus_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="버스 번호 : "/>
+
+    <TextView
+        android:id="@+id/select_bus_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/reserve_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
