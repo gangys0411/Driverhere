@@ -45,11 +45,6 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void AlarmReserve(View view) {
-        Intent intent = new Intent(this, AlarmReserve.class);
-        startActivity(intent);
-    }
-
     public void MapSearch(View view){
         Intent intent = new Intent(this, MapSearch.class);
         startActivity(intent);

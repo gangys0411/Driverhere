@@ -1,6 +1,7 @@
 package com.ninefives.driverhere;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,8 +17,13 @@ public class AlarmReserve extends Activity {
 
     private  Spinner minutespinner;
 
+    String busid;
+    String busno;
+    String nodeno;
+    String nodenm;
+
     EditText minuteedit;
-    TextView timereult;
+    TextView timeresult;
 
     int select_time=0;
 
@@ -28,8 +34,15 @@ public class AlarmReserve extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarmreserve);
 
+        Intent intent = getIntent();
+
+        busid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
+        busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
+        nodeno = intent.getStringExtra("NodeNo"); // 인탠트로 받아온 정류소 ID 저장
+        nodenm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
+
         minuteedit = (EditText)findViewById(R.id.direct_time);
-        timereult = (TextView)findViewById(R.id.time_result);
+        timeresult = (TextView)findViewById(R.id.time_result);
 
         minutespinner = (Spinner)findViewById(R.id.select_time);
 
@@ -84,16 +97,32 @@ public class AlarmReserve extends Activity {
     }
 
     public void reserve_time(View view){ // 버튼을 클릭하면
-        if(minuteedit.getText().toString().getBytes().length <= 0) {
-            if(select_time == 0){
+        if(minuteedit.getText().toString().getBytes().length <= 0) { // 직접 입력 값이 없다면
+            if(select_time == 0){ // 선택 시간 값도 없으면
                 error.makeText(this.getApplicationContext(),"예약 시간을 설정해 주세요", Toast.LENGTH_SHORT).show();
             }
-            else{
-                timereult.setText(Integer.toString(select_time));
+            else{ // 선택 시간 값이 있으면
+                Intent intent = new Intent(this, ReserveResult.class); // 알림 체크로 넘어감
+
+                intent.putExtra("BusID", busid); // 인탠트에 현재 버스 데이터를 전달
+                intent.putExtra("BusNo", busno);
+                intent.putExtra("NodeNo", nodeno);
+                intent.putExtra("NodeNm", nodenm);
+                intent.putExtra("SelectTime", Integer.toString(select_time));
+
+                startActivity(intent);
             }
         }
-        else {
-            timereult.setText(minuteedit.getText());
+        else { // 직접 입력 값이 있으면
+            Intent intent = new Intent(this, ReserveResult.class); // 알림 체크로 넘어감
+
+            intent.putExtra("BusID", busid); // 인탠트에 현재 버스 데이터를 전달
+            intent.putExtra("BusNo", busno);
+            intent.putExtra("NodeNo", nodeno);
+            intent.putExtra("NodeNm", nodenm);
+            intent.putExtra("SelectTime", minuteedit.getText().toString());
+
+            startActivity(intent);
         }
     }
 }

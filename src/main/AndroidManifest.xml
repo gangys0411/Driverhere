@@ -49,6 +49,7 @@
 
         <activity android:name=".AlarmSelect"/>
         <activity android:name=".AlarmReserve"/>
+        <activity android:name=".ReserveResult"/>
 
         <activity android:name=".MapSearch"/>
 

@@ -4,6 +4,30 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/bus_num_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="알림을 보낼 버스 번호"/>
+
+    <TextView
+        android:id="@+id/select_bus_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="DEV_alarm"/>
+
+    <TextView
+        android:id="@+id/alarm_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="대기하는 정류장"/>
+
+    <TextView
+        android:id="@+id/select_station_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="알림을 보낼 방법을 선택해 주세요."
