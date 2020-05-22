@@ -3,6 +3,7 @@ package com.ninefives.driverhere.bus_search.route_search;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -139,6 +140,7 @@ public class BusRouteSearch extends Activity {
             int eventType= xpp.getEventType();
 
             while( eventType != XmlPullParser.END_DOCUMENT ){ // 문서의 끝을 만날때 까지 반복
+                Log.d("findpath_parser", String.valueOf(eventType)+" name : "+xpp.getName()+" text : "+xpp.getText());
                 switch( eventType ){
 
                     case XmlPullParser.START_TAG: // 시작 태그 별로 행동

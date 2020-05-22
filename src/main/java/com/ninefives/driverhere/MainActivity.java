@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
     }
 
     public void MapSearch(View view){
-        Intent intent = new Intent(this, MapSearch.class);
+        Intent intent = new Intent(this, AlarmReserve.class);
         startActivity(intent);
     } // 맵 임시
 
