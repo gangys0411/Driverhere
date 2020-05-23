@@ -200,7 +200,7 @@ public class BusRouteResult extends Activity {
         intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);
         intent.putExtra("NodeNm", select_nodenm);
-        intent.putExtra("NodeNo", NodeNo);
+        intent.putExtra("NodeNo", select_nodeno);
 
         startActivity(intent);
     }
