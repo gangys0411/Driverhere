@@ -38,7 +38,7 @@ public class AlarmSend extends Activity {
     }
 
     public void aroundcheck(View v) { // 알림보내기 버튼을 누르면
-        Intent intent = new Intent(this, Aroundcheck.class); // 알림 체크로 넘어감
+        Intent intent = new Intent(this, AlarmResult.class); // 알림 체크로 넘어감
 
         intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);

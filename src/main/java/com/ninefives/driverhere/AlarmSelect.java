@@ -36,7 +36,7 @@ public class AlarmSelect extends Activity {
     }
 
     public void select_send(View v){
-        Intent intent = new Intent(this, AlarmSend.class); // 알림 체크로 넘어감
+        Intent intent = new Intent(this, AlarmResult.class); // 알림 체크로 넘어감
 
         intent.putExtra("BusID", busid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);
