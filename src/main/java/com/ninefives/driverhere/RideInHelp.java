@@ -168,6 +168,7 @@ public class RideInHelp extends AppCompatActivity {
         Intent intent = new Intent(this, RideOutHelp.class);
 
         intent.putExtra("BusID", busid);
+        intent.putExtra("BusNo", busno);
         intent.putExtra("VehicleNo", vehicleno);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT);

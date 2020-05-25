@@ -197,6 +197,8 @@ public class BusRouteResult extends Activity {
     }
 
     public void AlarmSelect(View v){
+        adapter.stop();
+
         Intent intent = new Intent(this, AlarmSelect.class);
 
         intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달

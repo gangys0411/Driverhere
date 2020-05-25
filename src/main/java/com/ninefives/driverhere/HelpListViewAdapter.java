@@ -1,4 +1,4 @@
-package com.ninefives.driverhere.bus_search.search_result;
+package com.ninefives.driverhere;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,14 +11,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.ninefives.driverhere.BusLocate;
-import com.ninefives.driverhere.R;
+import com.ninefives.driverhere.bus_search.search_result.ResultListViewItem;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ResultListViewAdapter extends BaseAdapter {
+public class HelpListViewAdapter extends BaseAdapter {
     String RouteId;
 
     int select_position;
@@ -48,7 +47,7 @@ public class ResultListViewAdapter extends BaseAdapter {
         }
     };
 
-    public ResultListViewAdapter(){ // 생성자
+    public HelpListViewAdapter(){ // 생성자
 
     }
 
