@@ -123,6 +123,10 @@ public class ResultListViewAdapter extends BaseAdapter {
         listViewItemResultList.clear();
     }
 
+    public String selectnodeid(int position){
+        return listViewItemResultList.get(position).getNodeId();
+    }
+
     public String selectnodeno(int position){
         return listViewItemResultList.get(position).getNodeNo();
     }
@@ -153,6 +157,6 @@ public class ResultListViewAdapter extends BaseAdapter {
         RouteId = routeid;
 
         Timer timer = new Timer();
-        timer.schedule(refresh, 0, 10000);
+        timer.schedule(refresh, 0, 30000);
     }
 }

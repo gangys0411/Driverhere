@@ -53,7 +53,8 @@
 
         <activity android:name=".MapSearch"/>
 
-        <activity android:name=".Noti"/>
+        <activity android:name=".RideInHelp"/>
+        <activity android:name=".RideOutHelp"/>
 
         <activity android:name=".DEV.DEV_AlarmSend"/>
         <activity android:name=".DEV.DEV_AlarmControl"/>

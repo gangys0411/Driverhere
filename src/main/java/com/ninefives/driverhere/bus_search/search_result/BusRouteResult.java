@@ -54,7 +54,8 @@ public class BusRouteResult extends Activity {
     int nodeord; // 정류소 순서 번호
     String nodeno; // 정류소 번호
 
-    String select_nodeno; // 선택된 정류소 ID
+    String select_nodeid; // 선택된 정류소 ID
+    String select_nodeno; // 선택된 정류소 번호
     String select_nodenm; // 선택된 정류소 이름
 
     String citycode;
@@ -80,7 +81,8 @@ public class BusRouteResult extends Activity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
                 adapter.change_select(position);
-                select_nodeno = adapter.selectnodeno(position); // 선택된 위치의 정류소 ID 저장
+                select_nodeid = adapter.selectnodeid(position); // 선택된 위치의 정류소 ID 저장
+                select_nodeno = adapter.selectnodeno(position); // 선택된 위치의 정류소 번호  저장
                 select_nodenm = adapter.selectnodenm(position); //  선택된 위치의 정류소 이름 저장
             }
         });
@@ -199,6 +201,7 @@ public class BusRouteResult extends Activity {
 
         intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);
+        intent.putExtra("NodeID", select_nodeid);
         intent.putExtra("NodeNm", select_nodenm);
         intent.putExtra("NodeNo", select_nodeno);
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ninefives.driverhere.DEV.DEV_AlarmControl;
 
@@ -31,6 +32,7 @@ public class AlarmResult extends Activity {
     String busid; // 노선 ID
     String stationno; // 정류소 번호
     String stationnm; // 정류소 이름
+    String stationid; // 정류소 ID
 
     String routeid; // 경로 ID
 
@@ -47,7 +49,8 @@ public class AlarmResult extends Activity {
 
         busid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
         busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
-        stationno = intent.getStringExtra("NodeNo"); // 인탠트로 받아온 정류소 ID 저장
+        stationid = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+        stationno = intent.getStringExtra("NodeNo"); // 인탠트로 받아온 정류소 번호 저장
         stationnm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
 
         routeid = stationno+busid;
@@ -62,6 +65,19 @@ public class AlarmResult extends Activity {
         Intent intent = new Intent(getApplicationContext(), DEV_AlarmControl.class); // 인탠트 선언
 
         intent.putExtra("routeID",routeid);
+
+        startActivity(intent);
+    }
+
+    public void ride_in_help(View view){
+        Intent intent = new Intent(getApplicationContext(), RideInHelp.class); // 인탠트 선언
+
+        intent.putExtra("BusID",busid);
+        intent.putExtra("BusNo",busno);
+        intent.putExtra("StationID",stationid);
+
+        Toast toast = Toast.makeText(this.getApplicationContext(),"버스가 진입하면 알림이 옵니다.", Toast.LENGTH_SHORT);
+        toast.show();
 
         startActivity(intent);
     }

@@ -1,6 +1,15 @@
 package com.ninefives.driverhere;
 
-import android.util.Log;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -9,19 +18,60 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class BusLocate{
+public class RideOutHelp extends AppCompatActivity {
+
+    NotificationManager manager;
+    NotificationCompat.Builder builder;
 
     ArrayList<Integer> buslocate = new ArrayList<Integer>();
 
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     String cityCode="34010"; // 천안 도시 코드
 
-    String nodeid; // 정류소 ID
-    String nodenm; // 정류소 이름
-    String nodeord; // 정류소 순서
+    String busid; // 노선 ID
+    String busno; // 버스 번호
 
-    public ArrayList<Integer> getXmlData(String routeid) {
+    String VehicleNo; // 차량 번호
+
+    String stationid; // 정류소 번호
+    String stationnm; // 정류소 이름
+
+    String nodeid;
+    String nodenm;
+    String nodeord;
+
+    String vehicleno; // 차량 번호
+
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANEL_NAME = "Channel1";
+
+    TimerTask refresh = new TimerTask() {
+        @Override
+        public void run() {
+            getXmlData(busid);
+        }
+    };
+
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState); setContentView(R.layout.activity_noti);
+
+        Intent intent = getIntent();
+
+        busid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
+        VehicleNo = intent.getStringExtra("VehicleNo"); // 인탠트로 받아온 차량 번호 저장
+
+        check_bus_locate();
+    }
+
+    public void check_bus_locate(){
+        Timer timer = new Timer();
+        timer.schedule(refresh, 0, 30000);
+    }
+
+    public void getXmlData(String routeid) {
         String queryUrl = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?" + // 요청 URL
                 "serviceKey=" + key + // 서비스 키 추가
                 "&cityCode=" + cityCode + // 도시 코드 추가
@@ -41,7 +91,6 @@ public class BusLocate{
             int eventType = xpp.getEventType();
 
             while (eventType != XmlPullParser.END_DOCUMENT) { // 문서의 끝을 만날때 까지 반복
-                Log.d("findpath_parser", String.valueOf(eventType)+" name : "+xpp.getName()+" text : "+xpp.getText());
                 switch (eventType) {
 
                     case XmlPullParser.START_TAG: // 시작 태그 별로 행동
@@ -67,6 +116,7 @@ public class BusLocate{
                             xpp.next();
                         } else if (tag.equals("vehicleno")) { // 차량 번호
                             xpp.next();
+                            vehicleno = xpp.getText();
                         }
                         break;
 
@@ -77,7 +127,10 @@ public class BusLocate{
                         tag = xpp.getName(); //테그 이름 얻어오기
 
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
-                            buslocate.add(Integer.parseInt(nodeord));
+                            if(stationid.equals(nodeid)){
+                                showNoti();
+                                finish();
+                            }
                         }
                         break;
                 }
@@ -88,7 +141,48 @@ public class BusLocate{
         } catch (Exception e) { // 예외 처리
             e.printStackTrace();
         }
+    }
 
-        return buslocate;
+    public void showNoti(){
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE); //버전 오레오 이상일 경우
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            manager.createNotificationChannel(
+                    new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+            );
+
+            builder = new NotificationCompat.Builder(this,CHANNEL_ID);
+
+            //하위 버전일 경우
+        }else{
+            builder = new NotificationCompat.Builder(this);
+        }
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //알림창 제목
+        builder.setContentTitle("알림");
+
+        //알림창 메시지
+        builder.setContentText("알림 메시지");
+
+        //알림창 아이콘
+        builder.setSmallIcon(R.drawable.hand);
+
+        //알림창 터치시 상단 알림상태창에서 알림이 자동으로 삭제되게 합니다.
+        builder.setAutoCancel(true);
+
+        //pendingIntent를 builder에 설정 해줍니다.
+        // 알림창 터치시 인텐트가 전달할 수 있도록 해줍니다.
+
+        builder.setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+
+        //알림창 실행
+        manager.notify(1,notification);
     }
 }
+

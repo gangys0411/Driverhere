@@ -13,6 +13,7 @@ public class AlarmSelect extends Activity {
 
     String busid;
     String busno;
+    String nodeid;
     String nodeno;
     String nodenm;
 
@@ -28,7 +29,8 @@ public class AlarmSelect extends Activity {
 
         busid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
         busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
-        nodeno = intent.getStringExtra("NodeNo"); // 인탠트로 받아온 정류소 ID 저장
+        nodeid = intent.getStringExtra("NodeID"); // 인탠트로 받아온 정류소 ID 저장
+        nodeno = intent.getStringExtra("NodeNo"); // 인탠트로 받아온 정류소 번호 저장
         nodenm = intent.getStringExtra("NodeNm"); // 인탠트로 받아온 정류소 이름 저장
 
         select_bus.setText(busno);
@@ -40,6 +42,7 @@ public class AlarmSelect extends Activity {
 
         intent.putExtra("BusID", busid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);
+        intent.putExtra("NodeID", nodeid);
         intent.putExtra("NodeNo", nodeno);
         intent.putExtra("NodeNm", nodenm);
 
@@ -51,6 +54,7 @@ public class AlarmSelect extends Activity {
 
         intent.putExtra("BusID", busid); // 인탠트에 현재 버스 데이터를 전달
         intent.putExtra("BusNo", busno);
+        intent.putExtra("NodeID", nodeid);
         intent.putExtra("NodeNo", nodeno);
         intent.putExtra("NodeNm", nodenm);
 
