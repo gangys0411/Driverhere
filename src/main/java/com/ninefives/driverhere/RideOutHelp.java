@@ -258,7 +258,7 @@ public class RideOutHelp extends AppCompatActivity {
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
                             if(stationid.equals(nodeid)){
                                 showNoti();
-                                finish();
+                                refresh.cancel();
                             }
                         }
                         break;

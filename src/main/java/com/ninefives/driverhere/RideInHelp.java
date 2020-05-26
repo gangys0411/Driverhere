@@ -66,9 +66,9 @@ public class RideInHelp extends AppCompatActivity {
         stationid = intent.getStringExtra("StationID"); // 인탠트로 받아온 정류소 ID 저장
         stationnm = intent.getStringExtra("StationNm"); // 인탠트로 받아온 정류소 이름 저장
 
-        //check_bus_locate();
+        check_bus_locate();
 
-        showNoti(busid, vehicleno);
+        //showNoti(busid, vehicleno);
 
         finish();
     }
