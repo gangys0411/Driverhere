@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ninefives.driverhere.bus_search.search_result.ResultListViewItem;
@@ -33,20 +34,6 @@ public class HelpListViewAdapter extends BaseAdapter {
 
     private ArrayList<ResultListViewItem> listViewItemResultList = new ArrayList<ResultListViewItem>(); // 추가된 데이터 저장을 위한 배열
 
-    ArrayList<Integer> buslocatelist = new ArrayList<Integer>();
-
-    TimerTask refresh = new TimerTask() {
-        @Override
-        public void run() {
-            BusLocate buslocate = new BusLocate();
-
-            buslocatelist = buslocate.getXmlData(RouteId);
-
-            Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
-            handler.sendMessage(msg);
-        }
-    };
-
     public HelpListViewAdapter(){ // 생성자
 
     }
@@ -67,27 +54,15 @@ public class HelpListViewAdapter extends BaseAdapter {
         }
 
         TextView NodeNmTextView = (TextView) convertView.findViewById(R.id.nodenm); // 정류소 이름 출력 텍스트 뷰
+        ImageView StationStatus = (ImageView) convertView.findViewById(R.id.station_stat); // 정류소 상태 이미지 뷰
 
         ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
-        if(buslocatelist.size()>0) {
-            for (int i = 0; i < buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
-                if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) {
-                    NodeNmTextView.setBackgroundColor(Color.YELLOW);
-                    break;
-                } else {
-                    NodeNmTextView.setBackgroundResource(R.color.colorBeige);
-                }
-            }
-        }
-        else
-        {
-            NodeNmTextView.setBackgroundResource(R.color.colorBeige);
-        }
+        StationStatus.setVisibility(View.INVISIBLE);
 
-        if(select_count>0) {
+        if(select_count>0) { // 선택한 정류장이 있을 경우
             if (position == select_position) {
-                NodeNmTextView.setBackgroundColor(Color.BLUE);
+                StationStatus.setVisibility(View.VISIBLE);
             }
         }
 
@@ -150,16 +125,5 @@ public class HelpListViewAdapter extends BaseAdapter {
         intent.putExtra("NodeNo", listViewItemResultList.get(position).getNodeNo());
 
         return intent; // 인탠트 반환
-    }
-
-    public void busLocate(String routeid){
-        RouteId = routeid;
-
-        Timer timer = new Timer();
-        timer.schedule(refresh, 0, 30000);
-    }
-
-    public void stop(){
-        refresh.cancel();
     }
 }

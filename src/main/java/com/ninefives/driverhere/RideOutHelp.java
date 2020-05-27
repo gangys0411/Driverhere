@@ -95,7 +95,9 @@ public class RideOutHelp extends AppCompatActivity {
             }
         });
 
-        check_bus_locate();
+        search();
+
+        //check_bus_locate();
     }
 
     public void search() {
@@ -104,7 +106,7 @@ public class RideOutHelp extends AppCompatActivity {
 
             @Override
             public void run() {
-                getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
+                GetXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
 
                 //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
                 //runOnUiThread()를 이용하여 UI Thread가 ListView 글씨 변경하도록 함
@@ -118,7 +120,7 @@ public class RideOutHelp extends AppCompatActivity {
         }).start();
     }
 
-    void getXmlData(){
+    void GetXmlData(){
         adapter.clearItems(); // 리스트 뷰 초기화
 
         String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?" + // 요청 URL

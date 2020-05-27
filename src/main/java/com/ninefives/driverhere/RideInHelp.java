@@ -136,7 +136,7 @@ public class RideInHelp extends AppCompatActivity {
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
                             if(stationid.equals(nodeid)){
                                 showNoti(busid, vehicleno);
-                                finish();
+                                refresh.cancel();
                             }
                         }
                         break;
