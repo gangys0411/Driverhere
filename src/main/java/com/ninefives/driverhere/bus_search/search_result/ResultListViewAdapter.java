@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ninefives.driverhere.BusLocate;
@@ -68,27 +69,30 @@ public class ResultListViewAdapter extends BaseAdapter {
         }
 
         TextView NodeNmTextView = (TextView) convertView.findViewById(R.id.nodenm); // 정류소 이름 출력 텍스트 뷰
+        ImageView StationStatus = (ImageView) convertView.findViewById(R.id.station_stat); // 정류소 상태 이미지 뷰
 
         ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
         if(buslocatelist.size()>0) {
             for (int i = 0; i < buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
-                if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) {
-                    NodeNmTextView.setBackgroundColor(Color.YELLOW);
+                if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) { // 버스가 해당 정류장에 있을 경우
+                    StationStatus.setVisibility(View.VISIBLE);
+                    StationStatus.setImageResource(R.drawable.busbg); // 이미지 변경
                     break;
                 } else {
-                    NodeNmTextView.setBackgroundResource(R.color.colorBeige);
+                    StationStatus.setVisibility(View.INVISIBLE);
                 }
             }
         }
         else
         {
-            NodeNmTextView.setBackgroundResource(R.color.colorBeige);
+            StationStatus.setVisibility(View.INVISIBLE);
         }
 
-        if(select_count>0) {
+        if(select_count>0) { // 선택한 정류장이 있을 경우
             if (position == select_position) {
-                NodeNmTextView.setBackgroundColor(Color.BLUE);
+                StationStatus.setVisibility(View.VISIBLE);
+                StationStatus.setImageResource(R.drawable.hand); // 이미지 변경
             }
         }
 
