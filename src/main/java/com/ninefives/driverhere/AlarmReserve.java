@@ -48,15 +48,15 @@ public class AlarmReserve extends Activity {
 
         final ArrayList<String> timelist = new ArrayList<>();
         timelist.add("시간 선택");
-        timelist.add("1분");
-        timelist.add("2분");
-        timelist.add("3분");
-        timelist.add("5분");
-        timelist.add("8분");
-        timelist.add("10분");
-        timelist.add("15분");
-        timelist.add("20분");
-        timelist.add("30분");
+        timelist.add("1분 후");
+        timelist.add("2분 후");
+        timelist.add("3분 후");
+        timelist.add("5분 후");
+        timelist.add("8분 후");
+        timelist.add("10분 후");
+        timelist.add("15분 후");
+        timelist.add("20분 후");
+        timelist.add("30분 후");
 
         ArrayAdapter minuteAdapter;
         minuteAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, timelist); // 스피너 어뎁터 연결

@@ -1,37 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBeige">
 
     <TextView
         android:id="@+id/bus_num_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알림을 보낼 버스 번호"/>
+        android:text="알림을 보낼 버스 번호"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/select_bus_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:onClick="DEV_alarm"/>
+        android:onClick="DEV_alarm"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/alarm_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="대기하는 정류장"/>
+        android:text="대기하는 정류장"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/select_station_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
+    <ImageView
+        android:layout_margin="20dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:padding="20dp"
+        android:src="@drawable/bell"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알림을 보낼 방법을 선택해 주세요."
-        android:gravity="center"/>
+        android:text="알림을 보낼 방법을 선택해주세요."
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_margin="50dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,12 +58,14 @@
             android:layout_height="wrap_content"
             android:text="지금 정류장에서\n기다리고 있습니다."
             android:layout_weight="1"
+            android:textSize="20sp"
             android:gravity="center"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="곧 정류장에\n도착할 수 있습니다."
+            android:textSize="20sp"
             android:layout_weight="1"
             android:gravity="center"/>
 
@@ -65,6 +82,9 @@
             android:layout_height="wrap_content"
             android:text="바로 보내기"
             android:layout_weight="1"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:background="@drawable/button2"
             android:onClick="select_send"/>
 
         <Button
@@ -73,6 +93,9 @@
             android:layout_height="wrap_content"
             android:text="알림 예약하기"
             android:layout_weight="1"
+            android:textSize="20sp"
+            android:background="@drawable/button2"
+            android:layout_margin="20dp"
             android:onClick="select_reserve"/>
     </LinearLayout>
 

@@ -18,21 +18,23 @@
         android:layout_weight="1">
     </ListView>
 
-<!--  GPS를 이용해 바로 검색
-    <Button
-        android:id="@+id/route_alarm"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="알림 보내기"
-        android:onClick="RouteAlarm">
-    </Button>
--->
+    <!--  GPS를 이용해 바로 검색
+        <Button
+            android:id="@+id/route_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="알림 보내기"
+            android:onClick="RouteAlarm">
+        </Button>
+    -->
 
     <Button
         android:id="@+id/alarm_select"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="알림 보내기"
+        android:textSize="25sp"
+        android:background="@drawable/button3"
         android:onClick="AlarmSelect">
     </Button>
 

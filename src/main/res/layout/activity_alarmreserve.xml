@@ -7,7 +7,8 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="몇 분 뒤 알림을 보낼 것인지 선택해주세요."/>
+        android:text="몇 분 뒤 알림을 보낼 것인지 선택해주세요."
+        android:textSize="20sp"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -33,7 +34,12 @@
         android:layout_width="wrap_content"
         android:id="@+id/time_complete"
         android:text="예약하기"
-        android:onClick="reserve_time"/>
+        android:onClick="reserve_time"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:layout_margin="20dp"
+        android:background="@drawable/button2"
+        />
 
     <TextView
         android:layout_height="wrap_content"

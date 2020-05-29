@@ -7,17 +7,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/routeid"/>
+        android:id="@+id/routeid" />
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="현재 대기 승객 수"/>
+        android:text="현재 대기 승객 수"
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/con_stop"/>
+        android:id="@+id/con_stop"
+        android:textSize="20sp"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -30,7 +32,9 @@
             android:layout_weight="1"
             android:onClick="alarm_print"
             android:text="출력"
-            android:textSize="12sp" />
+            android:layout_margin="5dp"
+            android:textSize="25sp"
+            android:background="@drawable/button2" />
 
         <Button
             android:layout_width="match_parent"
@@ -38,7 +42,9 @@
             android:layout_weight="1"
             android:onClick="alarm_increase"
             android:text="증가"
-            android:textSize="12sp" />
+            android:layout_margin="5dp"
+            android:textSize="25sp"
+            android:background="@drawable/button2"/>
 
         <Button
             android:layout_width="match_parent"
@@ -46,7 +52,9 @@
             android:layout_weight="1"
             android:onClick="alarm_reset"
             android:text="초기화"
-            android:textSize="12sp" />
+            android:layout_margin="5dp"
+            android:textSize="25sp"
+            android:background="@drawable/button2" />
     </LinearLayout>
 
 </LinearLayout>

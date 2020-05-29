@@ -23,12 +23,11 @@ public class ResultListViewAdapter extends BaseAdapter {
     String RouteId;
 
     int select_position;
-    int select_count=0;
+    int select_count = 0;
 
     final Handler handler = new Handler() // 메인 스레드가 아닌 곳에서 UI 변경이 일어나면 오류가 발생하므로
     {                                       // 핸들러를 사용해서 호출
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             notifyDataSetChanged(); // 데이터 변경을 적용
         }
     };
@@ -49,12 +48,12 @@ public class ResultListViewAdapter extends BaseAdapter {
         }
     };
 
-    public ResultListViewAdapter(){ // 생성자
+    public ResultListViewAdapter() { // 생성자
 
     }
 
     @Override
-    public int getCount(){ // 사용되는 데이터의 개수 반환
+    public int getCount() { // 사용되는 데이터의 개수 반환
         return listViewItemResultList.size();
     }
 
@@ -73,26 +72,24 @@ public class ResultListViewAdapter extends BaseAdapter {
 
         ResultListViewItem resultListViewItem = listViewItemResultList.get(position);
 
-        if(buslocatelist.size()>0) {
+        if (buslocatelist.size() > 0) {
             for (int i = 0; i < buslocatelist.size(); i++) { // 조건에 맞을 경우 아이템의 색상을 변경
                 if (resultListViewItem.getNodeOrd() == buslocatelist.get(i)) { // 버스가 해당 정류장에 있을 경우
                     StationStatus.setVisibility(View.VISIBLE);
-                    StationStatus.setImageResource(R.drawable.busbg); // 이미지 변경
+                    StationStatus.setImageResource(R.drawable.busicon); // 이미지 변경
                     break;
                 } else {
                     StationStatus.setVisibility(View.INVISIBLE);
                 }
             }
-        }
-        else
-        {
+        } else {
             StationStatus.setVisibility(View.INVISIBLE);
         }
 
-        if(select_count>0) { // 선택한 정류장이 있을 경우
+        if (select_count > 0) { // 선택한 정류장이 있을 경우
             if (position == select_position) {
                 StationStatus.setVisibility(View.VISIBLE);
-                StationStatus.setImageResource(R.drawable.hand); // 이미지 변경
+                StationStatus.setImageResource(R.drawable.check); // 이미지 변경
             }
         }
 
@@ -102,17 +99,17 @@ public class ResultListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int position){
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public Object getItem(int position){
+    public Object getItem(int position) {
         return listViewItemResultList.get(position);
     }
 
-    public void addItem(String nodenm, String nodeid, int nodeord, String nodeno){ // 리스트 뷰에 아이템 추가
-        ResultListViewItem item=new ResultListViewItem(); // 배열 선언
+    public void addItem(String nodenm, String nodeid, int nodeord, String nodeno) { // 리스트 뷰에 아이템 추가
+        ResultListViewItem item = new ResultListViewItem(); // 배열 선언
 
         item.setNodeNm(nodenm); // 정류소 이름 추가
         item.setNodeId(nodeid); // 정류소 id 추가
@@ -127,22 +124,21 @@ public class ResultListViewAdapter extends BaseAdapter {
         listViewItemResultList.clear();
     }
 
-    public String selectnodeid(int position){
+    public String selectnodeid(int position) {
         return listViewItemResultList.get(position).getNodeId();
     }
 
-    public String selectnodeno(int position){
+    public String selectnodeno(int position) {
         return listViewItemResultList.get(position).getNodeNo();
     }
 
-    public String selectnodenm(int position){
+    public String selectnodenm(int position) {
         return listViewItemResultList.get(position).getNodeNm();
     }
 
-    public void change_select(int position){
-        if(select_count==0)
-        {
-            select_count=1;
+    public void change_select(int position) {
+        if (select_count == 0) {
+            select_count = 1;
         }
         select_position = position;
         notifyDataSetChanged();
@@ -157,14 +153,14 @@ public class ResultListViewAdapter extends BaseAdapter {
         return intent; // 인탠트 반환
     }
 
-    public void busLocate(String routeid){
+    public void busLocate(String routeid) {
         RouteId = routeid;
 
         Timer timer = new Timer();
         timer.schedule(refresh, 0, 30000);
     }
 
-    public void stop(){
+    public void stop() {
         refresh.cancel();
     }
 }

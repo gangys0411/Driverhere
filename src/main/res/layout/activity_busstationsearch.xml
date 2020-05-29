@@ -24,9 +24,10 @@
         <Button
             android:id="@+id/search_button"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:text="검색"
-            android:textSize="12sp"
+            android:textSize="25sp"
+            android:background="@drawable/button2"
             android:onClick="StationSearch"/>
 
     </LinearLayout>
