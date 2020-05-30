@@ -53,6 +53,8 @@ public class BusRouteResult extends Activity {
 
     String busno; // 버스 번호
     String routeid; // 노선 ID
+    String busdirect; // 버스 방향
+
     String nodeid; // 정류소 ID
     String nodenm; // 정류소 이름
     int nodeord; // 정류소 순서 번호
@@ -71,6 +73,7 @@ public class BusRouteResult extends Activity {
 
     TinyDB tinydb;
     ArrayList<String> tiny_busid = new ArrayList<String>();
+    ArrayList<String> tiny_busno = new ArrayList<String>();
     ArrayList<String> tiny_busdirect = new ArrayList<String>();
     Boolean aBoolean = false;
 
@@ -83,7 +86,10 @@ public class BusRouteResult extends Activity {
 
         result=(TextView) findViewById(R.id.result);
 
-        tiny_busid = tinydb.getListString("busid");
+        tiny_busid = tinydb.getListString("busid"); // busid란 키를 가진 문자열 리스트를 불러옴
+        tiny_busno = tinydb.getListString("busno"); // busno란 키를 가진 문자열 리스트를 불러옴
+        tiny_busdirect = tinydb.getListString("busdirect"); // busdirect란 키를 가진 문자열 리스트를 불러옴
+
         /*for(int i=0; i<sub.size(); i++){
             bus.add(sub.get(i));
         }*/
@@ -109,6 +115,7 @@ public class BusRouteResult extends Activity {
 
         routeid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
         busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
+        busdirect = intent.getStringExtra("BusDirect"); // 인탠트로 받아온 버스 번호 저장
 
         result.setText(busno); // 버스 번호 출력
 
@@ -232,13 +239,20 @@ public class BusRouteResult extends Activity {
         if(aBoolean){
             favorite_button.setText("즐겨찾기 추가");
             tiny_busid.remove(tiny_busid.size()-1);
+            tiny_busno.remove(tiny_busno.size()-1);
+            tiny_busdirect.remove(tiny_busdirect.size()-1);
             aBoolean = false;
         }else{
             favorite_button.setText("즐겨찾기 삭제");
-            tiny_busid.add(routeid); // 버스 번호가 아닌 노선 ID가 주, 즐겨찾기 리스트에서 사용자가 쉽게 알아볼 수 있게 버스 번호와 방향 역시 넘겨주길 희망
+            tiny_busid.add(routeid);
+            tiny_busno.add(busno);
+            tiny_busdirect.add(busdirect);
             aBoolean = true;
         }
-        tinydb.putListString("busid",tiny_busid);
+
+        tinydb.putListString("busid",tiny_busid); // busid 키를 가진 문자열 리스트 갱신
+        tinydb.putListString("busno",tiny_busno); // busno 키를 가진 문자열 리스트 갱신
+        tinydb.putListString("busdirect",tiny_busdirect); // busdirect 키를 가진 문자열 리스트 갱신
     }
 
     public void AlarmSelect(View v){ // 알림 보내기

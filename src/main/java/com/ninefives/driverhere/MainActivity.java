@@ -18,6 +18,8 @@ import com.ninefives.driverhere.station_search.station_search.BusStationSearch;
 
 public class MainActivity extends Activity {
 
+    TinyDB tinydb;
+
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
@@ -25,6 +27,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tinydb = new TinyDB(getBaseContext());
+
+        //tinydb.clear(); // 즐겨찾기 데이터 베이스 오류일때 주석 삭제
 
         checkRunTimePermission();
     }

@@ -17,8 +17,10 @@ import java.util.ArrayList;
 
 public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
 
-    private ArrayList<String> mData;
-    private ArrayList<String> mData2;
+    private ArrayList<String> busid;
+    private ArrayList<String> busno;
+    private ArrayList<String> busdirect;
+
     int pos;
     Context context;
     String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
@@ -44,8 +46,14 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mData.remove(getLayoutPosition());
-                    tinyDB.putListString("busid", mData);
+                    busid.remove(getLayoutPosition());
+                    busno.remove(getLayoutPosition());
+                    busdirect.remove(getLayoutPosition());
+
+                    tinyDB.putListString("busid", busid);
+                    tinyDB.putListString("busno", busno);
+                    tinyDB.putListString("busdirect", busdirect);
+
                     notifyDataSetChanged();
                 }
             });
@@ -54,7 +62,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, BusRouteResult.class); // 버스 검색 화면이 아닌 검색 후 버스 노선이 나오는 화면으로 노선 ID를 전달
-                    intent.putExtra("BusID", textView1.getText()); // 기존에 있던 정의와 동일하게 사용하기 위해 변경
+                    intent.putExtra("BusID", busid.get(getLayoutPosition())); // 기존에 있던 정의와 동일하게 사용하기 위해 변경
                     context.startActivity(intent);
 
                 }
@@ -65,8 +73,8 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
     }
 
     BusAdapter(ArrayList<String> list, ArrayList<String> list2) {
-        mData = list;
-        mData2 = list2;
+        busid = list;
+        busno = list2;
     }
 
     @Override
@@ -84,15 +92,16 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(BusAdapter.ViewHolder holder, int position) {
         pos = position;
-        String text = mData.get(position);
-        String text2 = mData2.get(position);
+        String text = busid.get(position);
+        String text2 = busno.get(position);
         holder.textView1.setText(text);
+        holder.textView2.setText(text2);
 
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return busid.size();
     }
 
 }

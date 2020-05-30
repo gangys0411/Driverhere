@@ -43,12 +43,13 @@ public class BusFragment extends Fragment {
         ArrayList<String> list = new ArrayList<>();
         ArrayList<String> list2 = new ArrayList<>();
         ArrayList<String> sub = new ArrayList<>();
-        sub = tinyDB.getListString("busid");
+        list = tinyDB.getListString("busid");
+        list2 = tinyDB.getListString("busno");
 
-        for (int i = 0; i < sub.size(); i++) {
+        /*for (int i = 0; i < sub.size(); i++) {
             list.add(sub.get(i));
             list2.add(sub.get(i));
-        }
+        }*/
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
         recyclerView = rootView.findViewById(R.id.bus_rv);

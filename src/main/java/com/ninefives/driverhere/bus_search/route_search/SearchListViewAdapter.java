@@ -75,6 +75,7 @@ public class SearchListViewAdapter extends BaseAdapter {
     {
         intent.putExtra("BusID", listViewItemSearchList.get(position).getBusId()); // 인탠트에 선택된 위치의 항목 데이터를 전달
         intent.putExtra("BusNo", listViewItemSearchList.get(position).getBusNo());
+        intent.putExtra("BusDirect", listViewItemSearchList.get(position).getDirection());
 
         return intent; // 인탠트 반환
     }
