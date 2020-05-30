@@ -11,19 +11,29 @@
         android:background="@color/colorBeige">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/result"
             android:textSize="30dp"
-            android:layout_weight="1">
+            android:layout_weight="4"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp">
         </TextView>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:onClick="routemap"
             android:text="지도"
-            android:layout_weight="4"/>
+            android:layout_weight="0.5"/>
+
+        <Button
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="favorite_bus"
+            android:text="즐겨찾기 추가"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

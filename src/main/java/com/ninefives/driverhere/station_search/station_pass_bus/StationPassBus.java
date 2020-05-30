@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.TinyDB;
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.R;
 
@@ -25,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class StationPassBus extends AppCompatActivity {
 
@@ -33,10 +36,17 @@ public class StationPassBus extends AppCompatActivity {
     PassListViewAdapter adapter = new PassListViewAdapter(); // 어뎁터 생성
 
     TextView mTextView;
+
+    Button favorite_button;
+
     String mJsonString;
     String stationid;
     String stationnm;
 
+    TinyDB tinydb;
+    ArrayList<String> bus = new ArrayList<String>();
+    ArrayList<String> sub = new ArrayList<String>();
+    Boolean aBoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,15 @@ public class StationPassBus extends AppCompatActivity {
         setContentView(R.layout.activity_stationpassbus);
 
         mTextView = (TextView)findViewById(R.id.stationnm);
+
+        favorite_button = (Button)findViewById(R.id.favorite);
+
+        tinydb = new TinyDB(getBaseContext());
+
+        sub = tinydb.getListString("station");
+        for(int i=0; i<sub.size(); i++){
+            bus.add(sub.get(i));
+        }
 
         ListView listview; // 리스트 뷰 변수 선언
 
@@ -198,6 +217,21 @@ public class StationPassBus extends AppCompatActivity {
             Log.d(TAG, "showResult : ", e);
         }
 
+    }
+
+    public void favorite_station(View v){
+        if(aBoolean){
+            favorite_button.setText("즐겨찾기 추가");
+            bus.remove(bus.size()-1);
+            aBoolean = false;
+            Log.e("삭제", String.valueOf(bus.size()));
+        }else{
+            favorite_button.setText("즐겨찾기 삭제");
+            bus.add(mTextView.getText().toString());
+            aBoolean = true;
+            Log.e("추가", String.valueOf(bus.size()));
+        }
+        tinydb.putListString("station",bus);
     }
 
 }

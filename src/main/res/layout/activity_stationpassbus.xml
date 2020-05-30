@@ -4,12 +4,28 @@
     android:layout_height="match_parent"
     android:background="@color/colorBeige">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/stationnm"
-        android:textSize="20dp">
-    </TextView>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/stationnm"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/favorite"
+            android:text="즐겨찾기 추가"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/pass_listview"

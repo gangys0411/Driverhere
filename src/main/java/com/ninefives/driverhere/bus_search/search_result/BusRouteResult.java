@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.ninefives.driverhere.AlarmSelect;
 import com.ninefives.driverhere.GpsTracker;
 import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.RouteMap;
+import com.ninefives.driverhere.TinyDB;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -31,6 +33,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class BusRouteResult extends Activity {
     private GpsTracker gpsTracker;
@@ -64,14 +67,26 @@ public class BusRouteResult extends Activity {
     String NodeNm;
     String NodeNo;
 
+    Button favorite_button;
+
+    TinyDB tinydb;
+    ArrayList<String> tiny_busid = new ArrayList<String>();
+    ArrayList<String> tiny_busdirect = new ArrayList<String>();
+    Boolean aBoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_busrouteresult);
+        tinydb = new TinyDB(getBaseContext());
 
         result=(TextView) findViewById(R.id.result);
+
+        tiny_busid = tinydb.getListString("busid");
+        /*for(int i=0; i<sub.size(); i++){
+            bus.add(sub.get(i));
+        }*/
 
         ListView listview; // 리스트 뷰 변수 선언
 
@@ -87,6 +102,8 @@ public class BusRouteResult extends Activity {
                 select_nodenm = adapter.selectnodenm(position); //  선택된 위치의 정류소 이름 저장
             }
         });
+
+        favorite_button = findViewById(R.id.favorite);
 
         Intent intent = getIntent();
 
@@ -197,7 +214,7 @@ public class BusRouteResult extends Activity {
         }
     }
 
-    public void routemap(View v){
+    public void routemap(View v){ // 지도 보기
         adapter.stop();
 
         Intent intent = new Intent(this, RouteMap.class);
@@ -211,7 +228,20 @@ public class BusRouteResult extends Activity {
         startActivity(intent);
     }
 
-    public void AlarmSelect(View v){
+    public void favorite_bus(View v){ // 즐겨찾기
+        if(aBoolean){
+            favorite_button.setText("즐겨찾기 추가");
+            tiny_busid.remove(tiny_busid.size()-1);
+            aBoolean = false;
+        }else{
+            favorite_button.setText("즐겨찾기 삭제");
+            tiny_busid.add(routeid); // 버스 번호가 아닌 노선 ID가 주, 즐겨찾기 리스트에서 사용자가 쉽게 알아볼 수 있게 버스 번호와 방향 역시 넘겨주길 희망
+            aBoolean = true;
+        }
+        tinydb.putListString("busid",tiny_busid);
+    }
+
+    public void AlarmSelect(View v){ // 알림 보내기
         adapter.stop();
 
         Intent intent = new Intent(this, AlarmSelect.class);

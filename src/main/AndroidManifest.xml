@@ -59,6 +59,8 @@
 
         <activity android:name=".DEV.DEV_AlarmSend"/>
         <activity android:name=".DEV.DEV_AlarmControl"/>
+
+        <activity android:name=".SavedActivity"/>
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
