@@ -51,7 +51,7 @@
         <activity android:name=".AlarmReserve"/>
         <activity android:name=".ReserveResult"/>
 
-        <activity android:name=".MapSearch"/>
+        <activity android:name=".RouteMap"/>
 
         <activity android:name=".RideInHelp"/>
         <activity android:name=".RideOutHelp"/>

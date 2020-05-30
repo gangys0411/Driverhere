@@ -56,16 +56,4 @@
             android:textSize="25sp"
             android:background="@drawable/button"
             android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:onClick="MapSearch"
-            android:text="맵"
-            android:layout_margin="20dp"
-            android:textSize="25sp"
-            android:background="@drawable/button"
-            android:layout_weight="1"/>
 </LinearLayout>

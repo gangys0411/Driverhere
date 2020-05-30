@@ -45,12 +45,6 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void MapSearch(View view){
-        Intent intent = new Intent(this, AlarmReserve.class);
-        startActivity(intent);
-    } // 맵 임시
-
-
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
      */

@@ -23,6 +23,7 @@ import com.ninefives.driverhere.AlarmResult;
 import com.ninefives.driverhere.AlarmSelect;
 import com.ninefives.driverhere.GpsTracker;
 import com.ninefives.driverhere.R;
+import com.ninefives.driverhere.RouteMap;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -194,6 +195,20 @@ public class BusRouteResult extends Activity {
         } catch (Exception e) { // 예외 처리
             e.printStackTrace();
         }
+    }
+
+    public void routemap(View v){
+        adapter.stop();
+
+        Intent intent = new Intent(this, RouteMap.class);
+
+        intent.putExtra("BusID", routeid); // 인탠트에 현재 버스 데이터를 전달
+        intent.putExtra("BusNo", busno);
+        intent.putExtra("NodeID", select_nodeid);
+        intent.putExtra("NodeNm", select_nodenm);
+        intent.putExtra("NodeNo", select_nodeno);
+
+        startActivity(intent);
     }
 
     public void AlarmSelect(View v){
