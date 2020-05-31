@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class StationFragment extends Fragment {
     SavedActivity activity;
     TinyDB tinyDB;
+    RecyclerView recyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -34,19 +35,19 @@ public class StationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_station_saved, container, false);
+
         tinyDB = new TinyDB(getContext());
 
         ArrayList<String> list = new ArrayList<>();
-        ArrayList<String> sub = new ArrayList<>();
-        sub = tinyDB.getListString("station");
+        ArrayList<String> list2 = new ArrayList<>();
 
-        for(int i=0; i<sub.size(); i++){
-            list.add(sub.get(i));
-        }
+        list = tinyDB.getListString("nodeid");
+        list2 = tinyDB.getListString("nodenm");
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.station_rv) ;
+        recyclerView = rootView.findViewById(R.id.station_rv) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext())) ;
-        StationAdapter adapter = new StationAdapter(list) ;
+
+        StationAdapter adapter = new StationAdapter(list, list2) ;
         recyclerView.setAdapter(adapter);
         return rootView;
     }

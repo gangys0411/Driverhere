@@ -21,11 +21,8 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
     private ArrayList<String> busno;
     private ArrayList<String> busdirect;
 
-    int pos;
     Context context;
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    String cityCode="34010"; // 천안 도시 코드
-    String routeNo; // 버스 노선 번호
+
     TinyDB tinyDB;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +58,12 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, BusRouteResult.class); // 버스 검색 화면이 아닌 검색 후 버스 노선이 나오는 화면으로 노선 ID를 전달
-                    intent.putExtra("BusID", busid.get(getLayoutPosition())); // 기존에 있던 정의와 동일하게 사용하기 위해 변경
+                    Intent intent = new Intent(context, BusRouteResult.class);
+
+                    intent.putExtra("BusID", busid.get(getLayoutPosition()));
+                    intent.putExtra("BusNo", busno.get(getLayoutPosition()));
+                    intent.putExtra("BusDirect", busdirect.get(getLayoutPosition()));
+
                     context.startActivity(intent);
 
                 }
@@ -72,9 +73,10 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
         }
     }
 
-    BusAdapter(ArrayList<String> list, ArrayList<String> list2) {
+    BusAdapter(ArrayList<String> list, ArrayList<String> list2, ArrayList<String> list3) {
         busid = list;
         busno = list2;
+        busdirect = list3;
     }
 
     @Override
@@ -91,11 +93,9 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(BusAdapter.ViewHolder holder, int position) {
-        pos = position;
-        String text = busid.get(position);
-        String text2 = busno.get(position);
-        holder.textView1.setText(text);
-        holder.textView2.setText(text2);
+
+        holder.textView1.setText(busno.get(position));
+        holder.textView2.setText(busdirect.get(position));
 
     }
 

@@ -20,8 +20,7 @@
             android:textColor="#000000"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="100" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/bus_to_go_tv"
@@ -31,8 +30,7 @@
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/bus_name_tv"
-            app:layout_constraintTop_toBottomOf="@+id/bus_name_tv"
-            tools:text="천안역 -> 남서울대학교 주차장" />
+            app:layout_constraintTop_toBottomOf="@+id/bus_name_tv" />
 
     </LinearLayout>
 

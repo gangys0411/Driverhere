@@ -40,11 +40,13 @@ public class BusFragment extends Fragment {
 
         tinyDB = new TinyDB(getContext());
 
-        ArrayList<String> list = new ArrayList<>();
-        ArrayList<String> list2 = new ArrayList<>();
-        ArrayList<String> sub = new ArrayList<>();
+        ArrayList<String> list;
+        ArrayList<String> list2;
+        ArrayList<String> list3;
+
         list = tinyDB.getListString("busid");
         list2 = tinyDB.getListString("busno");
+        list3 = tinyDB.getListString("busdirect");
 
         /*for (int i = 0; i < sub.size(); i++) {
             list.add(sub.get(i));
@@ -56,7 +58,7 @@ public class BusFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        BusAdapter adapter = new BusAdapter(list, list2);
+        BusAdapter adapter = new BusAdapter(list, list2, list3);
         recyclerView.setAdapter(adapter);
         return rootView;
     }

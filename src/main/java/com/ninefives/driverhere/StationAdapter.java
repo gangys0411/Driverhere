@@ -7,17 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ninefives.driverhere.station_search.station_search.BusStationSearch;
+import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 
 import java.util.ArrayList;
 
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> {
 
-    private ArrayList<String> mData = null;
+    private ArrayList<String> nodeid;
+    private ArrayList<String> nodenm;
+
     Context context;
     TinyDB tinyDB;
 
@@ -25,30 +28,40 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView1;
         ImageView delete;
+        LinearLayout item;
 
 
         ViewHolder(View itemView) {
             super(itemView) ;
             textView1 = itemView.findViewById(R.id.station_name_tv) ;
+
             delete = itemView.findViewById(R.id.saved_cancel_btn);
+
+            item = itemView.findViewById(R.id.station_item);
 
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mData.remove(getLayoutPosition());
-                    tinyDB.putListString("bus", mData);
+
+                    nodeid.remove(getLayoutPosition());
+                    nodenm.remove(getLayoutPosition());
+
+                    tinyDB.putListString("nodeid", nodeid);
+                    tinyDB.putListString("nodenm", nodenm);
+
                     notifyDataSetChanged();
                 }
             });
 
-            textView1.setOnClickListener(new View.OnClickListener() {
+            item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, BusStationSearch.class);
-                    intent.putExtra("stationName", textView1.getText());
-                    context.startActivity(intent);
-                    Log.e("보내기","ㅋ");
+                    Intent intent = new Intent(context, StationPassBus.class);
 
+                    intent.putExtra("NodeID", nodeid.get(getLayoutPosition()));
+                    intent.putExtra("NodeNm", nodenm.get(getLayoutPosition()));
+
+                    context.startActivity(intent);
                 }
             });
 
@@ -57,8 +70,9 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         }
     }
 
-    StationAdapter(ArrayList<String> list) {
-        mData = list;
+    StationAdapter(ArrayList<String> list, ArrayList<String> list2) {
+        nodeid = list;
+        nodenm = list2;
     }
 
     @Override
@@ -76,13 +90,13 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(StationAdapter.ViewHolder holder, int position) {
-        String text = mData.get(position) ;
-        holder.textView1.setText(text) ;
+
+        holder.textView1.setText(nodenm.get(position)) ;
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return mData.size() ;
+        return nodeid.size() ;
     }
 }

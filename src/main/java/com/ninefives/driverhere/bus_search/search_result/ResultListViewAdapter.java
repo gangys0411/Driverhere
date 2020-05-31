@@ -144,6 +144,14 @@ public class ResultListViewAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public String returnDirect(){
+        String direct;
+
+        direct = listViewItemResultList.get(0).getNodeNm() + " --> " + listViewItemResultList.get(getCount()-1).getNodeNm();
+
+        return direct;
+    }
+
     public Intent sendIntent(int position, Intent intent) // 화면 전환을 위한 인탠트 함수
     {
         intent.putExtra("NodeID", listViewItemResultList.get(position).getNodeId()); // 인탠트에 선택된 위치의 항목 데이터를 전달

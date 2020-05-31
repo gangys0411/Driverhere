@@ -236,23 +236,17 @@ public class BusRouteResult extends Activity {
     }
 
     public void favorite_bus(View v){ // 즐겨찾기
-        if(aBoolean){
-            favorite_button.setText("즐겨찾기 추가");
-            tiny_busid.remove(tiny_busid.size()-1);
-            tiny_busno.remove(tiny_busno.size()-1);
-            tiny_busdirect.remove(tiny_busdirect.size()-1);
-            aBoolean = false;
-        }else{
-            favorite_button.setText("즐겨찾기 삭제");
-            tiny_busid.add(routeid);
-            tiny_busno.add(busno);
-            tiny_busdirect.add(busdirect);
-            aBoolean = true;
-        }
+
+        tiny_busid.add(routeid);
+        tiny_busno.add(busno);
+        tiny_busdirect.add(adapter.returnDirect());
 
         tinydb.putListString("busid",tiny_busid); // busid 키를 가진 문자열 리스트 갱신
         tinydb.putListString("busno",tiny_busno); // busno 키를 가진 문자열 리스트 갱신
         tinydb.putListString("busdirect",tiny_busdirect); // busdirect 키를 가진 문자열 리스트 갱신
+
+        Toast toast = Toast.makeText(this.getApplicationContext(),"즐겨찾기에 추가 되었습니다.", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public void AlarmSelect(View v){ // 알림 보내기
