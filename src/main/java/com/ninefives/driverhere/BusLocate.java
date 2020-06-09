@@ -2,6 +2,10 @@ package com.ninefives.driverhere;
 
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.ninefives.driverhere.Favorite.TinyDB;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -14,8 +18,8 @@ public class BusLocate{
 
     ArrayList<Integer> buslocate = new ArrayList<Integer>();
 
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    String cityCode="34010"; // 천안 도시 코드
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
 
     String nodeid; // 정류소 ID
     String nodenm; // 정류소 이름
@@ -24,7 +28,7 @@ public class BusLocate{
     public ArrayList<Integer> getXmlData(String routeid) {
         String queryUrl = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?" + // 요청 URL
                 "serviceKey=" + key + // 서비스 키 추가
-                "&cityCode=" + cityCode + // 도시 코드 추가
+                "&cityCode=" + citycode + // 도시 코드 추가
                 "&routeId=" + routeid;// 노선 ID 추가
 
         try {

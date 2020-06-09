@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.Favorite;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 
 import java.util.ArrayList;

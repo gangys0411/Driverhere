@@ -8,7 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ninefives.driverhere.AlarmResult;
+import com.ninefives.driverhere.Alarm.AlarmResult;
+import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.bus_search.search_result.ResultListViewAdapter;
 
@@ -25,8 +26,8 @@ public class DEV_AlarmSend extends Activity {
 
     TextView result;
 
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    String cityCode="34010"; // 천안 도시 코드
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
 
     // 리스트 뷰 사용을 위한 변수
 
@@ -103,7 +104,7 @@ public class DEV_AlarmSend extends Activity {
                 "serviceKey=" + key+ // 서비스 키 추가
                 "&numOfRows=" + "100" + // 한 페이지에 출력될 결과수
                 "&pageNo="+ "1" + // 출력할 페이지 번호
-                "&cityCode="+ cityCode+ // 도시 코드 추가
+                "&cityCode="+ citycode+ // 도시 코드 추가
                 "&routeId="+ routeid;// 노선 ID 추가
 
         try {

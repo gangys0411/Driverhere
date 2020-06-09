@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ninefives.driverhere.TinyDB;
+import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.R;
 

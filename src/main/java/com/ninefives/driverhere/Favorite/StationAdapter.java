@@ -1,8 +1,7 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.Favorite;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 
 import java.util.ArrayList;

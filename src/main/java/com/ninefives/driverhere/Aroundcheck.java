@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.around_search.AroundListViewAdapter;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 
@@ -43,10 +44,8 @@ public class Aroundcheck extends AppCompatActivity {
 
     AroundListViewAdapter adapter = new AroundListViewAdapter(); // 어뎁터 생성
 
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-
-    String CityCode="34010";
-    String citycode;
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
 
     String RouteID;
     String RouteNo;
@@ -58,6 +57,7 @@ public class Aroundcheck extends AppCompatActivity {
     String nodenm; // 정류소 이름
     String nodeno; // 정류소 번호
 
+    Boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -99,7 +99,7 @@ public class Aroundcheck extends AppCompatActivity {
         GPSsearch();
     }
 
-    public void GPSsearch() {
+    public boolean GPSsearch() {
 
         gpsTracker = new GpsTracker(Aroundcheck.this);
 
@@ -111,7 +111,7 @@ public class Aroundcheck extends AppCompatActivity {
         TextView textview_address = (TextView)findViewById(R.id.textview);
         textview_address.setText("위도 " + latitude + "\n경도 " + longitude);
 
-        AroundSearch(Double.toString(latitude),Double.toString(longitude));
+        return AroundSearch(Double.toString(latitude),Double.toString(longitude));
     }
 
 
@@ -301,12 +301,12 @@ public class Aroundcheck extends AppCompatActivity {
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    public void AroundSearch(final String gpsLati, final String gpsLong){
+    public boolean AroundSearch(final String gpsLati, final String gpsLong){
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                getXmlData(gpsLati, gpsLong);//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
+                check = getXmlData(gpsLati, gpsLong);//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
 
                 //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
                 //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
@@ -318,10 +318,12 @@ public class Aroundcheck extends AppCompatActivity {
                 });
             }
         }).start();
+
+        return check;
     }
 
     //XmlPullParser를 이용하여 OpenAPI XML 파일 파싱하기(parsing)
-    void getXmlData(String gpsLati, String gpsLong){
+    boolean getXmlData(String gpsLati, String gpsLong){
         adapter.clearItems(); // 리스트 뷰 초기화
 
         String queryUrl="http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getCrdntPrxmtSttnList?" + // 요청 URL
@@ -351,7 +353,11 @@ public class Aroundcheck extends AppCompatActivity {
                         if(tag.equals("item")) ;// 하나의 검색결과
                         else if(tag.equals("citycode")){ // 도시코드
                             xpp.next();
-                            citycode=xpp.getText();
+                            if(citycode.equals(xpp.getText())){
+
+                            }else{
+                                break;
+                            }
                         }
                         else if(tag.equals("gpslati")){ // 위도
                             xpp.next();
@@ -361,7 +367,11 @@ public class Aroundcheck extends AppCompatActivity {
                         }
                         else if(tag.equals("nodeid")){ // 정류소 ID
                             xpp.next();
-                            nodeid=xpp.getText();
+                            if(nodeid.equals(xpp.getText())){
+
+                            }else {
+                                break;
+                            }
                         }
                         else if(tag.equals("nodenm")){ // 정류소 이름
                             xpp.next();
@@ -370,7 +380,6 @@ public class Aroundcheck extends AppCompatActivity {
                         else if(tag.equals("nodeno")){ // 정류소 번호
                             xpp.next();
                             nodeno=xpp.getText();
-
                         }
                         break;
 
@@ -381,19 +390,7 @@ public class Aroundcheck extends AppCompatActivity {
                         tag= xpp.getName(); //테그 이름 얻어오기
 
                         if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            if(citycode.equals(CityCode))
-                            {
-                                if(nodeid.equals(NodeID)){
-                                    Intent intent = new Intent(this, AlarmResult.class);
-
-                                    intent.putExtra("BusID", RouteID); // 인탠트에 현재 버스 데이터를 전달
-                                    intent.putExtra("BusNo", RouteNo);
-                                    intent.putExtra("NodeNm", NodeNm);
-                                    intent.putExtra("NodeNo", nodeno);
-
-                                    startActivity(intent);
-                                }
-                            }
+                            return true;
                         }
                         break;
                 }
@@ -404,5 +401,7 @@ public class Aroundcheck extends AppCompatActivity {
         } catch (Exception e) { // 예외 처리
             e.printStackTrace();
         }
+
+        return false;
     }
 }

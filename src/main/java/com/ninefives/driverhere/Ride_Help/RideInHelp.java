@@ -1,4 +1,7 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.Ride_Help;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -7,14 +10,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
+import com.ninefives.driverhere.Favorite.TinyDB;
+import com.ninefives.driverhere.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -25,32 +23,23 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RideOutHelpAlarm extends AppCompatActivity {
+public class RideInHelp extends AppCompatActivity {
 
     NotificationManager manager;
     NotificationCompat.Builder builder;
 
-    TextView come_bus;
-
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    String cityCode="34010"; // 천안 도시 코드
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
 
     String busid; // 노선 ID
     String busno; // 버스 번호
 
-    String VehicleNo; // 인탠트 차량 번호
-
-    String stationid; // 검사할 정류소 ID
-    String stationnm; // 검사할 정류소 이름
+    String stationid; // 정류소 번호
+    String stationnm; // 정류소 이름
 
     String nodeid;
     String nodenm;
-    String nodeno;
-    int nodeord;
-
-    String select_nodeid; // 선택된 정류소 ID
-    String select_nodeno; // 선택된 정류소 번호
-    String select_nodenm; // 선택된 정류소 이름
+    String nodeord;
 
     String vehicleno; // 차량 번호
 
@@ -64,19 +53,19 @@ public class RideOutHelpAlarm extends AppCompatActivity {
         }
     };
 
-    HelpListViewAdapter adapter = new HelpListViewAdapter(); // 어뎁터 생성
-
     @Override protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); setContentView(R.layout.activity_rideouthelp);
+        super.onCreate(savedInstanceState); setContentView(R.layout.activity_noti);
 
         Intent intent = getIntent();
 
         busid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
-        busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 노선 ID 저장
-        VehicleNo = intent.getStringExtra("VehicleNo"); // 인탠트로 받아온 차량 번호 저장
-        nodeid = intent.getStringExtra("StationID"); // 인탠트로 받아온 정류장 ID 저장
+        busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 버스 번호 저장
+        stationid = intent.getStringExtra("StationID"); // 인탠트로 받아온 정류소 ID 저장
+        stationnm = intent.getStringExtra("StationNm"); // 인탠트로 받아온 정류소 이름 저장
 
         check_bus_locate();
+
+        //showNoti(busid, vehicleno);
 
         finish();
     }
@@ -89,7 +78,7 @@ public class RideOutHelpAlarm extends AppCompatActivity {
     public void getXmlData(String routeid) {
         String queryUrl = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?" + // 요청 URL
                 "serviceKey=" + key + // 서비스 키 추가
-                "&cityCode=" + cityCode + // 도시 코드 추가
+                "&cityCode=" + citycode + // 도시 코드 추가
                 "&routeId=" + routeid;// 노선 ID 추가
 
         try {
@@ -118,12 +107,13 @@ public class RideOutHelpAlarm extends AppCompatActivity {
                             xpp.next();
                         } else if (tag.equals("nodeid")) { // 정류소 ID
                             xpp.next();
-                            stationid = xpp.getText();
+                            nodeid = xpp.getText();
                         } else if (tag.equals("nodenm")) { // 정류소 이름
                             xpp.next();
-                            stationnm = xpp.getText();
+                            nodenm = xpp.getText();
                         } else if (tag.equals("nodeord")) { // 정류소 순서
                             xpp.next();
+                            nodeord = xpp.getText();
                         } else if (tag.equals("routenm")) { // 노선 번호
                             xpp.next();
                         } else if (tag.equals("routetp")) { // 노선 타입
@@ -141,11 +131,9 @@ public class RideOutHelpAlarm extends AppCompatActivity {
                         tag = xpp.getName(); //테그 이름 얻어오기
 
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
-                            if(VehicleNo.equals(vehicleno)){
-                                if(stationid.equals(nodeid)) {
-                                    showNoti();
-                                    refresh.cancel();
-                                }
+                            if(stationid.equals(nodeid)){
+                                showNoti(busid, vehicleno);
+                                refresh.cancel();
                             }
                         }
                         break;
@@ -159,7 +147,7 @@ public class RideOutHelpAlarm extends AppCompatActivity {
         }
     }
 
-    public void showNoti(){
+    public void showNoti(String busid, String vehicleno){
         builder = null;
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE); //버전 오레오 이상일 경우
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -174,15 +162,19 @@ public class RideOutHelpAlarm extends AppCompatActivity {
             builder = new NotificationCompat.Builder(this);
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RideOutHelp.class);
+
+        intent.putExtra("BusID", busid);
+        intent.putExtra("BusNo", busno);
+        intent.putExtra("VehicleNo", vehicleno);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //알림창 제목
-        builder.setContentTitle("기사님 요기요");
+        builder.setContentTitle("기사님 여기요");
 
         //알림창 메시지
-        builder.setContentText("곧 " + stationnm + " 정류장에 도착합니다.");
+        builder.setContentText(busno + "번 버스가 진입 중입니다.");
 
         //알림창 아이콘
         builder.setSmallIcon(R.drawable.hand);

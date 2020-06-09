@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.R;
 
@@ -28,8 +29,9 @@ public class BusRouteSearch extends Activity {
 
     EditText edit; // 에딧 텍스트 뷰 변수
 
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    String cityCode="34010"; // 천안 도시 코드
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
+
     String routeNo; // 버스 노선 번호
 
     // 리스트 뷰 사용을 위한 변수
@@ -123,7 +125,7 @@ public class BusRouteSearch extends Activity {
 
         String queryUrl="http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?" + // 요청 URL
                 "serviceKey="+ key+ // 서비스 키 추가
-                "&cityCode="+ cityCode+ // 도시 코드 추가
+                "&cityCode="+ citycode+ // 도시 코드 추가
                 "&routeNo="+ routeNo; // 노선 번호 추가
 
         try {

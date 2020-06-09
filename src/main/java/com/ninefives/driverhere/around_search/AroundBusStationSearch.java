@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.GpsTracker;
 import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
@@ -44,10 +45,8 @@ public class AroundBusStationSearch extends AppCompatActivity
 
     AroundListViewAdapter adapter = new AroundListViewAdapter(); // 어뎁터 생성
 
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-
-    String CityCode="34010";
-    String citycode;
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
 
     // 리스트 뷰 사용을 위한 변수
     String nodeid; // 정류소 ID
@@ -335,7 +334,11 @@ public class AroundBusStationSearch extends AppCompatActivity
                         if(tag.equals("item")) ;// 하나의 검색결과
                         else if(tag.equals("citycode")){ // 도시코드
                             xpp.next();
-                            citycode=xpp.getText();
+                            if(citycode.equals(xpp.getText())){
+
+                            }else{
+                                break;
+                            }
                         }
                         else if(tag.equals("gpslati")){ // 위도
                             xpp.next();
@@ -364,10 +367,7 @@ public class AroundBusStationSearch extends AppCompatActivity
                         tag= xpp.getName(); //테그 이름 얻어오기
 
                         if(tag.equals("item")){ // 하나의 버스 정보가 끝이 났으면
-                            if(citycode.equals(CityCode))
-                            {
-                                adapter.addItem(nodenm, nodeid); // 리스트뷰에 버스 정보 추가
-                            }
+                            adapter.addItem(nodenm, nodeid); // 리스트뷰에 버스 정보 추가
                         }
                         break;
                 }

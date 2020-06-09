@@ -1,10 +1,12 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.Alarm;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.ninefives.driverhere.R;
 
 public class AlarmSelect extends Activity {
 

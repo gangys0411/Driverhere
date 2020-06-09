@@ -1,4 +1,4 @@
-package com.ninefives.driverhere;
+package com.ninefives.driverhere.Ride_Help;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.R;
 import com.ninefives.driverhere.bus_search.search_result.ResultListViewItem;
 
 import java.util.ArrayList;

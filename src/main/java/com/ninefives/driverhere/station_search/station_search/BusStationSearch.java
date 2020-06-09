@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.station_search.station_pass_bus.StationPassBus;
 import com.ninefives.driverhere.R;
 
@@ -30,8 +31,9 @@ public class BusStationSearch extends Activity {
     EditText edit; // 에딧 텍스트 뷰 변수
 
     XmlPullParser xpp;
-    String key="hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
-    String cityCode="34010"; // 천안 도시 코드
+    String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
+    String citycode = "34010"; // 천안 도시 코드
+
     String nodeNm; // 입력받는 정류소 이름
 
     // 리스트 뷰 사용을 위한 변수
@@ -127,7 +129,7 @@ public class BusStationSearch extends Activity {
 
         String queryUrl= "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getSttnNoList?" + // 요청 URL
                 "serviceKey="+ key + // 서비스 키 추가
-                "&cityCode="+ cityCode + // 도시 코드 추가
+                "&cityCode="+ citycode + // 도시 코드 추가
                 "&nodeNm="+ nodeNm + // 정류소 이름
                 "&numOfRows="+ "50" + // 한 페이지 결과값 수
                 "&pageNo="+ "1"; // 출력할 페이지 번호

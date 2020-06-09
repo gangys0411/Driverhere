@@ -17,7 +17,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyARBV8dmBy8EVM9b9VVOtUA6HybPkjM-DM" >
+            android:value="AIzaSyC6yYoqvcUKx9nppRXaT5pnvlUZRsPiLPM" >
         </meta-data>
 
         <activity android:name=".MainActivity"/>
@@ -30,6 +30,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".APICode"/>
 
         <activity android:name=".bus_search.route_search.BusRouteSearch"/>
         <activity android:name=".bus_search.search_result.BusRouteResult"/>
@@ -39,28 +40,28 @@
 
         <activity android:name=".Aroundcheck"/>
 
-        <activity android:name=".AlarmSend"/>
-        <activity android:name=".AlarmResult"/>
+        <activity android:name=".Alarm.AlarmSend"/>
+        <activity android:name=".Alarm.AlarmResult"/>
 
         <activity android:name=".BusLocate"/>
         <activity android:name=".BusArrive"/>
 
         <activity android:name=".around_search.AroundBusStationSearch"/>
 
-        <activity android:name=".AlarmSelect"/>
-        <activity android:name=".AlarmReserve"/>
-        <activity android:name=".ReserveResult"/>
+        <activity android:name=".Alarm.AlarmSelect"/>
+        <activity android:name=".Alarm.AlarmReserve"/>
+        <activity android:name=".Alarm.ReserveResult"/>
 
-        <activity android:name=".RouteMap"/>
+        <activity android:name=".Map.RouteMap"/>
 
-        <activity android:name=".RideInHelp"/>
-        <activity android:name=".RideOutHelp"/>
-        <activity android:name=".RideOutHelpAlarm"/>
+        <activity android:name=".Ride_Help.RideInHelp"/>
+        <activity android:name=".Ride_Help.RideOutHelp"/>
+        <activity android:name=".Ride_Help.RideOutHelpAlarm"/>
 
         <activity android:name=".DEV.DEV_AlarmSend"/>
         <activity android:name=".DEV.DEV_AlarmControl"/>
 
-        <activity android:name=".SavedActivity"/>
+        <activity android:name=".Favorite.SavedActivity"/>
     </application>
     <uses-permission android:name = "android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
