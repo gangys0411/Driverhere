@@ -42,8 +42,10 @@ public class RideOutHelpAlarm extends AppCompatActivity {
 
     String stationid; // 검사할 정류소 ID
     String stationnm; // 검사할 정류소 이름
+    int stationord; // 검사할 정류소 순서 번호
 
-    String nodeid;
+    int nodeord;
+    String nodenm; // 정류소 이름
 
     String vehicleno; // 차량 번호
 
@@ -67,7 +69,8 @@ public class RideOutHelpAlarm extends AppCompatActivity {
         busid = intent.getStringExtra("BusID"); // 인탠트로 받아온 노선 ID 저장
         busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 노선 ID 저장
         VehicleNo = intent.getStringExtra("VehicleNo"); // 인탠트로 받아온 차량 번호 저장
-        nodeid = intent.getStringExtra("StationID"); // 인탠트로 받아온 정류장 ID 저장
+        nodeord = intent.getIntExtra("StationOrd", 0); // 인탠트로 받아온 정류장 ID 저장
+        nodenm = intent.getStringExtra("StationNm"); // 인탠트로 받아온 정류장 ID 저장
 
         check_bus_locate();
 
@@ -117,6 +120,7 @@ public class RideOutHelpAlarm extends AppCompatActivity {
                             stationnm = xpp.getText();
                         } else if (tag.equals("nodeord")) { // 정류소 순서
                             xpp.next();
+                            stationord = Integer.parseInt(xpp.getText());
                         } else if (tag.equals("routenm")) { // 노선 번호
                             xpp.next();
                         } else if (tag.equals("routetp")) { // 노선 타입
@@ -135,7 +139,7 @@ public class RideOutHelpAlarm extends AppCompatActivity {
 
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
                             if(VehicleNo.equals(vehicleno)){
-                                if(stationid.equals(nodeid)) {
+                                if(stationord==nodeord-1) {
                                     showNoti();
                                     refresh.cancel();
                                 }
@@ -175,7 +179,7 @@ public class RideOutHelpAlarm extends AppCompatActivity {
         builder.setContentTitle("기사님 요기요");
 
         //알림창 메시지
-        builder.setContentText("곧 " + stationnm + " 정류장에 도착합니다.");
+        builder.setContentText("곧 " + nodenm + " 정류장에 도착합니다.");
 
         //알림창 아이콘
         builder.setSmallIcon(R.drawable.hand);

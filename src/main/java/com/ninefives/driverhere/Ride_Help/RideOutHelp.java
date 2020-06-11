@@ -45,7 +45,7 @@ public class RideOutHelp extends AppCompatActivity {
     String nodeno;
     int nodeord;
 
-    String select_nodeid; // 선택된 정류소 ID
+    int select_nodeord; // 선택된 정류소 순서 번호
     String select_nodeno; // 선택된 정류소 번호
     String select_nodenm; // 선택된 정류소 이름
 
@@ -77,7 +77,7 @@ public class RideOutHelp extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
                 adapter.change_select(position);
-                select_nodeid = adapter.selectnodeid(position); // 선택된 위치의 정류소 ID 저장
+                select_nodeord = adapter.selectnodeord(position); // 선택된 위치의 정류소 ID 저장
                 select_nodeno = adapter.selectnodeno(position); // 선택된 위치의 정류소 번호 저장
                 select_nodenm = adapter.selectnodenm(position); //  선택된 위치의 정류소 이름 저장
             }
@@ -189,7 +189,8 @@ public class RideOutHelp extends AppCompatActivity {
         intent.putExtra("BusID",busid);
         intent.putExtra("BusNo",busno);
         intent.putExtra("VehicleNo",VehicleNo);
-        intent.putExtra("StationID",select_nodeid);
+        intent.putExtra("StationOrd",select_nodeord);
+        intent.putExtra("StationNm",select_nodenm);
 
         Toast toast = Toast.makeText(this.getApplicationContext(),"내릴 정류장에 접근하면 알림이 옵니다.", Toast.LENGTH_SHORT);
         toast.show();

@@ -98,8 +98,8 @@ public class HelpListViewAdapter extends BaseAdapter {
         listViewItemResultList.clear();
     }
 
-    public String selectnodeid(int position){
-        return listViewItemResultList.get(position).getNodeId();
+    public int selectnodeord(int position){
+        return listViewItemResultList.get(position).getNodeOrd();
     }
 
     public String selectnodeno(int position){
