@@ -5,13 +5,17 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.Task;
+import com.ninefives.driverhere.Alarm.AlarmResult;
 import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.MainActivity;
 import com.ninefives.driverhere.R;
@@ -19,18 +23,23 @@ import com.ninefives.driverhere.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.ContentValues.TAG;
 
 public class RideOutHelpAlarm extends AppCompatActivity {
 
     NotificationManager manager;
     NotificationCompat.Builder builder;
 
-    TextView come_bus;
+    String mJsonString;
 
     String key = "hZamgNLm7reK22wjgIGrV%2Fj1NU6UOQ2LYKM%2FQ9HEfqvmkSF%2FxgPJiUlxuztmy4tSnEr7g12A9Kc%2FLzSJdkdTeQ%3D%3D"; // 오픈 api 서비스 키
     String citycode = "34010"; // 천안 도시 코드
@@ -46,8 +55,11 @@ public class RideOutHelpAlarm extends AppCompatActivity {
 
     int nodeord;
     String nodenm; // 정류소 이름
+    String nodeno; // 정류소 번호
 
     String vehicleno; // 차량 번호
+
+    String routeid; // 경로 ID
 
     private static String CHANNEL_ID = "channel1";
     private static String CHANEL_NAME = "Channel1";
@@ -70,7 +82,10 @@ public class RideOutHelpAlarm extends AppCompatActivity {
         busno = intent.getStringExtra("BusNo"); // 인탠트로 받아온 노선 ID 저장
         VehicleNo = intent.getStringExtra("VehicleNo"); // 인탠트로 받아온 차량 번호 저장
         nodeord = intent.getIntExtra("StationOrd", 0); // 인탠트로 받아온 정류장 ID 저장
-        nodenm = intent.getStringExtra("StationNm"); // 인탠트로 받아온 정류장 ID 저장
+        nodenm = intent.getStringExtra("StationNm"); // 인탠트로 받아온 정류장 이름 저장
+        nodeno = intent.getStringExtra("StationNo"); // 인탠트로 받아온 정류장 번호 저장
+
+        routeid = nodeno + busid;
 
         check_bus_locate();
 
@@ -141,6 +156,7 @@ public class RideOutHelpAlarm extends AppCompatActivity {
                             if(VehicleNo.equals(vehicleno)){
                                 if(stationord==nodeord-1) {
                                     showNoti();
+                                    alarm_increase();
                                     refresh.cancel();
                                 }
                             }
@@ -196,6 +212,93 @@ public class RideOutHelpAlarm extends AppCompatActivity {
 
         //알림창 실행
         manager.notify(1,notification);
+    }
+
+    public void alarm_increase() { // 대기 승객 수 증가시키기
+        AlarmIncrease task = new AlarmIncrease();
+        task.execute(routeid);
+    }
+
+    private class AlarmIncrease extends AsyncTask<String, Void, String> {
+
+        String errorString = null;
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.d(TAG, "response - " + result);
+
+            if (result != null){ // 결과가 있다면
+                mJsonString = result;
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = "http://35.185.229.27/stop_increase.php"; // 접속할 웹서버 주소
+            String postParameters = "routeID=" + routeid; // 검색할 내용
+
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
     }
 }
 

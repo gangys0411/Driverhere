@@ -191,6 +191,7 @@ public class RideOutHelp extends AppCompatActivity {
         intent.putExtra("VehicleNo",VehicleNo);
         intent.putExtra("StationOrd",select_nodeord);
         intent.putExtra("StationNm",select_nodenm);
+        intent.putExtra("StationNo",select_nodeno);
 
         Toast toast = Toast.makeText(this.getApplicationContext(),"내릴 정류장에 접근하면 알림이 옵니다.", Toast.LENGTH_SHORT);
         toast.show();
