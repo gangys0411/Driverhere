@@ -13,10 +13,18 @@ public class BusArriveItem {
         BusId=busid;
     }
     public void setArriveTime(String arriveTime){ // 기점 설정
-        ArriveTime = arriveTime;
+        if(arriveTime==null) {
+            ArriveTime = "정보 없음";
+        }else{
+            ArriveTime = Integer.parseInt(arriveTime) / 60 + "분 후 도착";
+        }
     }
     public void setRemainStation(String remainStation){ // 종점 설정
-        RemainStation = remainStation;
+        if(remainStation==null) {
+            RemainStation = "정보 없음";
+        }else {
+            RemainStation = "남은 정류장 수 : " + remainStation;
+        }
     }
 
     public String getArriveTime(){ // 버스 번호 반환

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ninefives.driverhere.ArriveTime;
 import com.ninefives.driverhere.Favorite.TinyDB;
 import com.ninefives.driverhere.bus_search.search_result.BusRouteResult;
 import com.ninefives.driverhere.R;
@@ -88,7 +89,7 @@ public class StationPassBus extends AppCompatActivity {
 
         search();
 
-        adapter.busArrive(stationid);
+        //adapter.busArrive(stationid);
     }
 
     public void search() { // 데이터베이스 검색
@@ -230,4 +231,10 @@ public class StationPassBus extends AppCompatActivity {
         toast.show();
     }
 
+    public void arrive_time(View v){
+        Intent intent = new Intent(getApplicationContext(), ArriveTime.class); // 인탠트 선언
+        intent.putExtra("StationID", stationid); // 리스트 뷰 사용을 위한 함수
+
+        startActivity(intent); // 다음 액티비티에 인탠트 전달
+    }
 }

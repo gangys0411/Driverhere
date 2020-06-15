@@ -74,23 +74,23 @@ public class PassListViewAdapter extends BaseAdapter {
 
         TextView BusNoTextView = (TextView) convertView.findViewById(R.id.pass_busno); // 버스 번호 출력 텍스트 뷰
         TextView DirectionTextView = (TextView) convertView.findViewById(R.id.pass_direction); // 방향 출력 텍스트 뷰
-        //TextView LocateTextView = (TextView) convertView.findViewById(R.id.crr_locate); // 버스 번호 출력 텍스트 뷰
-        //TextView RemainTimeTextView = (TextView) convertView.findViewById(R.id.remain_time); // 방향 출력 텍스트 뷰
+        TextView LocateTextView = (TextView) convertView.findViewById(R.id.crr_locate); // 버스 번호 출력 텍스트 뷰
+        TextView RemainTimeTextView = (TextView) convertView.findViewById(R.id.remain_time); // 방향 출력 텍스트 뷰
 
         PassListViewItem listViewItemPassItem = listViewItemPassList.get(position);
 
         BusNoTextView.setText(listViewItemPassItem.getBusNo()); // 버스 번호 출력
         DirectionTextView.setText(listViewItemPassItem.getDirection()); // 방향 출력
-        //LocateTextView.setText(listViewItemPassItem.getRemain_Station()); // 도착까지 남은 정류장 수 출력
-        //RemainTimeTextView.setText(listViewItemPassItem.getArrive_Time()); // 도착까지 남은 시간 출력
+        LocateTextView.setText(listViewItemPassItem.getRemain_Station()); // 도착까지 남은 정류장 수 출력
+        RemainTimeTextView.setText(listViewItemPassItem.getArrive_Time()); // 도착까지 남은 시간 출력
 
-        /*if(busarrive.size()>0)
+        if(busarrive.size()>0)
         {
             BusArriveItem arriveItem = busarrive.get(position);
 
             LocateTextView.setText(arriveItem.getRemainStation()); // 도착까지 남은 정류장 수 출력
             RemainTimeTextView.setText(arriveItem.getArriveTime()); // 도착까지 남은 시간 출력
-        }*/
+        }
 
         return convertView; // 뷰에 적용
     }
