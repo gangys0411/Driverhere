@@ -33,9 +33,11 @@ public class ArriveTime extends Activity {
     String nodenm; // 정류소 이름
     String nodeord; // 정류소 순서
 
+    String busid;
+
     String routeno;
 
-    String arrivestation; // 도착까지 남은 정류장 수
+    String arrivestation = null; // 도착까지 남은 정류장 수
     String arrivetime; // 도착까지 남은 시간
 
     String final_arrivestation; // 도착까지 남은 정류장 수
@@ -55,6 +57,7 @@ public class ArriveTime extends Activity {
         Intent get_intent = getIntent();
 
         nodeid = get_intent.getStringExtra("StationID"); // 인탠트로 받아온 정류소 ID 저장
+        busid = get_intent.getStringExtra("BusID");
 
         search();
     }
@@ -79,11 +82,12 @@ public class ArriveTime extends Activity {
         }).start();
     }
 
-    public BusArriveItem getXmlData() {
-        String queryUrl = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList?" + // 요청 URL
+    public void getXmlData() {
+        String queryUrl = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?" + // 요청 URL
                 "serviceKey=" + key + // 서비스 키 추가
                 "&cityCode=" + citycode + // 도시 코드 추가
-                "&nodeId=" + nodeid; // 정류소 ID 추가
+                "&nodeId=" + nodeid + // 정류소 ID 추가
+                "&routeId=" + busid;// 노선 ID 추가
 
 
         try {
@@ -150,9 +154,8 @@ public class ArriveTime extends Activity {
             e.printStackTrace();
         }
 
-        busarrive.setRemainStation(final_arrivestation);
-        busarrive.setArriveTime(final_arrivetime);
-
-        return busarrive;
+        if(arrivestation == null){
+            adapter.addItem("정보없음", "정보없음", "정보없음");
+        }
     }
 }

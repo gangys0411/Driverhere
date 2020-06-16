@@ -33,24 +33,6 @@ public class PassListViewAdapter extends BaseAdapter {
 
     ArrayList<BusArriveItem> busarrive = new ArrayList<BusArriveItem>();
 
-    TimerTask refresh = new TimerTask() {
-        @Override
-        public void run() {
-            BusArrive busArrive = new BusArrive();
-
-            for(int i=0; i<listViewItemPassList.size(); i++) {
-
-                busarrive.add(busArrive.getXmlData(StationID, listViewItemPassList.get(i).getBusId())); // 버스 도착 정보 불러오기
-
-                listViewItemPassList.get(i).setRemain_Station(busarrive.get(i).getRemainStation());
-                listViewItemPassList.get(i).setArrive_Time(busarrive.get(i).getArriveTime());
-
-            }
-            Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
-            handler.sendMessage(msg);
-        }
-    };
-
     public PassListViewAdapter(){ // 생성자
 
     }
@@ -83,14 +65,6 @@ public class PassListViewAdapter extends BaseAdapter {
         DirectionTextView.setText(listViewItemPassItem.getDirection()); // 방향 출력
         LocateTextView.setText(listViewItemPassItem.getRemain_Station()); // 도착까지 남은 정류장 수 출력
         RemainTimeTextView.setText(listViewItemPassItem.getArrive_Time()); // 도착까지 남은 시간 출력
-
-        if(busarrive.size()>0)
-        {
-            BusArriveItem arriveItem = busarrive.get(position);
-
-            LocateTextView.setText(arriveItem.getRemainStation()); // 도착까지 남은 정류장 수 출력
-            RemainTimeTextView.setText(arriveItem.getArriveTime()); // 도착까지 남은 시간 출력
-        }
 
         return convertView; // 뷰에 적용
     }
@@ -129,10 +103,22 @@ public class PassListViewAdapter extends BaseAdapter {
         return intent; // 인탠트 반환
     }
 
-    public void busArrive(String stationID){
+    public void busArrive(String stationID, final int pos){
         StationID = stationID;
 
-        Timer timer = new Timer();
-        timer.schedule(refresh, 0, 10000);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BusArrive busArrive = new BusArrive();
+
+                    busarrive.add(busArrive.getXmlData(StationID, listViewItemPassList.get(pos).getBusId())); // 버스 도착 정보 불러오기
+
+                    listViewItemPassList.get(pos).setRemain_Station(busarrive.get(pos).getRemainStation());
+                    listViewItemPassList.get(pos).setArrive_Time(busarrive.get(pos).getArriveTime());
+
+                Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
+                handler.sendMessage(msg);
+            }
+        }).start();
     }
 }

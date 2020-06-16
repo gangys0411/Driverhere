@@ -73,10 +73,7 @@ public class StationPassBus extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){ // 클릭 이벤트 함수
-                Intent send_intent = new Intent(getApplicationContext(), BusRouteResult.class); // 인탠트 선언
-                send_intent = adapter.sendIntent(position, send_intent); // 리스트 뷰 사용을 위한 함수
-
-                startActivity(send_intent); // 다음 액티비티에 인탠트 전달
+                adapter.busArrive(stationid, position);
             }
         });
 
