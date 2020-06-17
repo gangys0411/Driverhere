@@ -229,9 +229,8 @@ public class StationPassBus extends AppCompatActivity {
     }
 
     public void arrive_time(View v){
-        Intent intent = new Intent(getApplicationContext(), ArriveTime.class); // 인탠트 선언
-        intent.putExtra("StationID", stationid); // 리스트 뷰 사용을 위한 함수
-
-        startActivity(intent); // 다음 액티비티에 인탠트 전달
+        for (int i=0 ; i<adapter.getCount(); i++) {
+            adapter.busArrive(stationid, i);
+        }
     }
 }

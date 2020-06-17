@@ -47,12 +47,12 @@ public class BusArrive{
             int eventType = xpp.getEventType();
 
             while (eventType != XmlPullParser.END_DOCUMENT) { // 문서의 끝을 만날때 까지 반복
-
+                Log.d("findpath_parser", " name : "+xpp.getName() + "text : "+xpp.getText());
                 switch (eventType) {
 
                     case XmlPullParser.START_TAG: // 시작 태그 별로 행동
                         tag = xpp.getName();//태그 이름 얻어오기
-                        Log.d("findpath_parser", " name : "+xpp.getName());
+
                         if (tag.equals("item")) ;// 하나의 검색결과
                         else if (tag.equals("arrprevstationcnt")) { // 도착까지 남음 정류장 수
                             xpp.next();
@@ -60,7 +60,6 @@ public class BusArrive{
                         } else if (tag.equals("arrtime")) { // 도착까지 남은 시간
                             xpp.next();
                             arrivetime = xpp.getText();
-                            Log.d("findpath_parser", "text : "+xpp.getText());
                         } else if (tag.equals("nodeid")) { // 정류소 ID
                             xpp.next();
                         } else if (tag.equals("nodenm")) { // 정류소 이름

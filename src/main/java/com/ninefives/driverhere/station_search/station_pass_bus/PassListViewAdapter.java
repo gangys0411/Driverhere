@@ -31,7 +31,7 @@ public class PassListViewAdapter extends BaseAdapter {
 
     private ArrayList<PassListViewItem> listViewItemPassList = new ArrayList<PassListViewItem>(); // 추가된 데이터 저장을 위한 배열
 
-    ArrayList<BusArriveItem> busarrive = new ArrayList<BusArriveItem>();
+    BusArriveItem busarrive = new BusArriveItem();
 
     public PassListViewAdapter(){ // 생성자
 
@@ -111,10 +111,10 @@ public class PassListViewAdapter extends BaseAdapter {
             public void run() {
                 BusArrive busArrive = new BusArrive();
 
-                    busarrive.add(busArrive.getXmlData(StationID, listViewItemPassList.get(pos).getBusId())); // 버스 도착 정보 불러오기
+                    busarrive = busArrive.getXmlData(StationID, listViewItemPassList.get(pos).getBusId()); // 버스 도착 정보 불러오기
 
-                    listViewItemPassList.get(pos).setRemain_Station(busarrive.get(pos).getRemainStation());
-                    listViewItemPassList.get(pos).setArrive_Time(busarrive.get(pos).getArriveTime());
+                    listViewItemPassList.get(pos).setRemain_Station(busarrive.getRemainStation());
+                    listViewItemPassList.get(pos).setArrive_Time(busarrive.getArriveTime());
 
                 Message msg = handler.obtainMessage(); // UI 변경을 위한 핸들러 호출
                 handler.sendMessage(msg);
