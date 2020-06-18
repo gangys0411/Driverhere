@@ -5,8 +5,8 @@ public class PassListViewItem {
     private String BusId; // 노선 id
     private String Start_Station; // 기점
     private String End_Station; // 종점
-    private String Remain_Station; // 남은 정류장 수
-    private String Arrive_Time; // 도착까지 남은 시간
+    private String Remain_Station = "정보 없음"; // 남은 정류장 수
+    private String Arrive_Time = "정보 없음"; // 도착까지 남은 시간
 
     public void setBusNo(String busno) { // 버스 번호 설정
         BusNo=busno;

@@ -21,15 +21,14 @@ import java.util.TimerTask;
 public class PassListViewAdapter extends BaseAdapter {
     String StationID;
 
+    private ArrayList<PassListViewItem> listViewItemPassList = new ArrayList<PassListViewItem>(); // 추가된 데이터 저장을 위한 배열
+
     final Handler handler = new Handler() // 메인 스레드가 아닌 곳에서 UI 변경이 일어나면 오류가 발생하므로
     {                                       // 핸들러를 사용해서 호출
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             notifyDataSetChanged(); // 데이터 변경을 적용
         }
     };
-
-    private ArrayList<PassListViewItem> listViewItemPassList = new ArrayList<PassListViewItem>(); // 추가된 데이터 저장을 위한 배열
 
     BusArriveItem busarrive = new BusArriveItem();
 
@@ -99,6 +98,7 @@ public class PassListViewAdapter extends BaseAdapter {
     {
         intent.putExtra("BusID", listViewItemPassList.get(position).getBusId()); // 인탠트에 선택된 위치의 항목 데이터를 전달
         intent.putExtra("BusNo", listViewItemPassList.get(position).getBusNo());
+        intent.putExtra("BusDirect", listViewItemPassList.get(position).getDirection());
 
         return intent; // 인탠트 반환
     }

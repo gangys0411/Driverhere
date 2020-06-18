@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tinydb = new TinyDB(getBaseContext());
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
@@ -45,11 +47,9 @@ public class MainActivity extends Activity {
 
                 String token = task.getResult().getToken();
                 Log.d("FCM Log", "FCM 토큰 : " + token);
-                Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                tinydb.putString("token" ,token);
             }
         });
-
-        tinydb = new TinyDB(getBaseContext());
 
         //tinydb.clear(); // 즐겨찾기 데이터 베이스 오류일때 주석 삭제
 

@@ -23,8 +23,8 @@ public class BusArrive{
     String arrivestation = null; // 도착까지 남은 정류장 수
     String arrivetime = null; // 도착까지 남은 시간
 
-    String final_arrivestation; // 도착까지 남은 정류장 수
-    String final_arrivetime; // 도착까지 남은 시간
+    String final_arrivestation = null; // 도착까지 남은 정류장 수
+    String final_arrivetime = null; // 도착까지 남은 시간
 
     public BusArriveItem getXmlData(String nodeid, String routeid) {
         String queryUrl = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?" + // 요청 URL
@@ -85,7 +85,15 @@ public class BusArrive{
                         tag = xpp.getName(); //테그 이름 얻어오기
 
                         if (tag.equals("item")) { // 하나의 버스 정보가 끝이 났으면
-
+                            if(final_arrivetime==null){
+                                final_arrivetime = arrivetime;
+                                final_arrivestation = arrivestation;
+                            }else {
+                                if(Integer.parseInt(final_arrivestation)>Integer.parseInt(arrivestation)){
+                                    final_arrivestation = arrivestation;
+                                    final_arrivetime = arrivetime;
+                                }
+                            }
                         }
                         break;
                 }
@@ -101,8 +109,8 @@ public class BusArrive{
             busarrive.setRemainStation(null);
             busarrive.setArriveTime(null);
         }else {
-            busarrive.setRemainStation(arrivestation);
-            busarrive.setArriveTime(arrivetime);
+            busarrive.setRemainStation(final_arrivestation);
+            busarrive.setArriveTime(final_arrivetime);
         }
 
         return busarrive;
